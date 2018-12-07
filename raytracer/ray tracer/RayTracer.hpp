@@ -10,5 +10,21 @@
 #define RayTracer_hpp
 
 #include <stdio.h>
+#include "ImageBuffer.hpp"
+
+class RayTracer {
+
+public:
+    int width;
+    int height;
+    int ns = 100;
+    
+    int bounceDepth;
+    int shadowBias;
+    
+    RayTracer(int width, int height) : width(width), height(height) {}
+    
+    ImageBuffer* render();
+};
 
 #endif /* RayTracer_hpp */

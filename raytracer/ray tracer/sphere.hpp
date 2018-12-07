@@ -9,6 +9,18 @@
 #ifndef sphere_hpp
 #define sphere_hpp
 
-#include <stdio.h>
+#include "hitable.hpp"
+
+class sphere: public hitable {
+
+public:
+    sphere() {}
+    sphere(Vector3 center, float radius, material* m) : center(center), radius(radius), mat(m) {}
+    Vector3 center;
+    float radius;
+    material* mat;
+    
+    bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const;
+};
 
 #endif /* sphere_hpp */

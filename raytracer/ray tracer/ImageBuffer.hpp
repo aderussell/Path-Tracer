@@ -9,6 +9,22 @@
 #ifndef ImageBuffer_hpp
 #define ImageBuffer_hpp
 
-#include <stdio.h>
+#import <vector>
+#include <memory>
+#include <algorithm>
+#include "Material.hpp"
+
+class ImageBuffer {
+  
+public:
+    int width;
+    int height;
+    std::vector<Color> pixels;
+    
+    ImageBuffer(int width, int height, Color defaultColor) : width(width), height(height) {
+        pixels.assign(width * height, defaultColor);
+    }
+    ~ImageBuffer() {}
+};
 
 #endif /* ImageBuffer_hpp */

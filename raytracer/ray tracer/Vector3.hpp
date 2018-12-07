@@ -25,6 +25,9 @@ public:
     const Vector3 operator+ (const Vector3 &v);
     const Vector3 operator- (const Vector3 &v);
     const Vector3 operator* (const double s) const;
+    
+    //const Vector3 operator* (const double s, const Vector3 &v) const;
+    
     Vector3 operator/ (double s);
     
     bool operator== (const Vector3 &v);
@@ -54,5 +57,25 @@ public:
     double x, y, z;
     
 };
+
+inline const Vector3 operator* (const double s, const Vector3 &v)
+{
+    return Vector3(v) *= s;
+}
+
+inline const Vector3 operator+ (const Vector3 &a, const Vector3 &b)
+{
+    return Vector3(a) += b;
+}
+
+inline const Vector3 operator- (const Vector3 &a, const Vector3 &b)
+{
+    return Vector3(a) -= b;
+}
+
+inline const Vector3 operator/ (const Vector3 &a, const float &b)
+{
+    return Vector3(a) /= b;
+}
 
 #endif /* defined(__Vector3_H__) */

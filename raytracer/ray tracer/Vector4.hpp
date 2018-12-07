@@ -10,8 +10,8 @@
 #define __Drawing__Vector4__
 
 #include <math.h>
-#include "Vector3.h"
-#include "Matrix44.h"
+#include "Vector3.hpp"
+#include "Matrix44.hpp"
 
 struct Vector4 {
     

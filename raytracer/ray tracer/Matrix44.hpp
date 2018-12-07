@@ -7,7 +7,7 @@
 
 #ifndef __Matrix44_H__
 #define __Matrix44_H__
-#include "Vector3.h"
+#include "Vector3.hpp"
 
 
 struct Matrix44 {

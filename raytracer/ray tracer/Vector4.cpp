@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Adrian Russell. All rights reserved.
 //
 
-#include "Vector4.h"
+#include "Vector4.hpp"
 
 const Vector4 Vector4::Vector4Zero = Vector4(0.0, 0.0, 0.0, 0.0);
 

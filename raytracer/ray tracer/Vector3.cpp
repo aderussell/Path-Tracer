@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Adrian Russell. All rights reserved.
 //
 
-#include "Vector3.h"
+#include "Vector3.hpp"
 
 
 Vector3::Vector3(double x, double y, double z)
