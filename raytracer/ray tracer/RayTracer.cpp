@@ -17,6 +17,17 @@
 #include "lambertian.hpp"
 #include "metal.hpp"
 #include "dielectric.hpp"
+#include "texture.hpp"
+#include "perlin.hpp"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#include "image_texture.hpp"
+#include "diffuse_light.hpp"
+#include "xy_rect.hpp"
+#include "box.hpp"
+#include "translate.hpp"
+
+#include "CoreFoundation/CoreFoundation.h"
 
 //float hit_sphere_normals(const Vector3& center, double radius, const ray& r) {
 //    Vector3 oc = r.origin() - center;
@@ -92,48 +103,95 @@ Color color(const ray &r, hitable *world, int depth) {
     if (world->hit(r, 0.001, MAXFLOAT, rec)) {
         ray scattered;
         Vector3 attenuation;
+        Color emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
         if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered)) {
-            return color(scattered, world, depth+1) * attenuation;
+            return emitted + (color(scattered, world, depth+1) * attenuation);
         } else {
-            return Color(0,0,0);
+            return emitted;
         }
     } else {
-        Vector3 unit_direction = r.direction().normalise();
-        double t = 0.5 * (unit_direction.y + 1.0);
-        Vector3 colorVector = (1.0 - t) * Vector3(1.0, 1.0, 1.0) + (t * Vector3(0.5, 0.7, 1.0));
-        return Color(colorVector.x, colorVector.y, colorVector.z);
+        return Color(0,0,0);
     }
+}
+
+hitable *simple_light() {
+    texture *pertext = new noise_texture(4);
+    material *light = new diffuse_light(new constant_texture(Color(4,4,4)));
+    hitable **list = new hitable*[4];
+    list[0] = new sphere(Vector3(0,-1000,0),1000, new lambertian(pertext));
+    list[1] = new sphere(Vector3(0,2,0),2, new lambertian(pertext));
+    list[2] = new sphere(Vector3(0,7,0),2, light);
+    list[3] = new xy_rect(3,5,1,3,-2, light);
+    return new hitable_list(list,4);
+}
+
+hitable *cornell_box() {
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    hitable **list = new hitable*[8];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new xz_rect(213,343,227,332,554, light);
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    
+    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,165,165), white), -18), Vector3(130, 0, 65));
+    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    
+    return new hitable_list(list,i);
 }
 
 
 hitable *random_scene() {
+    
+    texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
+    texture *noiseTexture = new noise_texture(10);
+    
     int n = 500;
     hitable **list = new hitable*[n + 1];
-    list[0] = new sphere(Vector3(0,-1000,-0), 1000, new lambertian(Vector3(0.5, 0.5, 0.5)));
+    list[0] = new sphere(Vector3(0,-1000,-0), 1000,new lambertian(noiseTexture));
     int i = 1;
     
-    for (int a = -11; a < 11; a++) {
-        for (int b = -11; b < 11; b++) {
-            float choose_mat = drand48();
-            Vector3 center(a+0.9*drand48(), 0.2, b+0.9*drand48());
-            if ((center-Vector3(4,0.2,0)).length() > 0.9) {
-                if (choose_mat < 0.8) {
-                    // diffuse
-                    list[i++] = new sphere(center, 0.2, new lambertian(Vector3(drand48()*drand48(), drand48()*drand48(), drand48()*drand48())));
-                } else if (choose_mat < 0.95) {
-                    // metal
-                    list[i++] = new sphere(center, 0.2, new metal(Vector3(0.5*(1+drand48()), 0.5*(1+drand48()), 0.5*(1+drand48())), 0.01));
-                } else {
-                    // glass
-                    list[i++] = new sphere(center, 0.2, new dielectric(1.5));
-                }
-            }
-        }
+//    for (int a = -4; a < 4; a++) {
+//        for (int b = -4; b < 4; b++) {
+//            float choose_mat = drand48();
+//            Vector3 center(a+0.9*drand48(), 0.2, b+0.9*drand48());
+//            if ((center-Vector3(4,0.2,0)).length() > 0.9) {
+//                if (choose_mat < 0.8) {
+//                    // diffuse
+//                    texture *tex = new constant_texture(Color(drand48()*drand48(), drand48()*drand48(), drand48()*drand48()));
+//                    list[i++] = new moving_sphere(center, center + Vector3(0, 0.3, 0), 0, 1, 0.2, new lambertian(tex));
+//                } else if (choose_mat < 0.95) {
+//                    // metal
+//                    list[i++] = new sphere(center, 0.2, new metal(Vector3(0.5*(1+drand48()), 0.5*(1+drand48()), 0.5*(1+drand48())), 0.01));
+//                } else {
+//                    // glass
+//                    list[i++] = new sphere(center, 0.2, new dielectric(1.5));
+//                }
+//            }
+//        }
+//    }
+    
+    
+    //texture *colorTexture = new constant_texture(Color(0.4,0.2,0.1));
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("1_earth.jpg"), NULL, NULL);
+    char path[PATH_MAX];
+    if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)){
+        // error!
     }
+    CFRelease(resourcesURL);
+    int nx, ny, nn;
+    unsigned char *tex_data = stbi_load(path, &nx, &ny, &nn, 0);
+    texture *earthTexture = new image_texture(tex_data, nx, ny);
     
     list[i++] = new sphere(Vector3(0,1,0), 1.0, new dielectric(1.5));
-    list[i++] = new sphere(Vector3(-4,1,0), 1.0, new lambertian(Vector3(0.4, 0.2, 0.1)));
-    list[i++] = new sphere(Vector3(4,1,0), 1.0, new metal(Vector3(0.7, 0.6, 0.5), 0.01));
+    list[i++] = new sphere(Vector3(4,1,0), 1.0, new lambertian(earthTexture));
+    //list[i++] = new sphere(Vector3(-4,1,0), 1.0, new metal(Vector3(0.7, 0.6, 0.5), 0.01));
     
     return new hitable_list(list, i);
 }
@@ -144,22 +202,27 @@ ImageBuffer* RayTracer::render() {
     
     ImageBuffer *imageBuffer = new ImageBuffer(width, height, Color(0,0,0));
     
+    texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
+    
     hitable *list[4];
-    list[0] = new sphere(Vector3(0,0,-1), 0.5, new lambertian(Vector3(0.1, 0.2, 0.5)));
-    list[1] = new sphere(Vector3(0,-100.5,-1), 100, new lambertian(Vector3(0.8, 0.8, 0.0)));
+    list[0] = new sphere(Vector3(0,0,-1), 0.5, new lambertian(new constant_texture(Color(0.1,0.2,0.5))));
+    list[1] = new sphere(Vector3(0,-100.5,-1), 100, new lambertian(checkerTexture));
     list[2] = new sphere(Vector3(1,0,-1), 0.5, new metal(Vector3(0.8, 0.6, 0.2), 0.01));
     list[3] = new sphere(Vector3(-1,0,-1), 0.5, new dielectric(1.5));
     //hitable *world = new hitable_list(list, 4);
     
-    hitable *world = random_scene();
+    //hitable *world = random_scene();
+    //hitable *world = simple_light();
+    hitable *world = cornell_box();
     
     //camera *cam = new cameraA(90, float(width)/float(height));
     
-    Vector3 lookfrom(15,3,2);
-    Vector3 lookat(0,0,-1);
-    float dist_to_focus = (lookfrom-lookat).length();
-    float aperture = 0.5;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), 20, float(width)/float(height), aperture, dist_to_focus);
+    Vector3 lookfrom(278,278,-800);
+    Vector3 lookat(278,278,0);
+    float dist_to_focus = 1.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, float(width)/float(height), aperture, dist_to_focus, 0.0, 1.0);
     
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {

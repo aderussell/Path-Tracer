@@ -54,6 +54,10 @@ inline Color operator * (const Color& aColor, const Color& bColor) {
     return Color(aColor.r * bColor.r, aColor.g * bColor.g, aColor.b * bColor.b);
 }
 
+inline Color operator * (const Color& aColor, const float b) {
+    return Color(aColor.r * b, aColor.g * b, aColor.b * b);
+}
+
 inline Color operator * (double scalar, const Color &color) {
     return Color(scalar * color.r, scalar * color.g, scalar * color.b);
 }
@@ -70,6 +74,10 @@ inline Color operator * (const Color& a, const Vector3& b) {
 class material {
 public:
     virtual bool scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const = 0;
+    
+    virtual Color emitted(float u, float v, const Vector3& p) const {
+        return Color(0,0,0);
+    }
 };
 
 

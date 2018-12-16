@@ -17,14 +17,15 @@ class ray {
     
     ray() {}
     
-    ray(const Vector3& a, const Vector3& b) {
+    ray(const Vector3& a, const Vector3& b, float ti = 0.0) {
         _a = a;
         _b = b;
+        _time = ti;
     }
     
     Vector3 origin() const { return _a; }
     Vector3 direction() const { return _b; }
-    
+    float time() const { return _time; }
     Vector3 parameterAtPoint(float t) const {
         return _a + (t * _b);
     }
@@ -32,6 +33,7 @@ class ray {
     private:
     Vector3 _a;
     Vector3 _b;
+    float _time;
 };
 
 #endif /* Ray_hpp */

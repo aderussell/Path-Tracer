@@ -10,15 +10,16 @@
 #define lambertian_hpp
 
 #include "Material.hpp"
+#include "texture.hpp"
 
 class lambertian: public material {
     
 public:
-    lambertian(const Vector3& a) : albedo(a) {}
+    lambertian(texture* a) : albedo(a) {}
     
     virtual bool scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const;
     
-    Vector3 albedo;
+    texture *albedo;
 };
 
 #endif /* lambertian_hpp */

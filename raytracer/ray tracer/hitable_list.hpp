@@ -18,7 +18,8 @@ public:
     hitable **list;
     int list_size;
     
-    virtual bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const;
+    bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const;
+    bool bounding_box(float t0, float t1, aabb &box) const;
 };
 
 #endif /* hitable_list_hpp */

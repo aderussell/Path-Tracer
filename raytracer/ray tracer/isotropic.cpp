@@ -1,15 +1,15 @@
 //
-//  lambertian.cpp
+//  isotropic.cpp
 //  raytracer
 //
-//  Created by Adrian Russell on 07/12/2018.
+//  Created by Adrian Russell on 16/12/2018.
 //  Copyright © 2018 Adrian Russell. All rights reserved.
 //
 
-#include "lambertian.hpp"
+#include "isotropic.hpp"
 #include <stdlib.h>
 
-Vector3 random_in_unit_sphere() {
+Vector3 isotropic::random_in_unit_sphere() const {
     Vector3 p;
     do {
         p = 2.0 * Vector3(drand48(), drand48(), drand48()) - Vector3(1,1,1);
@@ -17,9 +17,8 @@ Vector3 random_in_unit_sphere() {
     return p;
 }
 
-bool lambertian::scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const {
-    Vector3 target = rec.p + rec.normal + random_in_unit_sphere();
-    scattered = ray(rec.p, target - rec.p, ray_in.time());
+bool isotropic::scatter(const ray& r_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const  {
+    scattered = ray(rec.p, this->random_in_unit_sphere());
     Color color = albedo->value(rec.u, rec.v, rec.p);
     attenuation = Vector3(color.r, color.g, color.b);
     return true;

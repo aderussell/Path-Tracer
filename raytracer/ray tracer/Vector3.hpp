@@ -21,6 +21,9 @@ public:
     Vector3& operator*= (const double s);
     Vector3& operator/= (const double s);
     
+    double& operator[] (const int index);
+    const double& operator[] (const int index) const;
+    
     
     const Vector3 operator+ (const Vector3 &v);
     const Vector3 operator- (const Vector3 &v);

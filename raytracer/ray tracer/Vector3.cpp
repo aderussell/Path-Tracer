@@ -7,7 +7,8 @@
 //
 
 #include "Vector3.hpp"
-
+#include <iostream>
+#include <cstdlib>
 
 Vector3::Vector3(double x, double y, double z)
 {
@@ -141,6 +142,32 @@ double Vector3::distance(Vector3 v1, Vector3 v2)
     double distz = (v2.z - v1.z);
     return sqrt( (distx * distx) + (disty * disty) + (distz * distz) );
 }
+
+double& Vector3::operator[] (const int index)
+{
+    if (index == 0) {
+        return x;
+    } else if (index == 1) {
+        return y;
+    } else if (index == 2) {
+        return z;
+    }
+    std::cout << "Array index out of bound, exiting";
+    exit(0);
+}
+
+const double& Vector3::operator[] (const int index) const
+{
+    if (index == 0) {
+        return x;
+    } else if (index == 1) {
+        return y;
+    } else if (index == 2) {
+        return z;
+    }
+    return NAN;
+}
+
 
 //static const Vector3 vectorWithMagnitudeRotation(const double magnitude, const double angle)
 //{

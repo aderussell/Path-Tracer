@@ -16,7 +16,7 @@
 
     // Do any additional setup after loading the view.
     
-    RayTracer rayTracer = RayTracer(512, 256);
+    RayTracer rayTracer = RayTracer(800, 800);
     ImageBuffer *buffer = rayTracer.render();
     
     NSBitmapImageRep *bitmapImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
