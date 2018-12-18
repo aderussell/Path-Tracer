@@ -21,9 +21,11 @@ Vector3 metal::random_in_unit_sphere() const {
     return p;
 }
 
-bool metal::scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const {
-    Vector3 reflected = reflect(ray_in.direction().normalise(), rec.normal);
-    scattered = ray(rec.p, reflected + fuzz * this->random_in_unit_sphere());
-    attenuation = albedo;
-    return (Vector3::dotProduct(scattered.direction(), rec.normal) > 0);
+bool metal::scatter(const ray& ray_in, const hit_record& hrec, scatter_record& srec) const {
+    Vector3 reflected = reflect(ray_in.direction().normalise(), hrec.normal);
+    srec.specular_ray = ray(hrec.p, reflected + fuzz * this->random_in_unit_sphere());
+    srec.attenuation = albedo;
+    srec.is_specular = true;
+    srec.pdf_ptr = nullptr;
+    return true;
 }

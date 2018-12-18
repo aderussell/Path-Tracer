@@ -16,11 +16,11 @@ class dielectric: public material {
 public:
     dielectric(float ri) : ref_idx(ri) { }
     
-    virtual bool scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const;
-    
-    float ref_idx;
+    virtual bool scatter(const ray& ray_in, const hit_record& rec, scatter_record& srec) const;
     
 private:
+    float ref_idx;
+    
     bool refract(const Vector3& v, const Vector3& n, float ni_over_nt, Vector3& refracted) const;
     Vector3 reflect(const Vector3& v, const Vector3& n) const;
     float schlick(float cosine, float ref_idx) const;

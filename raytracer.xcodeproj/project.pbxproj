@@ -37,6 +37,8 @@
 		ABDE7E7821C6B14B0048E4B1 /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E7621C6B14B0048E4B1 /* translate.cpp */; };
 		ABDE7E7B21C6C3E10048E4B1 /* contant_medium.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E7921C6C3E10048E4B1 /* contant_medium.cpp */; };
 		ABDE7E7E21C6C4D70048E4B1 /* isotropic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */; };
+		BF5EDA8721C8F14B00B5D877 /* onb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5EDA8521C8F14B00B5D877 /* onb.cpp */; };
+		BF5EDA8A21C8F71F00B5D877 /* pdf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5EDA8821C8F71F00B5D877 /* pdf.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +103,10 @@
 		ABDE7E7A21C6C3E10048E4B1 /* contant_medium.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = contant_medium.hpp; sourceTree = "<group>"; };
 		ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = isotropic.cpp; sourceTree = "<group>"; };
 		ABDE7E7D21C6C4D70048E4B1 /* isotropic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = isotropic.hpp; sourceTree = "<group>"; };
+		BF5EDA8521C8F14B00B5D877 /* onb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = onb.cpp; sourceTree = "<group>"; };
+		BF5EDA8621C8F14B00B5D877 /* onb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = onb.hpp; sourceTree = "<group>"; };
+		BF5EDA8821C8F71F00B5D877 /* pdf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pdf.cpp; sourceTree = "<group>"; };
+		BF5EDA8921C8F71F00B5D877 /* pdf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pdf.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +206,10 @@
 				ABDE7E4E21B9DBD80048E4B1 /* camera.cpp */,
 				ABDE7E5C21BDA20A0048E4B1 /* aabb.hpp */,
 				ABDE7E5B21BDA20A0048E4B1 /* aabb.cpp */,
+				BF5EDA8621C8F14B00B5D877 /* onb.hpp */,
+				BF5EDA8521C8F14B00B5D877 /* onb.cpp */,
+				BF5EDA8921C8F71F00B5D877 /* pdf.hpp */,
+				BF5EDA8821C8F71F00B5D877 /* pdf.cpp */,
 			);
 			name = stuff;
 			sourceTree = "<group>";
@@ -306,12 +316,14 @@
 				ABDE7E4A21B9AD640048E4B1 /* hitable.cpp in Sources */,
 				ABDE7E7221C30BD80048E4B1 /* xy_rect.cpp in Sources */,
 				ABDE7E7821C6B14B0048E4B1 /* translate.cpp in Sources */,
+				BF5EDA8721C8F14B00B5D877 /* onb.cpp in Sources */,
 				ABDE7E4721B9AD380048E4B1 /* sphere.cpp in Sources */,
 				AB57136920E6C5AA00FE57F5 /* Material.cpp in Sources */,
 				ABDE7E7E21C6C4D70048E4B1 /* isotropic.cpp in Sources */,
 				ABDE7E5421B9F0B60048E4B1 /* lambertian.cpp in Sources */,
 				ABDE7E6021BDAFB30048E4B1 /* bvh.cpp in Sources */,
 				ABDE7E7521C693090048E4B1 /* box.cpp in Sources */,
+				BF5EDA8A21C8F71F00B5D877 /* pdf.cpp in Sources */,
 				ABDE7E4D21B9D09C0048E4B1 /* hitable_list.cpp in Sources */,
 				ABDE7E5721BAFD320048E4B1 /* metal.cpp in Sources */,
 				ABDE7E6621BEF1610048E4B1 /* perlin.cpp in Sources */,

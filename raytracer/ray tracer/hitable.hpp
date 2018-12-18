@@ -27,6 +27,9 @@ class hitable {
 public:
     virtual bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const = 0;
     virtual bool bounding_box(float t0, float t1, aabb& box) const = 0;
+    
+    virtual float pdf_value(const Vector3& o, const Vector3& v) const { return 0.0; }
+    virtual Vector3 random(const Vector3& o) const { return Vector3(1,0,0); }
 };
 
 class flip_normals : public hitable {

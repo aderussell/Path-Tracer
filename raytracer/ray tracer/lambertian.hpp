@@ -17,9 +17,10 @@ class lambertian: public material {
 public:
     lambertian(texture* a) : albedo(a) {}
     
-    virtual bool scatter(const ray& ray_in, const hit_record& rec, Color& albedo, ray& scattered, float& pdf) const;
+    virtual bool scatter(const ray& ray_in, const hit_record& hrec, scatter_record& srec) const;
     virtual float scattering_pdf(const ray& ray_in, const hit_record& rec, ray& scattered) const;
     
+private:
     texture *albedo;
 };
 

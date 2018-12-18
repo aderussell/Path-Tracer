@@ -15,9 +15,10 @@
 class isotropic : public material {
 public:
     isotropic(texture *a) : albedo(a) {}
-    virtual bool scatter(const ray& r_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const;
-    texture *albedo;
+    virtual bool scatter(const ray& r_in, const hit_record& rec, scatter_record& srec) const;
     
+private:
+    texture *albedo;
     Vector3 random_in_unit_sphere() const;
 };
 

@@ -7,6 +7,7 @@
 //
 
 #include "hitable_list.hpp"
+#include <stdlib.h>
 
 bool hitable_list::hit(const ray &r, float t_min, float t_max, hit_record &rec) const {
     hit_record temp_rec;
@@ -39,4 +40,18 @@ bool hitable_list::bounding_box(float t0, float t1, aabb &box) const {
         }
     }
     return true;
+}
+
+float hitable_list::pdf_value(const Vector3 &o, const Vector3 &v) const {
+    float weight = 1.0/list_size;
+    float sum = 0;
+    for (int i = 0; i < list_size; i++) {
+        sum += weight*list[i]->pdf_value(o, v);
+    }
+    return sum;
+}
+
+Vector3 hitable_list::random(const Vector3 &o) const {
+    int index = int(drand48() * list_size);
+    return list[index]->random(o);
 }

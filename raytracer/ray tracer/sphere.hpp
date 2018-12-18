@@ -22,6 +22,8 @@ public:
     
     bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const;
     bool bounding_box(float t0, float t1, aabb &box) const;
+    virtual float pdf_value(const Vector3& o, const Vector3& v) const;
+    virtual Vector3 random(const Vector3& o) const;
 };
 
 

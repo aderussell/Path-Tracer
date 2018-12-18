@@ -18,6 +18,7 @@ public:
     
     virtual Color value(float u, float v, const Vector3& p) const;
     
+private:
     unsigned char *data;
     int nx, ny;
 };

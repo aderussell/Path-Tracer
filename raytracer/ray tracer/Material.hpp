@@ -11,6 +11,7 @@
 
 #include "Vector3.hpp"
 #include "hitable.hpp"
+#include "pdf.hpp"
 
 struct Color {
     double r, g, b;
@@ -75,9 +76,20 @@ inline Color operator * (const Color& a, const Vector3& b) {
 }
 
 
+
+
+struct scatter_record {
+    ray specular_ray;
+    bool is_specular;
+    Color attenuation;
+    pdf *pdf_ptr;
+};
+
+
+
 class material {
 public:
-    virtual bool scatter(const ray& ray_in, const hit_record& rec, Color& albedo, ray& scattered, float& pdf) const {
+    virtual bool scatter(const ray& ray_in, const hit_record& rec, scatter_record& srec) const {
         return false;
     };
     
@@ -86,38 +98,8 @@ public:
     };
     
     
-    virtual Color emitted(float u, float v, const Vector3& p) const {
+    virtual Color emitted(const ray& ray_in, const hit_record& rec, float u, float v, const Vector3& p) const {
         return Color(0,0,0);
-    }
-};
-
-
-class PhongMaterial {
-    // ambient
-    Color ambientReflectance;
-    
-    // diffuse
-    Color diffuseReflectance;
-    
-    // specular
-    Color specularReflectance;
-    
-    // mirror
-    Color mirrorReflectance;
-    
-    double refractionIndex;
-    double reflectionIndex;
-    
-    // shine
-    double shininess;
-    
-    PhongMaterial(double ra, double ga, double ba, double rd, double gd, double bd, double rs, double gs, double bs, double rr, double gr, double br, double shine) {
-        
-        this->ambientReflectance  = Color(ra, ba, ga);
-        this->diffuseReflectance  = Color(rd, bd, gd);
-        this->specularReflectance = Color(rs, bs, gs);
-        this->mirrorReflectance   = Color(rr, br, gr);
-        this->shininess = shine;
     }
 };
 

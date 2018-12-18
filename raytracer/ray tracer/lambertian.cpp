@@ -7,6 +7,7 @@
 //
 
 #include "lambertian.hpp"
+#include "onb.hpp"
 #include <stdlib.h>
 
 Vector3 random_in_unit_sphere() {
@@ -17,23 +18,21 @@ Vector3 random_in_unit_sphere() {
     return p;
 }
 
-//bool lambertian::scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const {
-//    Vector3 target = rec.p + rec.normal + random_in_unit_sphere();
-//    scattered = ray(rec.p, target - rec.p, ray_in.time());
-//    Color color = albedo->value(rec.u, rec.v, rec.p);
-//    attenuation = Vector3(color.r, color.g, color.b);
-//    return true;
-//}
+inline Vector3 random_cosine_direction() {
+    float r1 = drand48();
+    float r2 = drand48();
+    float z = sqrt(1-r2);
+    float phi = 2*M_PI*r1;
+    float x = cos(phi)*2*sqrt(r2);
+    float y = sin(phi)*2*sqrt(r2);
+    return Vector3(x,y,z);
+}
 
-bool lambertian::scatter(const ray& ray_in, const hit_record& rec, Color& alb, ray& scattered, float& pdf) const {
-    Vector3 direction;
-    do {
-        direction = random_in_unit_sphere();
-    } while (Vector3::dotProduct(direction, rec.normal) < 0);
-    //Vector3 target = rec.p + rec.normal + random_in_unit_sphere();
-    scattered = ray(rec.p, (direction).normalise(), ray_in.time());
-    alb = albedo->value(rec.u, rec.v, rec.p);
-    pdf = 0.5 / M_PI;
+
+bool lambertian::scatter(const ray& ray_in, const hit_record& hrec, scatter_record& srec) const {
+    srec.is_specular = false;
+    srec.attenuation = albedo->value(hrec.u, hrec.v, hrec.p);
+    srec.pdf_ptr = new cosine_pdf(hrec.normal);
     return true;
 };
 

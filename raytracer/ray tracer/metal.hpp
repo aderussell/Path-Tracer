@@ -14,14 +14,14 @@
 class metal: public material {
     
 public:
-    metal(const Vector3& a, float f) : albedo(a) { if (f < 1) fuzz = f; else fuzz = 1; }
+    metal(const Color& a, float f) : albedo(a) { if (f < 1) fuzz = f; else fuzz = 1; }
     
-    virtual bool scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const;
-    
-    Vector3 albedo;
-    float fuzz; // how 'fuzzy' the reflections are
+    virtual bool scatter(const ray& ray_in, const hit_record& hrec, scatter_record& srec) const;
     
 private:
+    Color albedo;
+    float fuzz; // how 'fuzzy' the reflections are
+    
     Vector3 random_in_unit_sphere() const;
     Vector3 reflect(const Vector3& v, const Vector3& n) const;
 };

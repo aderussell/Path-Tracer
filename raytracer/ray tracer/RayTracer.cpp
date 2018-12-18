@@ -26,6 +26,7 @@
 #include "xy_rect.hpp"
 #include "box.hpp"
 #include "translate.hpp"
+#include "pdf.hpp"
 
 #include "CoreFoundation/CoreFoundation.h"
 
@@ -98,16 +99,46 @@
 //    }
 //}
 
-Color color(const ray &r, hitable *world, int depth) {
-    hit_record rec;
-    if (world->hit(r, 0.001, MAXFLOAT, rec)) {
-        ray scattered;
-        Vector3 attenuation;
-        Color emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
-        float pdf;
-        Color albedo;
-        if (depth < 50 && rec.mat_ptr->scatter(r, rec, albedo, scattered, pdf)) {
-            return emitted + albedo * rec.mat_ptr->scattering_pdf(r, rec, scattered) * color(scattered, world, depth+1) / pdf;
+//Color color(const ray &r, hitable *world, int depth) {
+//    hit_record rec;
+//    if (world->hit(r, 0.001, MAXFLOAT, rec)) {
+//        ray scattered;
+//        Vector3 attenuation;
+//        Color emitted = rec.mat_ptr->emitted(r, rec, rec.u, rec.v, rec.p);
+//        float pdf_val;
+//        Color albedo;
+//        if (depth < 50 && rec.mat_ptr->scatter(r, rec, albedo, scattered, pdf_val)) {
+//            hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, 0);
+//            hitable_pdf p0(light_shape, rec.p);
+//            cosine_pdf p1(rec.normal);
+//            mixture_pdf p(&p0, &p1);
+//            scattered = ray(rec.p, p.generate(), r.time());
+//            pdf_val = p.value(scattered.direction());
+//            return emitted + albedo * rec.mat_ptr->scattering_pdf(r, rec, scattered) * color(scattered, world, depth+1) / pdf_val;
+//        } else {
+//            return emitted;
+//        }
+//    } else {
+//        return Color(0,0,0);
+//    }
+//}
+
+Color color(const ray &r, hitable *world, hitable *light_shape, int depth) {
+    hit_record hrec;
+    if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
+        scatter_record srec;
+        Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
+        if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec)) {
+            if (srec.is_specular) {
+                return srec.attenuation * color(srec.specular_ray, world, light_shape, depth+1);
+            } else {
+                hitable_pdf plight(light_shape, hrec.p);
+                mixture_pdf p(&plight, srec.pdf_ptr);
+                ray scattered = ray(hrec.p, p.generate(), r.time());
+                float pdf_val = p.value(scattered.direction());
+                //delete srec.pdf_ptr;
+                return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, depth+1) / pdf_val;
+            }
         } else {
             return emitted;
         }
@@ -132,17 +163,40 @@ hitable *cornell_box() {
     material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
     material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
     material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
     hitable **list = new hitable*[8];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
     list[i++] = new yz_rect(0,555,0,555,0, red);
-    list[i++] = new xz_rect(213,343,227,332,554, light);
+    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
     list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
     list[i++] = new xz_rect(0,555,0,555,0, white);
     list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
     
     list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,165,165), white), -18), Vector3(130, 0, 65));
+    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), aluminium), 15), Vector3(265,0,295));
+    
+    return new hitable_list(list,i);
+}
+
+hitable *cornell_box_with_sphere() {
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
+    material *glass = new dielectric(1.5);
+    hitable **list = new hitable*[8];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    
     list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    list[i++] = new sphere(Vector3(190, 90, 190), 90, glass);
     
     return new hitable_list(list,i);
 }
@@ -198,7 +252,13 @@ hitable *random_scene() {
     return new hitable_list(list, i);
 }
 
-
+inline Color de_nan(const Color& c) {
+    Color temp = c;
+    if (isnan(temp.r)) temp.r = 0;
+    if (isnan(temp.g)) temp.g = 0;
+    if (isnan(temp.b)) temp.b = 0;
+    return temp;
+}
 
 ImageBuffer* RayTracer::render() {
     
@@ -209,13 +269,23 @@ ImageBuffer* RayTracer::render() {
     hitable *list[4];
     list[0] = new sphere(Vector3(0,0,-1), 0.5, new lambertian(new constant_texture(Color(0.1,0.2,0.5))));
     list[1] = new sphere(Vector3(0,-100.5,-1), 100, new lambertian(checkerTexture));
-    list[2] = new sphere(Vector3(1,0,-1), 0.5, new metal(Vector3(0.8, 0.6, 0.2), 0.01));
+    list[2] = new sphere(Vector3(1,0,-1), 0.5, new metal(Color(0.8, 0.6, 0.2), 0.01));
     list[3] = new sphere(Vector3(-1,0,-1), 0.5, new dielectric(1.5));
     //hitable *world = new hitable_list(list, 4);
     
     //hitable *world = random_scene();
     //hitable *world = simple_light();
-    hitable *world = cornell_box();
+    //hitable *world = cornell_box();
+    hitable *world = cornell_box_with_sphere();
+    
+    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    hitable *glass_sphere = new sphere(Vector3(190, 90, 190), 90, nullptr);
+    //hitable *block_shape = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), nullptr), 15), Vector3(265,0,295));
+    hitable *a[2];
+    a[0] = light_shape;
+    a[1] = glass_sphere;
+    //a[1] = block_shape;
+    hitable_list hlist(a,2);
     
     //camera *cam = new cameraA(90, float(width)/float(height));
     
@@ -234,7 +304,7 @@ ImageBuffer* RayTracer::render() {
                 double v = float(j + drand48()) / float(height);
                 ray ray = cam->get_ray(u, v);
                 Vector3 p = ray.parameterAtPoint(2.0);
-                col += color(ray, world, 0);
+                col += de_nan(color(ray, world, &hlist, 0));
             }
             
             

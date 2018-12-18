@@ -16,12 +16,15 @@ class diffuse_light : public material {
 public:
     diffuse_light(texture *a) : emit(a) {}
     
-    virtual bool scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const {
-        return false;
-    };
+//    virtual bool scatter(const ray& ray_in, const hit_record& rec, Vector3& attenuation, ray& scattered) const {
+//        return false;
+//    };
     
-    virtual Color emitted(float u, float v, const Vector3& p) const {
-        return emit->value(u,v,p);
+    virtual Color emitted(const ray& ray_in, const hit_record& rec, float u, float v, const Vector3& p) const {
+        if (Vector3::dotProduct(rec.normal, ray_in.direction()) < 0.0) {
+            return emit->value(u, v, p);
+        }
+        return Color(0,0,0);
     }
     
 private:

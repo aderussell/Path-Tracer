@@ -37,6 +37,11 @@ public:
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         box =  aabb(Vector3(x0,k-0.0001,z0), Vector3(x1, k+0.0001, z1));
         return true; }
+    
+    float pdf_value(const Vector3 &o, const Vector3 &v) const;
+    Vector3 random(const Vector3 &o) const;
+    
+private:
     material  *mp;
     float x0, x1, z0, z1, k;
 };
@@ -49,6 +54,8 @@ public:
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         box =  aabb(Vector3(k-0.0001, y0, z0), Vector3(k+0.0001, y1, z1));
         return true; }
+    
+private:
     material  *mp;
     float y0, y1, z0, z1, k;
 };

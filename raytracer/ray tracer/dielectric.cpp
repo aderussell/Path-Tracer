@@ -31,34 +31,36 @@ float dielectric::schlick(float cosine, float ref_idx) const {
     return r0 + (1-r0)*pow((1-cosine), 5);
 }
 
-bool dielectric::scatter(const ray &ray_in, const hit_record &rec, Vector3 &attenuation, ray &scattered) const {
+bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_record& srec) const {
+    srec.is_specular = true;
+    srec.pdf_ptr = nullptr;
+    srec.attenuation = Color(1,1,1);
     Vector3 outward_normal;
-    Vector3 reflected = this->reflect(ray_in.direction(), rec.normal);
-    float ni_over_nt;
-    attenuation = Vector3(1,1,1);
+    Vector3 reflected = this->reflect(ray_in.direction(), hrec.normal);
     Vector3 refracted;
+    float ni_over_nt;
     float reflect_prob;
     float cosine;
-    if (Vector3::dotProduct(ray_in.direction(), rec.normal) > 0) {
-        outward_normal = rec.normal * -1.0;
+    if (Vector3::dotProduct(ray_in.direction(), hrec.normal) > 0) {
+        outward_normal = hrec.normal * -1.0;
         ni_over_nt = ref_idx;
-        cosine = ref_idx * Vector3::dotProduct(ray_in.direction(), rec.normal) / ray_in.direction().length();
+        cosine = ref_idx * Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
     } else {
-        outward_normal = rec.normal;
+        outward_normal = hrec.normal;
         ni_over_nt = 1.0 / ref_idx;
-        cosine = -Vector3::dotProduct(ray_in.direction(), rec.normal) / ray_in.direction().length();
+        cosine = -Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
     }
-    if (this->refract(ray_in.direction(), outward_normal, ni_over_nt, refracted)) {
-        scattered = ray(rec.p, refracted);
+    if (refract(ray_in.direction(), outward_normal, ni_over_nt, refracted)) {
+        //scattered = ray(hrec.p, refracted);
         reflect_prob = this->schlick(cosine, ref_idx);
     } else {
-        scattered = ray(rec.p, reflected);
+        //scattered = ray(hrec.p, reflected);
         reflect_prob = 1.0;
     }
     if (drand48() < reflect_prob) {
-        scattered = ray(rec.p, reflected);
+        srec.specular_ray = ray(hrec.p, reflected);
     } else {
-        scattered = ray(rec.p, refracted);
+        srec.specular_ray = ray(hrec.p, refracted);
     }
     return true;
 }
