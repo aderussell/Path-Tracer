@@ -6,6 +6,7 @@
 //  Copyright © 2018 Adrian Russell. All rights reserved.
 //
 
+#include <future>
 #include "RayTracer.hpp"
 #include "Vector3.hpp"
 #include "Ray.hpp"
@@ -136,7 +137,7 @@ Color color(const ray &r, hitable *world, hitable *light_shape, int depth) {
                 mixture_pdf p(&plight, srec.pdf_ptr);
                 ray scattered = ray(hrec.p, p.generate(), r.time());
                 float pdf_val = p.value(scattered.direction());
-                //delete srec.pdf_ptr;
+                delete srec.pdf_ptr;
                 return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, depth+1) / pdf_val;
             }
         } else {
@@ -195,7 +196,7 @@ hitable *cornell_box_with_sphere() {
     list[i++] = new xz_rect(0,555,0,555,0, white);
     list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
     
-    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), aluminium), 15), Vector3(265,0,295));
     list[i++] = new sphere(Vector3(190, 90, 190), 90, glass);
     
     return new hitable_list(list,i);
@@ -285,7 +286,7 @@ ImageBuffer* RayTracer::render() {
     a[0] = light_shape;
     a[1] = glass_sphere;
     //a[1] = block_shape;
-    hitable_list hlist(a,2);
+    hitable_list *hlist = new hitable_list(a,2);
     
     //camera *cam = new cameraA(90, float(width)/float(height));
     
@@ -296,25 +297,60 @@ ImageBuffer* RayTracer::render() {
     float vfov = 40.0;
     camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, float(width)/float(height), aperture, dist_to_focus, 0.0, 1.0);
     
-    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-            Color col(0,0,0);
-            for(int s = 0; s < ns; s++) {
-                double u = float(i + drand48()) / float(width);
-                double v = float(j + drand48()) / float(height);
-                ray ray = cam->get_ray(u, v);
-                Vector3 p = ray.parameterAtPoint(2.0);
-                col += de_nan(color(ray, world, &hlist, 0));
-            }
-            
-            
-            col /= float(ns);
-            col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
-            
-            imageBuffer->pixels[i + j*width] = col;
-        }
-        
+    std::size_t max = width * height;
+    std::size_t cores = std::thread::hardware_concurrency();
+    volatile std::atomic<std::size_t> count(0);
+    std::vector<std::future<void>> future_vector;
+    while (cores--) {
+        std::future<void> future = std::async(std::launch::async, [=, &imageBuffer, &count]
+                                              {
+                                                  while (true)
+                                                  {
+                                                      std::size_t index = count++;
+                                                      if (index >= max)
+                                                          break;
+                                                      std::size_t i = index % width;
+                                                      std::size_t j = index / width;
+                                                      Color col(0,0,0);
+                                                      for(int s = 0; s < ns; s++) {
+                                                          double u = float(i + drand48()) / float(width);
+                                                          double v = float(j + drand48()) / float(height);
+                                                          ray ray = cam->get_ray(u, v);
+                                                          Vector3 p = ray.parameterAtPoint(2.0);
+                                                          Color col2 = color(ray, world, hlist, 0);
+                                                          col += de_nan(col2);
+                                                      }
+                                                      
+                                                      
+                                                      col /= float(ns);
+                                                      col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
+                                                      
+                                                      imageBuffer->pixels[i + j*width] = col;
+                                                  }
+                                              });
+        //future.wait();
+        future_vector.emplace_back(std::move(future));
     }
+    
+//    for (int i = 0; i < width; i++) {
+//        for (int j = 0; j < height; j++) {
+//            Color col(0,0,0);
+//            for(int s = 0; s < ns; s++) {
+//                double u = float(i + drand48()) / float(width);
+//                double v = float(j + drand48()) / float(height);
+//                ray ray = cam->get_ray(u, v);
+//                Vector3 p = ray.parameterAtPoint(2.0);
+//                col += de_nan(color(ray, world, &hlist, 0));
+//            }
+//
+//
+//            col /= float(ns);
+//            col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
+//
+//            imageBuffer->pixels[i + j*width] = col;
+//        }
+//
+//    }
     
     
     

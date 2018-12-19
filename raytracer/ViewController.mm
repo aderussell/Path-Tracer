@@ -43,6 +43,24 @@
 }
 
 
+- (IBAction)saveDocument:(id)sender
+{
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    savePanel.allowedFileTypes = @[@"png"];
+    
+    [savePanel beginWithCompletionHandler:^(NSModalResponse result) {
+        if (result == NSModalResponseOK) {
+            NSImage *image = self.imageView.image;
+            NSData *imageData = image.TIFFRepresentation;
+            NSBitmapImageRep *imageRep = [NSBitmapImageRep imageRepWithData:imageData];
+            NSDictionary *imageProps = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor];
+            imageData = [imageRep representationUsingType:NSPNGFileType properties:imageProps];
+            NSURL*  theFile = [savePanel URL];
+            [imageData writeToURL:theFile atomically:YES];
+        }
+    }];
+}
+
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
 

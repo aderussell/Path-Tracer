@@ -17,7 +17,7 @@ class RayTracer {
 public:
     int width;
     int height;
-    int ns = 100;
+    int ns = 10000;
     
     int bounceDepth;
     int shadowBias;
