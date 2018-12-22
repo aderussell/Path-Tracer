@@ -103,6 +103,8 @@
 		ABDE7E7A21C6C3E10048E4B1 /* contant_medium.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = contant_medium.hpp; sourceTree = "<group>"; };
 		ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = isotropic.cpp; sourceTree = "<group>"; };
 		ABDE7E7D21C6C4D70048E4B1 /* isotropic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = isotropic.hpp; sourceTree = "<group>"; };
+		ABDE7E8121CD5CED0048E4B1 /* test_scenes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_scenes.h; sourceTree = "<group>"; };
+		ABDE7E8221CD5D110048E4B1 /* scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scene.h; sourceTree = "<group>"; };
 		BF5EDA8521C8F14B00B5D877 /* onb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = onb.cpp; sourceTree = "<group>"; };
 		BF5EDA8621C8F14B00B5D877 /* onb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = onb.hpp; sourceTree = "<group>"; };
 		BF5EDA8821C8F71F00B5D877 /* pdf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pdf.cpp; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			children = (
 				AB57136220E6C1E100FE57F5 /* RayTracer.hpp */,
 				AB57136120E6C1E100FE57F5 /* RayTracer.cpp */,
+				ABDE7E7F21CD5CBB0048E4B1 /* scenes */,
 				ABDE7E5121B9F0980048E4B1 /* materials */,
 				ABB1807220E6C0F000E654F2 /* stuff */,
 				ABB1806A20E6C05B00E654F2 /* objects */,
@@ -210,6 +213,7 @@
 				BF5EDA8521C8F14B00B5D877 /* onb.cpp */,
 				BF5EDA8921C8F71F00B5D877 /* pdf.hpp */,
 				BF5EDA8821C8F71F00B5D877 /* pdf.cpp */,
+				ABDE7E8221CD5D110048E4B1 /* scene.h */,
 			);
 			name = stuff;
 			sourceTree = "<group>";
@@ -237,6 +241,14 @@
 				ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */,
 			);
 			name = materials;
+			sourceTree = "<group>";
+		};
+		ABDE7E7F21CD5CBB0048E4B1 /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				ABDE7E8121CD5CED0048E4B1 /* test_scenes.h */,
+			);
+			name = scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

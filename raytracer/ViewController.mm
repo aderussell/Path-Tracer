@@ -8,16 +8,18 @@
 
 #import "ViewController.h"
 #include "RayTracer.hpp"
+#include "test_scenes.h"
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    // Do any additional setup after loading the view.
     
-    RayTracer rayTracer = RayTracer(500, 500);
-    ImageBuffer *buffer = rayTracer.render();
+    
+    scene *s = rbgLightSpheres();
+    
+    RayTracer rayTracer = RayTracer(1000, 500);
+    ImageBuffer *buffer = rayTracer.render(s);
     
     NSBitmapImageRep *bitmapImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
                                                                             pixelsWide:rayTracer.width

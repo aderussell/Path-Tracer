@@ -12,7 +12,5 @@
 
 @property (nonatomic) IBOutlet NSImageView *imageView;
 
-- (IBAction)saveImage:(id)sender;
-
 @end
 
