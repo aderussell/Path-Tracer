@@ -54,6 +54,7 @@
 		AB57136820E6C5AA00FE57F5 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		AB57136D20E6D34B00FE57F5 /* ImageBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBuffer.cpp; sourceTree = "<group>"; };
 		AB57136E20E6D34B00FE57F5 /* ImageBuffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImageBuffer.hpp; sourceTree = "<group>"; };
+		ABB0561E21D0120200A8AC22 /* skybox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = skybox.h; sourceTree = "<group>"; };
 		ABB1804C20E6BF9100E654F2 /* raytracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = raytracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB1804F20E6BF9200E654F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ABB1805020E6BF9200E654F2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -214,6 +215,7 @@
 				BF5EDA8921C8F71F00B5D877 /* pdf.hpp */,
 				BF5EDA8821C8F71F00B5D877 /* pdf.cpp */,
 				ABDE7E8221CD5D110048E4B1 /* scene.h */,
+				ABB0561E21D0120200A8AC22 /* skybox.h */,
 			);
 			name = stuff;
 			sourceTree = "<group>";

@@ -16,6 +16,7 @@
 
 class pdf {
 public:
+    virtual ~pdf() {};
     virtual float value(const Vector3& direction) const = 0;
     virtual Vector3 generate() const = 0;
 };

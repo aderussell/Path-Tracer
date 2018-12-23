@@ -33,27 +33,27 @@
 
 
 
-Color color(const ray &r, hitable *world, hitable *light_shape, int depth) {
+Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth) {
     hit_record hrec;
     if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
         scatter_record srec;
         Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
         if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec)) {
             if (srec.is_specular) {
-                return srec.attenuation * color(srec.specular_ray, world, light_shape, depth+1);
+                return srec.attenuation * color(srec.specular_ray, world, light_shape, sky_box, depth+1);
             } else {
-                //hitable_pdf plight(light_shape, hrec.p);
-                //mixture_pdf p(&plight, srec.pdf_ptr);
-                ray scattered = ray(hrec.p, srec.pdf_ptr->generate(), r.time());
+                hitable_pdf plight(light_shape, hrec.p);
+                mixture_pdf p(&plight, srec.pdf_ptr);
+                ray scattered = ray(hrec.p, p.generate(), r.time());
                 float pdf_val = srec.pdf_ptr->value(scattered.direction());
                 delete srec.pdf_ptr;
-                return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, depth+1) / pdf_val;
+                return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, sky_box, depth+1) / pdf_val;
             }
         } else {
             return emitted;
         }
     } else {
-        return Color(0,0,0);
+        return sky_box->get_color(r);
     }
 }
 
@@ -194,7 +194,7 @@ ImageBuffer* RayTracer::render(scene *scene) {
                                                           double v = float(j + drand48()) / float(height);
                                                           ray ray = scene->camera->get_ray(u, v);
                                                           Vector3 p = ray.parameterAtPoint(2.0);
-                                                          Color col2 = color(ray, scene->world, scene->light_shape, 0);
+                                                          Color col2 = color(ray, scene->world, scene->light_shape, scene->sky_box, 0);
                                                           col += de_nan(col2);
                                                       }
                                                       

@@ -16,9 +16,9 @@
     [super viewDidLoad];
     
     
-    scene *s = rbgLightSpheres();
+    scene *s = random_scene();
     
-    RayTracer rayTracer = RayTracer(1000, 500);
+    RayTracer rayTracer = RayTracer(600, 400);
     ImageBuffer *buffer = rayTracer.render(s);
     
     NSBitmapImageRep *bitmapImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL

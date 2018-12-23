@@ -31,65 +31,67 @@
 #include "box.hpp"
 #include "translate.hpp"
 
-//scene *random_scene() {
-//    texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
-//    texture *noiseTexture = new noise_texture(10);
-//
-//    int n = 500;
-//    hitable **list = new hitable*[n + 1];
-//    list[0] = new sphere(Vector3(0,-1000,-0), 1000,new lambertian(noiseTexture));
-//    int i = 1;
-//
-//    for (int a = -11; a < 11; a++) {
-//        for (int b = -11; b < 11; b++) {
-//            float choose_mat = drand48();
-//            Vector3 center(a+0.9*drand48(), 0.2, b+0.9*drand48());
-//            if ((center-Vector3(4,0.2,0)).length() > 0.9) {
-//                if (choose_mat < 0.8) {
-//                    // diffuse
-//                    texture *tex = new constant_texture(Color(drand48()*drand48(), drand48()*drand48(), drand48()*drand48()));
-//                    list[i++] = new moving_sphere(center, center + Vector3(0, 0.3, 0), 0, 1, 0.2, new lambertian(tex));
-//                } else if (choose_mat < 0.95) {
-//                    // metal
-//                    list[i++] = new sphere(center, 0.2, new metal(Color(0.5*(1+drand48()), 0.5*(1+drand48()), 0.5*(1+drand48())), 0.01));
-//                } else {
-//                    // glass
-//                    list[i++] = new sphere(center, 0.2, new dielectric(1.5));
-//                }
-//            }
-//        }
-//    }
-//
-//
-//    //texture *colorTexture = new constant_texture(Color(0.4,0.2,0.1));
-//    CFBundleRef mainBundle = CFBundleGetMainBundle();
-//    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("1_earth.jpg"), NULL, NULL);
-//    char path[PATH_MAX];
-//    if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)){
-//        // error!
-//    }
-//    CFRelease(resourcesURL);
-//    int nx, ny, nn;
-//    unsigned char *tex_data = stbi_load(path, &nx, &ny, &nn, 0);
-//    texture *earthTexture = new image_texture(tex_data, nx, ny);
-//
-//    list[i++] = new sphere(Vector3(0,1,0), 1.0, new dielectric(1.5));
-//    list[i++] = new sphere(Vector3(4,1,0), 1.0, new lambertian(earthTexture));
-//    //list[i++] = new sphere(Vector3(-4,1,0), 1.0, new metal(Vector3(0.7, 0.6, 0.5), 0.01));
-//
-//    hitable *world = new hitable_list(list, i);
-//
-//
-//    Vector3 lookfrom(13,2,3);
-//    Vector3 lookat(0,0,0);
-//    float dist_to_focus = 10.0;
-//    float aperture = 0.1;
-//    float aspectRatio = 1.0;
-//    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), 20, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
-//
-//
-//     return new scene(world, nullptr, cam, aspectRatio);
-//}
+scene *random_scene() {
+    //texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
+    //texture *noiseTexture = new noise_texture(10);
+
+    int n = 500;
+    hitable **list = new hitable*[n + 1];
+    list[0] = new sphere(Vector3(0,-1000,-0), 1000,new lambertian(new constant_texture(Color(0.5, 0.5, 0.5))));
+    int i = 1;
+
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
+            float choose_mat = drand48();
+            Vector3 center(a+0.9*drand48(), 0.2, b+0.9*drand48());
+            if ((center-Vector3(4,0.2,0)).length() > 0.9) {
+                if (choose_mat < 0.8) {
+                    // diffuse
+                    texture *tex = new constant_texture(Color(drand48()*drand48(), drand48()*drand48(), drand48()*drand48()));
+                    list[i++] = new sphere(center, 0.2, new lambertian(tex));
+                } else if (choose_mat < 0.95) {
+                    // metal
+                    list[i++] = new sphere(center, 0.2, new metal(Color(0.5*(1+drand48()), 0.5*(1+drand48()), 0.5*(1+drand48())), 0.01));
+                } else {
+                    // glass
+                    list[i++] = new sphere(center, 0.2, new dielectric(1.5));
+                }
+            }
+        }
+    }
+
+
+    //texture *colorTexture = new constant_texture(Color(0.4,0.2,0.1));
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("1_earth.jpg"), NULL, NULL);
+    char path[PATH_MAX];
+    if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)){
+        // error!
+    }
+    CFRelease(resourcesURL);
+    int nx, ny, nn;
+    unsigned char *tex_data = stbi_load(path, &nx, &ny, &nn, 0);
+    texture *earthTexture = new image_texture(tex_data, nx, ny);
+
+    list[i++] = new sphere(Vector3(0,1,0), 1.0, new dielectric(1.5));
+    list[i++] = new sphere(Vector3(-4,1,0), 1.0, new lambertian(earthTexture));
+    list[i++] = new sphere(Vector3(4,1,0), 1.0, new metal(Color(0.7, 0.6, 0.5), 0.01));
+
+    hitable *world = new hitable_list(list, i);
+
+
+    Vector3 lookfrom(13,2,3);
+    Vector3 lookat(0,0,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.1;
+    float aspectRatio = 3.0/2.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), 20, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+
+    skybox *sky_box = new sky_skybox();
+    //skybox *sky_box = new constant_skybox(Color(0.5,0.7,1));
+
+     return new scene(world, list[i-3], cam, sky_box, aspectRatio);
+}
 
 
 scene* cornellBox() {
@@ -121,8 +123,9 @@ scene* cornellBox() {
     float aspectRatio = 1.0;
     camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
+    skybox *sky_box = new constant_skybox();
     
-    return new scene(world, light_shape, cam, aspectRatio);
+    return new scene(world, light_shape, cam, sky_box, aspectRatio);
 }
 
 scene* cornellBoxWithSphere() {
@@ -161,8 +164,9 @@ scene* cornellBoxWithSphere() {
     float aspectRatio = 1.0;
     camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
+    skybox *sky_box = new constant_skybox();
     
-    return new scene(world, hlist, cam, aspectRatio);
+    return new scene(world, hlist, cam, sky_box, aspectRatio);
 }
 
 scene* cornellBoxWithExtraSpheres() {
@@ -207,7 +211,9 @@ scene* rbgLightSpheres() {
     a[5] = new xz_rect(40, 46, 5,  25, 40, nullptr); // 25, 28  - 7
     hitable_list *hlist = new hitable_list(a,6);
     
-    return new scene(world, hlist, cam, aspectRatio);
+    skybox *sky_box = new constant_skybox();
+    
+    return new scene(world, hlist, cam, sky_box, aspectRatio);
 }
 
 #endif /* test_scenes_h */
