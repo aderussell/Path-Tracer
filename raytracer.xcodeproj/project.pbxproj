@@ -18,6 +18,7 @@
 		ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB1805520E6BF9300E654F2 /* Assets.xcassets */; };
 		ABB1805920E6BF9300E654F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB1805720E6BF9300E654F2 /* Main.storyboard */; };
 		ABB1805C20E6BF9400E654F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB1805B20E6BF9400E654F2 /* main.m */; };
+		ABCE72ED21D141A100E28BCF /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCE72EB21D141A100E28BCF /* triangle.cpp */; };
 		ABDE7E4721B9AD380048E4B1 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4521B9AD380048E4B1 /* sphere.cpp */; };
 		ABDE7E4A21B9AD640048E4B1 /* hitable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4821B9AD640048E4B1 /* hitable.cpp */; };
 		ABDE7E4D21B9D09C0048E4B1 /* hitable_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4B21B9D09C0048E4B1 /* hitable_list.cpp */; };
@@ -66,6 +67,8 @@
 		ABB1805B20E6BF9400E654F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ABB1805D20E6BF9400E654F2 /* raytracer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = raytracer.entitlements; sourceTree = "<group>"; };
 		ABB1806820E6BFC600E654F2 /* Ray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ray.hpp; sourceTree = "<group>"; };
+		ABCE72EB21D141A100E28BCF /* triangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = triangle.cpp; sourceTree = "<group>"; };
+		ABCE72EC21D141A100E28BCF /* triangle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = triangle.hpp; sourceTree = "<group>"; };
 		ABDE7E4521B9AD380048E4B1 /* sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
 		ABDE7E4621B9AD380048E4B1 /* sphere.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sphere.hpp; sourceTree = "<group>"; };
 		ABDE7E4821B9AD640048E4B1 /* hitable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hitable.cpp; sourceTree = "<group>"; };
@@ -190,6 +193,8 @@
 				ABDE7E7621C6B14B0048E4B1 /* translate.cpp */,
 				ABDE7E7A21C6C3E10048E4B1 /* contant_medium.hpp */,
 				ABDE7E7921C6C3E10048E4B1 /* contant_medium.cpp */,
+				ABCE72EC21D141A100E28BCF /* triangle.hpp */,
+				ABCE72EB21D141A100E28BCF /* triangle.cpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -336,6 +341,7 @@
 				ABDE7E7E21C6C4D70048E4B1 /* isotropic.cpp in Sources */,
 				ABDE7E5421B9F0B60048E4B1 /* lambertian.cpp in Sources */,
 				ABDE7E6021BDAFB30048E4B1 /* bvh.cpp in Sources */,
+				ABCE72ED21D141A100E28BCF /* triangle.cpp in Sources */,
 				ABDE7E7521C693090048E4B1 /* box.cpp in Sources */,
 				BF5EDA8A21C8F71F00B5D877 /* pdf.cpp in Sources */,
 				ABDE7E4D21B9D09C0048E4B1 /* hitable_list.cpp in Sources */,

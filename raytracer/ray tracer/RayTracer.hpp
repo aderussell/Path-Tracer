@@ -18,7 +18,7 @@ class RayTracer {
 public:
     int width;
     int height;
-    int ns = 100;
+    int ns = 200;
     
     
     RayTracer(int width, int height) : width(width), height(height) {}

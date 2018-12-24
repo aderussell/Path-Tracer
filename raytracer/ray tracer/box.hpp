@@ -20,6 +20,8 @@ public:
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         box =  aabb(pmin, pmax);
         return true; }
+    
+    
     Vector3 pmin, pmax;
     hitable *list_ptr;
 };

@@ -30,6 +30,8 @@
 #include "xy_rect.hpp"
 #include "box.hpp"
 #include "translate.hpp"
+#include "bvh.hpp"
+#include "triangle.hpp"
 
 scene *random_scene() {
     //texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
@@ -79,6 +81,7 @@ scene *random_scene() {
 
     hitable *world = new hitable_list(list, i);
 
+    //bvh_node *world = new bvh_node(list, i, 0.0, 1.0);
 
     Vector3 lookfrom(13,2,3);
     Vector3 lookat(0,0,0);
@@ -109,6 +112,47 @@ scene* cornellBox() {
     list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
     list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,165,165), white), -18), Vector3(130, 0, 65));
     list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    hitable *world = new hitable_list(list,i);
+    
+    
+    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    
+    
+    Vector3 lookfrom(278,278,-800);
+    Vector3 lookat(278,278,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    skybox *sky_box = new constant_skybox();
+    
+    return new scene(world, light_shape, cam, sky_box, aspectRatio);
+}
+
+
+scene* cornellBoxWithTriangle() {
+    material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    hitable **list = new hitable*[12];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    
+    //list[i++] = new flip_normals(new xz_rect(0,555,0,555,420, glass));
+    
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,165,165), white), -18), Vector3(130, 0, 65));
+    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    //list[i++] = new translate(new triangle(Vector3(170, 120, 170), Vector3(340, 140, 180), Vector3(190, 200, 330), red), Vector3(0,0,300));
+    list[i++] = new triangle(Vector3(170, 220, 170), Vector3(190, 250, 260), Vector3(240, 240, 180), blue);
     hitable *world = new hitable_list(list,i);
     
     

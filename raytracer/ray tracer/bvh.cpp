@@ -70,6 +70,12 @@ bvh_node::bvh_node(hitable **l, int n, float time0, float time1) {
         left = new bvh_node(l, n/2, time0, time1);
         right = new bvh_node(l + n / 2, n - n/2, time0, time1);
     }
+    
+    aabb box_left, box_right;
+    if (!left->bounding_box(time0, time1, box_left) || !right->bounding_box(time0, time1, box_right)) {
+        // throw error
+    }
+    box = surronding_box(box_left, box_right);
 }
 
 bool bvh_node::bounding_box(float t0, float t1, aabb &b) const {
@@ -77,7 +83,7 @@ bool bvh_node::bounding_box(float t0, float t1, aabb &b) const {
     return true;
 }
 
-bool bvh_node:: hit(const ray&r, float t_min, float t_max, hit_record& rec) const {
+bool bvh_node::hit(const ray&r, float t_min, float t_max, hit_record& rec) const {
     if (box.hit(r, t_min, t_max)) {
         hit_record left_rec, right_rec;
         bool hit_left = left->hit(r, t_min, t_max, left_rec);
@@ -101,4 +107,20 @@ bool bvh_node:: hit(const ray&r, float t_min, float t_max, hit_record& rec) cons
     } else {
         return false;
     }
+}
+
+
+float bvh_node::pdf_value(const Vector3& o, const Vector3& v) const
+{
+    float weight = 0.5;
+    float sum = weight * left->pdf_value(o, v) + weight * right->pdf_value(o, v);
+    return sum;
+}
+
+Vector3 bvh_node::random(const Vector3& o) const
+{
+    if (drand48() < 0.5)
+        return left->random(o);
+    else
+        return right->random(o);
 }

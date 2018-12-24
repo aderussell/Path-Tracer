@@ -45,7 +45,7 @@ Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box,
                 hitable_pdf plight(light_shape, hrec.p);
                 mixture_pdf p(&plight, srec.pdf_ptr);
                 ray scattered = ray(hrec.p, p.generate(), r.time());
-                float pdf_val = srec.pdf_ptr->value(scattered.direction());
+                float pdf_val = p.value(scattered.direction());
                 delete srec.pdf_ptr;
                 return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, sky_box, depth+1) / pdf_val;
             }
@@ -211,3 +211,5 @@ ImageBuffer* RayTracer::render(scene *scene) {
     return imageBuffer;
 }
 
+
+//235,220

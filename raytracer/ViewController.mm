@@ -16,9 +16,9 @@
     [super viewDidLoad];
     
     
-    scene *s = random_scene();
+    scene *s = cornellBoxWithTriangle();
     
-    RayTracer rayTracer = RayTracer(600, 400);
+    RayTracer rayTracer = RayTracer(400, 400);
     ImageBuffer *buffer = rayTracer.render(s);
     
     NSBitmapImageRep *bitmapImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
