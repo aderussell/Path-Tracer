@@ -7,6 +7,7 @@
 //
 
 #include <future>
+#include <iostream>
 #include "RayTracer.hpp"
 //#include "Vector3.hpp"
 //#include "Ray.hpp"
@@ -188,6 +189,9 @@ ImageBuffer* RayTracer::render(scene *scene) {
                                                           break;
                                                       std::size_t i = index % width;
                                                       std::size_t j = index / width;
+                                                      if (i == 0 && j%10==0) {
+                                                          std::cout << j << std::endl;
+                                                      }
                                                       Color col(0,0,0);
                                                       for(int s = 0; s < ns; s++) {
                                                           double u = float(i + drand48()) / float(width);

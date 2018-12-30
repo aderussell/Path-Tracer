@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB1493BC21D4133A000FA0D3 /* obj_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */; };
+		AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB1493C021D56658000FA0D3 /* suzanne.obj */; };
 		AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135820E6C15000FE57F5 /* Matrix44.cpp */; };
 		AB57135F20E6C15000FE57F5 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135A20E6C15000FE57F5 /* Vector3.cpp */; };
 		AB57136020E6C15000FE57F5 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135B20E6C15000FE57F5 /* Vector4.cpp */; };
@@ -43,6 +45,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = obj_loader.cpp; sourceTree = "<group>"; };
+		AB1493BB21D4133A000FA0D3 /* obj_loader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = obj_loader.hpp; sourceTree = "<group>"; };
+		AB1493C021D56658000FA0D3 /* suzanne.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = suzanne.obj; sourceTree = "<group>"; };
 		AB57135820E6C15000FE57F5 /* Matrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix44.cpp; sourceTree = "<group>"; };
 		AB57135920E6C15000FE57F5 /* Matrix44.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix44.hpp; sourceTree = "<group>"; };
 		AB57135A20E6C15000FE57F5 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector3.cpp; sourceTree = "<group>"; };
@@ -151,6 +156,7 @@
 				ABB1805220E6BF9200E654F2 /* ViewController.h */,
 				ABB1805320E6BF9200E654F2 /* ViewController.mm */,
 				ABDE7E6B21C1AA280048E4B1 /* 1_earth.jpg */,
+				AB1493C021D56658000FA0D3 /* suzanne.obj */,
 				ABB1805520E6BF9300E654F2 /* Assets.xcassets */,
 				ABB1805720E6BF9300E654F2 /* Main.storyboard */,
 				ABB1805A20E6BF9400E654F2 /* Info.plist */,
@@ -170,6 +176,8 @@
 				ABB1807220E6C0F000E654F2 /* stuff */,
 				ABB1806A20E6C05B00E654F2 /* objects */,
 				ABDE7E6A21C1A80D0048E4B1 /* stb_image.h */,
+				AB1493BB21D4133A000FA0D3 /* obj_loader.hpp */,
+				AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */,
 			);
 			path = "ray tracer";
 			sourceTree = "<group>";
@@ -315,6 +323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */,
 				ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */,
 				ABB1805920E6BF9300E654F2 /* Main.storyboard in Resources */,
 				ABDE7E6C21C1AA280048E4B1 /* 1_earth.jpg in Resources */,
@@ -347,6 +356,7 @@
 				ABDE7E4D21B9D09C0048E4B1 /* hitable_list.cpp in Sources */,
 				ABDE7E5721BAFD320048E4B1 /* metal.cpp in Sources */,
 				ABDE7E6621BEF1610048E4B1 /* perlin.cpp in Sources */,
+				AB1493BC21D4133A000FA0D3 /* obj_loader.cpp in Sources */,
 				ABDE7E6F21C307740048E4B1 /* diffuse_light.cpp in Sources */,
 				ABDE7E6321BDBDC40048E4B1 /* texture.cpp in Sources */,
 				ABDE7E5A21BB04CB0048E4B1 /* dielectric.cpp in Sources */,

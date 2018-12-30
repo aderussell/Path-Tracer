@@ -45,6 +45,12 @@ bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_reco
         outward_normal = hrec.normal * -1.0;
         ni_over_nt = ref_idx;
         cosine = ref_idx * Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
+        
+        // Beer-Lambert law
+        //Color directionColor(ray_in.direction().x, ray_in.direction().y, ray_in.direction().z);
+        Color absorb = hrec.t * density * volumeColor;
+        Color transparency = Color(exp(-absorb.r), exp(-absorb.g), exp(-absorb.b));
+        srec.attenuation *= transparency;
     } else {
         outward_normal = hrec.normal;
         ni_over_nt = 1.0 / ref_idx;

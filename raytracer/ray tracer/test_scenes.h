@@ -32,6 +32,7 @@
 #include "translate.hpp"
 #include "bvh.hpp"
 #include "triangle.hpp"
+#include "obj_loader.hpp"
 
 scene *random_scene() {
     //texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
@@ -94,6 +95,65 @@ scene *random_scene() {
     //skybox *sky_box = new constant_skybox(Color(0.5,0.7,1));
 
      return new scene(world, list[i-3], cam, sky_box, aspectRatio);
+}
+
+
+scene *cornellBoxWithSuzanne() {
+    //material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    //material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
+    dielectric *glass = new dielectric(1.5);
+    glass->density = 0.03;
+    glass->volumeColor = Color(1.0,1.0,0.0);
+    
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("suzanne.obj"), NULL, NULL);
+    char path[PATH_MAX];
+    if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)){
+        // error!
+    }
+    CFRelease(resourcesURL);
+    
+    auto suzanneMesh = ObjLoader::LoadSingleMesh(path);
+    hitable *suzanne = suzanneMesh->create_hitable(glass);
+    hitable *suzanneFinal = new translate(new rotate_y(suzanne, 180), Vector3(277.5, 277.5, 277.5));
+    
+    hitable **list = new hitable*[10];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    //list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), aluminium), 15), Vector3(265,0,295));
+    //list[i++] = new sphere(Vector3(190, 90, 190), 90, glass);
+    list[i++] = suzanneFinal;
+    hitable *world = new hitable_list(list,i);
+    
+    
+    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    //hitable *glass_sphere = new sphere(Vector3(190, 90, 190), 90, nullptr);
+    hitable **a = new hitable*[2];
+    a[0] = light_shape;
+    a[1] = suzanneFinal;
+    hitable_list *hlist = new hitable_list(a,2);
+    
+    
+    Vector3 lookfrom(278,278,-800);
+    Vector3 lookat(278,278,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    skybox *sky_box = new constant_skybox();
+    
+    return new scene(world, hlist, cam, sky_box, aspectRatio);
 }
 
 
@@ -178,7 +238,9 @@ scene* cornellBoxWithSphere() {
     material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
     material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
     material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
-    material *glass = new dielectric(1.5);
+    dielectric *glass = new dielectric(1.5);
+    glass->density = 0.03;
+    glass->volumeColor = Color(1.0,1.0,0.0);
     hitable **list = new hitable*[8];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));

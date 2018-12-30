@@ -14,7 +14,7 @@
 class bvh_node : public hitable {
 public:
     bvh_node() {}
-    bvh_node(hitable **l, int n, float t0, float t1);
+    bvh_node(hitable **l, int n, float time0 = 0.0, float time1 = 1.0);
     
     bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const;
     bool bounding_box(float t0, float t1, aabb &box) const;

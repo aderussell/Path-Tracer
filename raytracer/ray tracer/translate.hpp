@@ -34,5 +34,14 @@ public:
     aabb bbox;
 };
 
+class scale : public hitable {
+public:
+    scale(hitable *p, float _s) : ptr(p), s(_s) {}
+    virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
+    virtual bool bounding_box(float t0, float t1, aabb& box) const;
+    hitable *ptr;
+    float s;
+};
+
 
 #endif /* translate_hpp */

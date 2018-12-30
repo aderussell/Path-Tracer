@@ -21,6 +21,12 @@ struct Color {
         this->b = b * luminosity;
     }
     
+//    Color(const Vector3& input) {
+//        r = input.x;
+//        g = input.y;
+//        b = input.z;
+//    }
+    
     Color& operator += (const Color& other) {
         r += other.r;
         g += other.g;

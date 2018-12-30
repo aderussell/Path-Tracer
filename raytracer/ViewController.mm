@@ -16,7 +16,7 @@
     [super viewDidLoad];
     
     
-    scene *s = cornellBoxWithTriangle();
+    scene *s = cornellBoxWithSuzanne();
     
     RayTracer rayTracer = RayTracer(400, 400);
     ImageBuffer *buffer = rayTracer.render(s);

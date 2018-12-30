@@ -18,6 +18,9 @@ public:
     
     virtual bool scatter(const ray& ray_in, const hit_record& rec, scatter_record& srec) const;
     
+    float density = 0.0;
+    Color volumeColor = Color(1,1,1);
+    
 private:
     float ref_idx;
     

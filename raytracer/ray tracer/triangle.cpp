@@ -44,13 +44,13 @@ bool triangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
     
     if (t < t_min || t > t_max) return false;
     
-    //Vector3 normal = Vector3::normalisedCrossProduct(edge1, edge2);
-    Vector3 normal = Vector3(0,1,0);
+    Vector3 normal = Vector3::normalisedCrossProduct(edge1, edge2);
+    //Vector3 normal = Vector3(0,1,0);
     
     rec.t = t;
     rec.p = r.parameterAtPoint(rec.t);
     rec.normal = normal;
-    rec.mat_ptr = material;
+    rec.mat_ptr = mat;
     rec.u = u;
     rec.v = v;
     
@@ -96,4 +96,52 @@ Vector3 triangle::random(const Vector3& o) const {
     float sr1 = r1*r1;
     Vector3 d = (1.0 - sr1)*a + sr1*(1.0 - r2)*b + sr1*r2*c;
     return d - o;
+}
+
+
+bool triangle_with_normals::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+    Vector3 edge1 = b - a;
+    Vector3 edge2 = c - a;
+    
+    Vector3 pvec = Vector3::crossProduct(r.direction(), edge2);
+    
+    float det = Vector3::dotProduct(edge1, pvec);
+    float invdet = 1.0 / det;
+    
+    if (fabs(det) < 0.000001) {
+        return false;
+    }
+    
+    
+    
+    Vector3 tvec = r.origin() - a;
+    
+    double u = Vector3::dotProduct(tvec, pvec) * invdet;
+    if (u < 0.0 || u > 1.0) {
+        return false;
+    }
+    
+    Vector3 qvec = Vector3::crossProduct(tvec, edge1);
+    float v = Vector3::dotProduct(r.direction(), qvec) * invdet;
+    if (v < 0.0 || u+v > 1.0) {
+        return false;
+    }
+    
+    float t = Vector3::dotProduct(edge2, qvec) * invdet;
+    
+    if (t < t_min || t > t_max) return false;
+    
+    float w = 1.0 - u - v;
+    Vector3 normal = (w * na + u * nb + v * nc).normalise();
+    
+    rec.t = t;
+    rec.p = r.parameterAtPoint(rec.t);
+    rec.normal = normal;
+    rec.mat_ptr = mat;
+    rec.u = u;
+    rec.v = v;
+    
+    
+    
+    return true;
 }
