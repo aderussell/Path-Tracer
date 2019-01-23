@@ -104,7 +104,7 @@ scene *cornellBoxWithSuzanne() {
     material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
     material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
     material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
-    //material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
+    material *mirror = new metal(Color(1.0,1.0,1.0), 0.0);
     dielectric *glass = new dielectric(1.5);
     glass->density = 0.03;
     glass->volumeColor = Color(1.0,1.0,0.0);
@@ -119,12 +119,14 @@ scene *cornellBoxWithSuzanne() {
     
     auto suzanneMesh = ObjLoader::LoadSingleMesh(path);
     hitable *suzanne = suzanneMesh->create_hitable(glass);
-    hitable *suzanneFinal = new translate(new rotate_y(suzanne, 180), Vector3(277.5, 277.5, 277.5));
-    
+    hitable *suzanneFinal = new translate(new rotate_y(suzanne, 180), Vector3(267.5, 277.5, 860));
+//    aabb hit;
+//    suzanneFinal->bounding_box(0, 1, hit);
     hitable **list = new hitable*[10];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
     list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new yz_rect(100,455,100,455,0, mirror);
     list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
     list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
     list[i++] = new xz_rect(0,555,0,555,0, white);
