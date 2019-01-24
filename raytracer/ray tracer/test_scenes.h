@@ -197,6 +197,46 @@ scene* cornellBox() {
     return new scene(world, light_shape, cam, sky_box, aspectRatio);
 }
 
+scene* cornellBoxWithCheckers() {
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    material *checkers = new lambertian(new checker_texture(new constant_texture(Color(0.1, 0.1, 0.1)), new constant_texture(Color(0.73, 0.73, 0.73))));
+    dielectric *glass = new dielectric(1.5);
+//    glass->density = 0.03;
+//    glass->volumeColor = Color(1.0,1.0,0.0);
+    
+    hitable **list = new hitable*[8];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, checkers));  // back wall
+    //list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,165,165), white), -18), Vector3(130, 0, 65));
+    list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    list[i++] = new sphere(Vector3(190, 300, 190), 90, glass);
+    hitable *world = new hitable_list(list,i);
+    
+    
+    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    
+    
+    Vector3 lookfrom(278,278,-800);
+    Vector3 lookat(278,278,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    skybox *sky_box = new constant_skybox();
+    
+    return new scene(world, light_shape, cam, sky_box, aspectRatio);
+}
+
 
 scene* cornellBoxWithTriangle() {
     material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
