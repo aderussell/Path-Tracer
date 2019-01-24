@@ -16,9 +16,9 @@
     [super viewDidLoad];
     
     
-    scene *s = cornellBoxWithSuzanne();
+    scene *s = cubemapSkyboxScene();
     
-    RayTracer rayTracer = RayTracer(400, 400);
+    RayTracer rayTracer = RayTracer(500, 500, 10);
     ImageBuffer *buffer = rayTracer.render(s);
     
     NSBitmapImageRep *bitmapImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL

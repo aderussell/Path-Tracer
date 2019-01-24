@@ -42,6 +42,12 @@
 		ABDE7E7E21C6C4D70048E4B1 /* isotropic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */; };
 		BF5EDA8721C8F14B00B5D877 /* onb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5EDA8521C8F14B00B5D877 /* onb.cpp */; };
 		BF5EDA8A21C8F71F00B5D877 /* pdf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF5EDA8821C8F71F00B5D877 /* pdf.cpp */; };
+		BFCB8C0821F9F726006C7773 /* yokohama3-top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BFCB8C0221F9F724006C7773 /* yokohama3-top.jpg */; };
+		BFCB8C0921F9F726006C7773 /* yokohama3-front.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BFCB8C0321F9F725006C7773 /* yokohama3-front.jpg */; };
+		BFCB8C0A21F9F726006C7773 /* yokohama3-left.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BFCB8C0421F9F725006C7773 /* yokohama3-left.jpg */; };
+		BFCB8C0B21F9F726006C7773 /* yokohama3-bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BFCB8C0521F9F725006C7773 /* yokohama3-bottom.jpg */; };
+		BFCB8C0C21F9F726006C7773 /* yokohama3-right.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BFCB8C0621F9F726006C7773 /* yokohama3-right.jpg */; };
+		BFCB8C0D21F9F726006C7773 /* yokohama3-back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BFCB8C0721F9F726006C7773 /* yokohama3-back.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +124,12 @@
 		BF5EDA8621C8F14B00B5D877 /* onb.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = onb.hpp; sourceTree = "<group>"; };
 		BF5EDA8821C8F71F00B5D877 /* pdf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pdf.cpp; sourceTree = "<group>"; };
 		BF5EDA8921C8F71F00B5D877 /* pdf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pdf.hpp; sourceTree = "<group>"; };
+		BFCB8C0221F9F724006C7773 /* yokohama3-top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "yokohama3-top.jpg"; sourceTree = "<group>"; };
+		BFCB8C0321F9F725006C7773 /* yokohama3-front.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "yokohama3-front.jpg"; sourceTree = "<group>"; };
+		BFCB8C0421F9F725006C7773 /* yokohama3-left.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "yokohama3-left.jpg"; sourceTree = "<group>"; };
+		BFCB8C0521F9F725006C7773 /* yokohama3-bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "yokohama3-bottom.jpg"; sourceTree = "<group>"; };
+		BFCB8C0621F9F726006C7773 /* yokohama3-right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "yokohama3-right.jpg"; sourceTree = "<group>"; };
+		BFCB8C0721F9F726006C7773 /* yokohama3-back.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "yokohama3-back.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +167,12 @@
 				ABB1805020E6BF9200E654F2 /* AppDelegate.m */,
 				ABB1805220E6BF9200E654F2 /* ViewController.h */,
 				ABB1805320E6BF9200E654F2 /* ViewController.mm */,
+				BFCB8C0721F9F726006C7773 /* yokohama3-back.jpg */,
+				BFCB8C0521F9F725006C7773 /* yokohama3-bottom.jpg */,
+				BFCB8C0321F9F725006C7773 /* yokohama3-front.jpg */,
+				BFCB8C0421F9F725006C7773 /* yokohama3-left.jpg */,
+				BFCB8C0621F9F726006C7773 /* yokohama3-right.jpg */,
+				BFCB8C0221F9F724006C7773 /* yokohama3-top.jpg */,
 				ABDE7E6B21C1AA280048E4B1 /* 1_earth.jpg */,
 				AB1493C021D56658000FA0D3 /* suzanne.obj */,
 				ABB1805520E6BF9300E654F2 /* Assets.xcassets */,
@@ -324,8 +342,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */,
+				BFCB8C0C21F9F726006C7773 /* yokohama3-right.jpg in Resources */,
+				BFCB8C0B21F9F726006C7773 /* yokohama3-bottom.jpg in Resources */,
 				ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */,
+				BFCB8C0A21F9F726006C7773 /* yokohama3-left.jpg in Resources */,
 				ABB1805920E6BF9300E654F2 /* Main.storyboard in Resources */,
+				BFCB8C0821F9F726006C7773 /* yokohama3-top.jpg in Resources */,
+				BFCB8C0D21F9F726006C7773 /* yokohama3-back.jpg in Resources */,
+				BFCB8C0921F9F726006C7773 /* yokohama3-front.jpg in Resources */,
 				ABDE7E6C21C1AA280048E4B1 /* 1_earth.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

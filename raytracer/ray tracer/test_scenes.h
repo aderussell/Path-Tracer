@@ -34,6 +34,19 @@
 #include "triangle.hpp"
 #include "obj_loader.hpp"
 
+
+image_texture *textureFromFilename(CFStringRef filename) {
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, filename, NULL, NULL);
+    char path[PATH_MAX];
+    CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX);
+    CFRelease(resourcesURL);
+    int nx, ny, nn;
+    unsigned char *tex_data = stbi_load(path, &nx, &ny, &nn, 0);
+    return new image_texture(tex_data, nx, ny);
+}
+
+
 scene *random_scene() {
     //texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
     //texture *noiseTexture = new noise_texture(10);
@@ -65,16 +78,7 @@ scene *random_scene() {
 
 
     //texture *colorTexture = new constant_texture(Color(0.4,0.2,0.1));
-    CFBundleRef mainBundle = CFBundleGetMainBundle();
-    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("1_earth.jpg"), NULL, NULL);
-    char path[PATH_MAX];
-    if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)){
-        // error!
-    }
-    CFRelease(resourcesURL);
-    int nx, ny, nn;
-    unsigned char *tex_data = stbi_load(path, &nx, &ny, &nn, 0);
-    texture *earthTexture = new image_texture(tex_data, nx, ny);
+    image_texture *earthTexture  = textureFromFilename(CFSTR("1_earth.jpg"));
 
     list[i++] = new sphere(Vector3(0,1,0), 1.0, new dielectric(1.5));
     list[i++] = new sphere(Vector3(-4,1,0), 1.0, new lambertian(earthTexture));
@@ -323,5 +327,37 @@ scene* rbgLightSpheres() {
     
     return new scene(world, hlist, cam, sky_box, aspectRatio);
 }
+
+
+scene* cubemapSkyboxScene() {
+    image_texture *earthTexture  = textureFromFilename(CFSTR("1_earth.jpg"));
+    material *earthMaterial = new lambertian(earthTexture);
+    material *mirror = new metal(Color(1.0,1.0,1.0), 0.0);
+    material *glass = new dielectric(1.8);
+    
+    // create the skybox
+    image_texture *front  = textureFromFilename(CFSTR("yokohama3-front.jpg"));
+    image_texture *back   = textureFromFilename(CFSTR("yokohama3-back.jpg"));
+    image_texture *left   = textureFromFilename(CFSTR("yokohama3-left.jpg"));
+    image_texture *right  = textureFromFilename(CFSTR("yokohama3-right.jpg"));
+    image_texture *top    = textureFromFilename(CFSTR("yokohama3-top.jpg"));
+    image_texture *bottom = textureFromFilename(CFSTR("yokohama3-bottom.jpg"));
+    skybox *sky_box = new cubemap_skybox(bottom, top, left, right, front, back);
+    
+    
+    Vector3 lookfrom(20,0,-60);
+    Vector3 lookat(0,0,0);
+    float dist_to_focus = 50.0;
+    float aperture = 0.0;
+    float vfov = 35.0;
+    float aspectRatio = 1.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    
+    hitable *s = new sphere(Vector3(0,0,0), 15, glass);
+    
+    return new scene(s, nullptr, cam, sky_box, aspectRatio);
+}
+
 
 #endif /* test_scenes_h */

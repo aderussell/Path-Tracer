@@ -22,6 +22,7 @@ public:
     
     
     RayTracer(int width, int height) : width(width), height(height) {}
+    RayTracer(int width, int height, int ns) : width(width), height(height), ns(ns) {}
     
     //ImageBuffer* render();
     

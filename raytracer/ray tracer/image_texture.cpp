@@ -7,7 +7,6 @@
 //
 
 #include "image_texture.hpp"
-//#include <iostream>
 
 Color image_texture::value(float u, float v, const Vector3& p) const {
     int i = u*nx;
