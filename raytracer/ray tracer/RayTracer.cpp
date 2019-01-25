@@ -19,6 +19,7 @@ Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box,
         Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
         if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec)) {
             if (srec.is_specular) {
+                delete srec.pdf_ptr;
                 return srec.attenuation * color(srec.specular_ray, world, light_shape, sky_box, depth+1);
             } else {
                 hitable_pdf plight(light_shape, hrec.p);
@@ -30,6 +31,7 @@ Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box,
                 return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, sky_box, depth+1) / pdf_val;
             }
         } else {
+            delete srec.pdf_ptr;
             return emitted;
         }
     } else {

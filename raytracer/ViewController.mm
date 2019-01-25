@@ -16,9 +16,9 @@
     [super viewDidLoad];
     
     
-    scene *s = cornellBoxWithCheckers();
+    scene *s = phongSpheresScene();
     
-    RayTracer rayTracer = RayTracer(500, 500, 50);
+    RayTracer rayTracer = RayTracer(500, 500, 1000);
     ImageBuffer *buffer = rayTracer.render(s);
     
     NSBitmapImageRep *bitmapImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL

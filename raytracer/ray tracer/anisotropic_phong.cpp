@@ -19,6 +19,7 @@ Vector3 anisotropic_phong::random_in_unit_sphere() const {
 bool anisotropic_phong::scatter(const ray& r_in, const hit_record& rec, scatter_record& srec) const {
     srec.is_specular = true;
     srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
+    srec.specular    = specular->value(rec.u, rec.v, rec.p);
     
     srec.pdf_ptr = new anisotropic_phong_pdf(r_in.direction(), rec.normal, nu, nv);
     

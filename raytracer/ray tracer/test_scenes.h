@@ -33,6 +33,7 @@
 #include "bvh.hpp"
 #include "triangle.hpp"
 #include "obj_loader.hpp"
+#include "anisotropic_phong.hpp"
 
 
 image_texture *textureFromFilename(CFStringRef filename) {
@@ -397,6 +398,49 @@ scene* cubemapSkyboxScene() {
     hitable *s = new sphere(Vector3(0,0,0), 15, glass);
     
     return new scene(s, nullptr, cam, sky_box, aspectRatio);
+}
+
+scene *phongSpheresScene() {
+    texture *blue   = new constant_texture(Color(0.05, 0.05, 0.75));
+    texture *red    = new constant_texture(Color(0.65, 0.05, 0.05));
+    texture *white  = new constant_texture(Color(0.73, 0.73, 0.73));
+    texture *green  = new constant_texture(Color(0.12, 0.45, 0.15));
+    texture *yellow = new constant_texture(Color(0.75, 0.75, 0.05));
+    texture *specular = new constant_texture(Color(1.0, 1.0, 1.0));
+    
+    material *lightMaterial = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    hitable *light = new flip_normals(new xz_rect(-10,10,-10,10,80, lightMaterial));
+    
+    double nu = 100;
+    double nv = 200;
+    
+    material *bluePhong   = new anisotropic_phong(blue,   specular, nu, nv);
+    material *redPhong    = new anisotropic_phong(red,    specular, nu, nv);
+    material *yellowPhong = new anisotropic_phong(yellow, specular, nu, nv);
+    material *greenPhong  = new anisotropic_phong(green,  specular, nu, nv);
+    material *whitePhong  = new anisotropic_phong(white,  specular, nu, nv);
+    
+    hitable **list = new hitable*[8];
+    int i = 0;
+    list[i++] = new xz_rect(-100,100,-100,100, 0, whitePhong);
+    list[i++] = new sphere(Vector3(20, 10, 0), 10, bluePhong);
+    list[i++] = new sphere(Vector3(-20,10, 0), 10, redPhong);
+    list[i++] = new sphere(Vector3(0,  10, 20), 10, yellowPhong);
+    list[i++] = new sphere(Vector3(0,  10, -20), 10, greenPhong);
+    list[i++] = light;
+    hitable *world = new hitable_list(list,i);
+    
+    skybox *sky_box = new constant_skybox();
+    
+    Vector3 lookfrom(0,80,-60);
+    Vector3 lookat(0,0,0);
+    float dist_to_focus = 50.0;
+    float aperture = 0.0;
+    float vfov = 35.0;
+    float aspectRatio = 1.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    return new scene(world, light, cam, sky_box, aspectRatio);
 }
 
 

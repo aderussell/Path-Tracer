@@ -118,9 +118,9 @@ Vector3 anisotropic_phong_pdf::generate() const {
     
     const double kh = Vector3::dotProduct(incident*-1, h);
     const double specularProbability = GetSpecularPDH(h, kh, cos2, sin2);
-    const double weight = 1. + specularProbability;
+    const double weight = 1.0 + specularProbability;
     
-    const double diffuseProbability = 1. / weight;
+    const double diffuseProbability = 1.0 / weight;
     
     
     if (drand48() < diffuseProbability)

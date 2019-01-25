@@ -88,7 +88,8 @@ struct scatter_record {
     ray specular_ray;
     bool is_specular;
     Color attenuation;
-    pdf *pdf_ptr;
+    Color specular;
+    pdf *pdf_ptr = nullptr;
 };
 
 

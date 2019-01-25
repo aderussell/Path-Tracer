@@ -97,12 +97,12 @@ private:
     
     inline Vector3 GetSpecularReflected(const Vector3& incident, const Vector3& h, double kh) const
     {
-        return incident + 2. * kh * h;
+        return incident + 2.0 * kh * h;
     }
     
     inline double GetSpecularPDH(const Vector3& h, double kh, double cos2, double sin2) const
     {
-        return GetHPDH(h, cos2, sin2) / (4. * kh);
+        return GetHPDH(h, cos2, sin2) / (4.0 * kh);
     }
     
     inline double GetHPDH(const Vector3& h, double cos2, double sin2) const
