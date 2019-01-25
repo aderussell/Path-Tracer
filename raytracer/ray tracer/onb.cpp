@@ -19,3 +19,14 @@ void onb::build_from_w(const Vector3& n) {
     axis[1] = Vector3::crossProduct(w(), a).normalise();
     axis[0] = Vector3::crossProduct(w(), v());
 }
+
+void onb::build(const Vector3& n, const Vector3& i) {
+    double cosine = abs(Vector3::dotProduct(n, i));
+    if (cosine >= 1) {
+        build_from_w(n);
+    } else {
+        axis[2] = n.normalise();
+        axis[0] = Vector3::crossProduct(i, n).normalise();
+        axis[1] = Vector3::crossProduct(w(), u());
+    }    
+}

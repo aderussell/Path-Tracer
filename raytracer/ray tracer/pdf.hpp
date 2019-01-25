@@ -21,6 +21,8 @@ public:
     virtual Vector3 generate() const = 0;
 };
 
+
+
 class cosine_pdf : public pdf {
 public:
     cosine_pdf(const Vector3& w) { uvw.build_from_w(w); }
@@ -31,6 +33,8 @@ public:
 private:
     onb uvw;
 };
+
+
 
 class hitable_pdf : public pdf {
 public:
@@ -48,14 +52,16 @@ private:
     hitable *ptr;
 };
 
+
+
 class mixture_pdf : public pdf {
 public:
     mixture_pdf(pdf *p0, pdf *p1) { p[0] = p0; p[1] = p1; }
     
-    virtual float value(const Vector3& direction) const {
+    float value(const Vector3& direction) const {
         return 0.5 * p[0]->value(direction) + 0.5 * p[1]->value(direction);
     };
-    virtual Vector3 generate() const {
+    Vector3 generate() const {
         if (drand48() < 0.5) {
             return p[0]->generate();
         } else {
@@ -66,5 +72,53 @@ public:
 private:
     pdf *p[2];
 };
+
+
+
+
+class anisotropic_phong_pdf : public pdf {
+public:
+    anisotropic_phong_pdf(const Vector3& inc, const Vector3& norm, double Nu, double Nv) : incident(inc), uvw(norm, inc), nu(Nu), nv(Nv) {
+        prefactor1 = sqrt((nu + 1.0) / (nv + 1.0));
+        prefactor2 = sqrt((nu + 1.0) * (nv + 1.0)) / (2.0 * M_PI);
+    }
+    
+    float value(const Vector3& direction) const {
+        double cosine = Vector3::dotProduct(direction, uvw.w());
+        if (cosine < 0) {
+            return 0;
+        }
+        
+        return cosine / M_PI;
+    };
+    Vector3 generate() const;
+    
+private:
+    
+    inline Vector3 GetSpecularReflected(const Vector3& incident, const Vector3& h, double kh) const
+    {
+        return incident + 2. * kh * h;
+    }
+    
+    inline double GetSpecularPDH(const Vector3& h, double kh, double cos2, double sin2) const
+    {
+        return GetHPDH(h, cos2, sin2) / (4. * kh);
+    }
+    
+    inline double GetHPDH(const Vector3& h, double cos2, double sin2) const
+    {
+        const double nh = Vector3::dotProduct(h, uvw.w());
+        
+        return prefactor2 * pow(nh, nu * cos2 + nv * sin2);
+    }
+    
+    
+    Vector3 incident;
+    onb uvw;
+    double nu;
+    double nv;
+    double prefactor1, prefactor2;
+};
+
 
 #endif /* pdf_hpp */

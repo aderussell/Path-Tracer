@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AB1493BC21D4133A000FA0D3 /* obj_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */; };
 		AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB1493C021D56658000FA0D3 /* suzanne.obj */; };
+		AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB46D28A21FA63B6006A0DDA /* teapot.obj */; };
+		AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */; };
 		AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135820E6C15000FE57F5 /* Matrix44.cpp */; };
 		AB57135F20E6C15000FE57F5 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135A20E6C15000FE57F5 /* Vector3.cpp */; };
 		AB57136020E6C15000FE57F5 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135B20E6C15000FE57F5 /* Vector4.cpp */; };
@@ -54,6 +56,9 @@
 		AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = obj_loader.cpp; sourceTree = "<group>"; };
 		AB1493BB21D4133A000FA0D3 /* obj_loader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = obj_loader.hpp; sourceTree = "<group>"; };
 		AB1493C021D56658000FA0D3 /* suzanne.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = suzanne.obj; sourceTree = "<group>"; };
+		AB46D28A21FA63B6006A0DDA /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
+		AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = anisotropic_phong.cpp; sourceTree = "<group>"; };
+		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
 		AB57135820E6C15000FE57F5 /* Matrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix44.cpp; sourceTree = "<group>"; };
 		AB57135920E6C15000FE57F5 /* Matrix44.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix44.hpp; sourceTree = "<group>"; };
 		AB57135A20E6C15000FE57F5 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector3.cpp; sourceTree = "<group>"; };
@@ -174,6 +179,7 @@
 				BFCB8C0621F9F726006C7773 /* yokohama3-right.jpg */,
 				BFCB8C0221F9F724006C7773 /* yokohama3-top.jpg */,
 				ABDE7E6B21C1AA280048E4B1 /* 1_earth.jpg */,
+				AB46D28A21FA63B6006A0DDA /* teapot.obj */,
 				AB1493C021D56658000FA0D3 /* suzanne.obj */,
 				ABB1805520E6BF9300E654F2 /* Assets.xcassets */,
 				ABB1805720E6BF9300E654F2 /* Main.storyboard */,
@@ -272,6 +278,8 @@
 				ABDE7E6D21C307740048E4B1 /* diffuse_light.cpp */,
 				ABDE7E7D21C6C4D70048E4B1 /* isotropic.hpp */,
 				ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */,
+				AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */,
+				AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */,
 			);
 			name = materials;
 			sourceTree = "<group>";
@@ -344,6 +352,7 @@
 				AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */,
 				BFCB8C0C21F9F726006C7773 /* yokohama3-right.jpg in Resources */,
 				BFCB8C0B21F9F726006C7773 /* yokohama3-bottom.jpg in Resources */,
+				AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */,
 				ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */,
 				BFCB8C0A21F9F726006C7773 /* yokohama3-left.jpg in Resources */,
 				ABB1805920E6BF9300E654F2 /* Main.storyboard in Resources */,
@@ -382,6 +391,7 @@
 				ABDE7E6621BEF1610048E4B1 /* perlin.cpp in Sources */,
 				AB1493BC21D4133A000FA0D3 /* obj_loader.cpp in Sources */,
 				ABDE7E6F21C307740048E4B1 /* diffuse_light.cpp in Sources */,
+				AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */,
 				ABDE7E6321BDBDC40048E4B1 /* texture.cpp in Sources */,
 				ABDE7E5A21BB04CB0048E4B1 /* dielectric.cpp in Sources */,
 				AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */,
