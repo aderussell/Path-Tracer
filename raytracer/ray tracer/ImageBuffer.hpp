@@ -21,7 +21,7 @@ public:
     int height;
     std::vector<Color> pixels;
     
-    ImageBuffer(int width, int height, Color defaultColor) : width(width), height(height) {
+    ImageBuffer(int width, int height, Color defaultColor = Color(0,0,0)) : width(width), height(height) {
         pixels.assign(width * height, defaultColor);
     }
     ~ImageBuffer() {}

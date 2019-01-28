@@ -11,6 +11,7 @@
 		AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB1493C021D56658000FA0D3 /* suzanne.obj */; };
 		AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB46D28A21FA63B6006A0DDA /* teapot.obj */; };
 		AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */; };
+		AB46D29321FDD6C3006A0DDA /* integrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D29121FDD6C3006A0DDA /* integrator.cpp */; };
 		AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135820E6C15000FE57F5 /* Matrix44.cpp */; };
 		AB57135F20E6C15000FE57F5 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135A20E6C15000FE57F5 /* Vector3.cpp */; };
 		AB57136020E6C15000FE57F5 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135B20E6C15000FE57F5 /* Vector4.cpp */; };
@@ -59,6 +60,8 @@
 		AB46D28A21FA63B6006A0DDA /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = anisotropic_phong.cpp; sourceTree = "<group>"; };
 		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
+		AB46D29121FDD6C3006A0DDA /* integrator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = integrator.cpp; sourceTree = "<group>"; };
+		AB46D29221FDD6C3006A0DDA /* integrator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integrator.hpp; sourceTree = "<group>"; };
 		AB57135820E6C15000FE57F5 /* Matrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix44.cpp; sourceTree = "<group>"; };
 		AB57135920E6C15000FE57F5 /* Matrix44.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix44.hpp; sourceTree = "<group>"; };
 		AB57135A20E6C15000FE57F5 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector3.cpp; sourceTree = "<group>"; };
@@ -148,6 +151,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB46D29021FDD69C006A0DDA /* integrators */ = {
+			isa = PBXGroup;
+			children = (
+				AB46D29221FDD6C3006A0DDA /* integrator.hpp */,
+				AB46D29121FDD6C3006A0DDA /* integrator.cpp */,
+			);
+			name = integrators;
+			sourceTree = "<group>";
+		};
 		ABB1804320E6BF9100E654F2 = {
 			isa = PBXGroup;
 			children = (
@@ -195,6 +207,7 @@
 			children = (
 				AB57136220E6C1E100FE57F5 /* RayTracer.hpp */,
 				AB57136120E6C1E100FE57F5 /* RayTracer.cpp */,
+				AB46D29021FDD69C006A0DDA /* integrators */,
 				ABDE7E7F21CD5CBB0048E4B1 /* scenes */,
 				ABDE7E5121B9F0980048E4B1 /* materials */,
 				ABB1807220E6C0F000E654F2 /* stuff */,
@@ -381,6 +394,7 @@
 				ABDE7E4721B9AD380048E4B1 /* sphere.cpp in Sources */,
 				AB57136920E6C5AA00FE57F5 /* Material.cpp in Sources */,
 				ABDE7E7E21C6C4D70048E4B1 /* isotropic.cpp in Sources */,
+				AB46D29321FDD6C3006A0DDA /* integrator.cpp in Sources */,
 				ABDE7E5421B9F0B60048E4B1 /* lambertian.cpp in Sources */,
 				ABDE7E6021BDAFB30048E4B1 /* bvh.cpp in Sources */,
 				ABCE72ED21D141A100E28BCF /* triangle.cpp in Sources */,
