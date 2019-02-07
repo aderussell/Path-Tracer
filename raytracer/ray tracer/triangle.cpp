@@ -108,7 +108,7 @@ bool triangle_with_normals::hit(const ray& r, float t_min, float t_max, hit_reco
     float det = Vector3::dotProduct(edge1, pvec);
     float invdet = 1.0 / det;
     
-    if (fabs(det) < 0.000001) {
+    if (fabs(det) < 0.00000000001) {
         return false;
     }
     

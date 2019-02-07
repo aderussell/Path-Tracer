@@ -23,9 +23,10 @@
     
     int width = 500;
     int height = 500;
-    int ns = 100;
+    int ns = 200;
     
-    scene *s = cornellBoxWithSphere();
+    scene *s = legoMan();
+    //scene *s = cornellBoxWithSuzanne();
     ImageBuffer *buffer = new ImageBuffer(width, height);
     _outputBuffer = buffer;
     Integrator *integrator = new TestIntegrator(buffer, ns);

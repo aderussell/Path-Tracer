@@ -77,7 +77,7 @@ public:
             SimpleVertex s2 = vertices[indices[i+1]];
             SimpleVertex s3 = vertices[indices[i+2]];
             
-            triangle *t = new triangle_with_normals(s1.Pos * 160, s2.Pos * 160, s3.Pos * 160, mat, s1.VecNormal, s2.VecNormal, s3.VecNormal);
+            triangle *t = new triangle_with_normals(s1.Pos, s2.Pos, s3.Pos, mat, s1.VecNormal, s2.VecNormal, s3.VecNormal);
             h[j++] = t;
         }
         

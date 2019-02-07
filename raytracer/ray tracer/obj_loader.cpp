@@ -211,7 +211,7 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
     //bool isOpen = fileStream.is_open();        //debugging only.
     
     int lineNumber       = 0;
-    int faceIndex = 0;
+    //int faceIndex = 0;
     while(std::getline(fileStream, line))
     {
         // trim leading whitespace
@@ -248,7 +248,7 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
         // string has no split() method.   I am using really old stuff,        //
         // fscanf.  There  must be a better way, use regular expressions?    //
         //******************************************************************//
-        if (line[0] == 'v') {
+        if (line.substr(0, 2) == "v ") {
             float x, y, z;
             std::istringstream sstream(line.substr(2));
             sstream >> x >> y >> z;
@@ -289,30 +289,29 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
             
             std::string tokenS;
             
+            int vertexCount = 0;
+            int fiv = 0;
+            int fit = 0;
+            int fin = 0;
             while (std::getline(sstream, tokenS, ' ')) {
                 
                 std::istringstream tokenstream(tokenS);
                 
                 int indexvertex = 0;
-                int indextex = 0;
+                int indextex    = 0;
                 int indexnormal = 0;
                 
                 std::string val;
                 int cnt = 0;
                 while (std::getline(tokenstream, val, '/')) {
                     
-                    if (0 == cnt)
-                    {
+                    if (0 == cnt) {
                         indexvertex = std::stoi(val);
-                    }
-                    else if (1 == cnt)
-                    {
+                    } else if (1 == cnt) {
                         if (!val.empty()) {
                             indextex = std::stoi(val);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         if (!val.empty()) {
                             indexnormal = std::stoi(val);
                         }
@@ -324,14 +323,33 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
                     
                 }
                 
+                if (vertexCount == 0) {
+                    fiv = indexvertex;
+                    fin = indexnormal;
+                    fit = indextex;
+                }
+                
+                if (vertexCount >= 3) {
+                    vertexIndicies.push_back(fiv);
+                    normalIndicies.push_back(fin);
+                    texUVIndicies.push_back(fit);
+                    
+                    vertexIndicies.push_back(vertexIndicies[vertexIndicies.size() - 2]);
+                    normalIndicies.push_back(normalIndicies[normalIndicies.size() - 2]);
+                    texUVIndicies.push_back(texUVIndicies[texUVIndicies.size() - 2]);
+                }
+                
                 vertexIndicies.push_back(indexvertex);
                 normalIndicies.push_back(indexnormal);
                 texUVIndicies.push_back(indextex);
+                
+                vertexCount++;
             }
             
-            
-            faceIndex += 3;
+            //faceIndex += 3;
         }
+        
+        
         
         if (line.substr(0, 6) == "usemtl") {
             continue;
@@ -350,28 +368,59 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
     
     int index = 0;
     
+    bool requiresCalculatingNormals = false;
+    
     ///////////////////////// END SCANNING FILE
     for (unsigned int i = 0; i < vertexIndicies.size(); i++)
     {
-        
-        
         SimpleVertex sv;
-        sv.Pos.x = verticies[vertexIndicies[i]-1].x;
-        sv.Pos.y = verticies[vertexIndicies[i]-1].y;
-        sv.Pos.z = verticies[vertexIndicies[i]-1].z;
+        sv.Pos = verticies[vertexIndicies[i]-1];
         
-        sv.VecNormal.x = normals[normalIndicies[i]-1].x;
-        sv.VecNormal.y = normals[normalIndicies[i]-1].y;
-        sv.VecNormal.z = normals[normalIndicies[i]-1].z;
+        if (normalIndicies[i] > 0 && normals.size() > normalIndicies[i]-1) {
+            sv.VecNormal = normals[normalIndicies[i]-1];
+        } else {
+            requiresCalculatingNormals = true;
+        }
         
-        sv.TexUV.x = TexUV[texUVIndicies[i]-1].x;
-        sv.TexUV.y = TexUV[texUVIndicies[i]-1].y;
+        
+        if (texUVIndicies[i] > 0 && TexUV.size() > texUVIndicies[i]-1) {
+            sv.TexUV.x = TexUV[texUVIndicies[i]-1].x;
+            sv.TexUV.y = TexUV[texUVIndicies[i]-1].y;
+        }
         
         vertices.push_back(sv);
         
         indices.push_back(index);
         index++;
     }
+    
+    if (requiresCalculatingNormals) {
+        std::vector<std::vector<Vector3>> normalBuffers(vertices.size());
+        
+        for (unsigned int i = 0; i < indices.size(); i+=3) {
+            int x = indices[i];
+            int y = indices[i+1];
+            int z = indices[i+2];
+            
+            Vector3 v1 = vertices[y].Pos - vertices[x].Pos;
+            Vector3 v2 = vertices[z].Pos - vertices[x].Pos;
+            Vector3 n = Vector3::crossProduct(v1, v2);
+            
+            normalBuffers[x].push_back(n);
+            normalBuffers[y].push_back(n);
+            normalBuffers[z].push_back(n);
+        }
+        
+        for (unsigned int i = 0; i < vertices.size(); i++) {
+            Vector3 n;
+            for (unsigned int j = 0; j < normalBuffers[i].size(); j++) {
+                n += normalBuffers[i][j];
+            }
+            n = n.normalise();
+            vertices[i].VecNormal = n;
+        }
+    }
+    
     
     meshGroup->vertices = vertices;
     meshGroup->indices = indices;

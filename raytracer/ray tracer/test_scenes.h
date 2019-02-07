@@ -47,6 +47,17 @@ image_texture *textureFromFilename(CFStringRef filename) {
     return new image_texture(tex_data, nx, ny);
 }
 
+Mesh *meshFromFilename(CFStringRef filename) {
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, filename, NULL, NULL);
+    char path[PATH_MAX];
+    if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)) {
+        // error!
+    }
+    CFRelease(resourcesURL);
+    return ObjLoader::LoadSingleMesh(path);
+}
+
 
 scene *random_scene() {
     //texture *checkerTexture = new checker_texture(new constant_texture(Color(0.2,0.3,0.1)), new constant_texture(Color(0.9,0.9,0.9)));
@@ -104,7 +115,7 @@ scene *random_scene() {
 
 
 scene *cornellBoxWithSuzanne() {
-    //material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
+    material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
     material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
     material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
     material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
@@ -123,15 +134,15 @@ scene *cornellBoxWithSuzanne() {
     CFRelease(resourcesURL);
     
     auto suzanneMesh = ObjLoader::LoadSingleMesh(path);
-    hitable *suzanne = suzanneMesh->create_hitable(glass);
-    hitable *suzanneFinal = new translate(new rotate_y(suzanne, 180), Vector3(267.5, 277.5, 860));
+    hitable *suzanne = suzanneMesh->create_hitable(blue);
+    hitable *suzanneFinal = new translate(new rotate_y(new scale(suzanne, 160), 180), Vector3(267.5, 277.5, 860));
 //    aabb hit;
 //    suzanneFinal->bounding_box(0, 1, hit);
     hitable **list = new hitable*[10];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
     list[i++] = new yz_rect(0,555,0,555,0, red);
-    list[i++] = new yz_rect(100,455,100,455,0, mirror);
+    //list[i++] = new yz_rect(100,455,100,455,0, mirror);
     list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
     list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
     list[i++] = new xz_rect(0,555,0,555,0, white);
@@ -441,6 +452,98 @@ scene *phongSpheresScene() {
     camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     return new scene(world, light, cam, sky_box, aspectRatio);
+}
+
+scene *legoBricks() {
+    Mesh *brickMesh = meshFromFilename(CFSTR("lego_brick.obj"));
+    
+    material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    
+    
+    hitable **list = new hitable*[9];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(200,356,214,345,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    //list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,165,165), white), -18), Vector3(130, 0, 65));
+    //list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    
+    hitable *brick = brickMesh->create_hitable(blue);
+    hitable *brickFinal = new translate(new rotate_x(new scale(brick, 100.0), 270), Vector3(267.5, 0, 300));
+    list[i++] = brickFinal;
+    
+    hitable *world = new hitable_list(list,i);
+    
+    
+    hitable *light_shape = new xz_rect(200,356,214,345, 554, nullptr);
+    
+    
+    Vector3 lookfrom(278,278,-800);
+    Vector3 lookat(278,278,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    skybox *sky_box = new constant_skybox();
+    
+    return new scene(world, light_shape, cam, sky_box, aspectRatio);
+    
+    
+}
+
+scene *legoMan() {
+    Mesh *brickMesh = meshFromFilename(CFSTR("lego_man.obj"));
+    
+    material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    
+    
+    hitable **list = new hitable*[9];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(200,356,214,345,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    //list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,165,165), white), -18), Vector3(130, 0, 65));
+    //list[i++] = new translate(new rotate_y(new box(Vector3(0,0,0), Vector3(165,330,165), white), 15), Vector3(265,0,295));
+    
+    hitable *brick = brickMesh->create_hitable(blue);
+    hitable *brickFinal = new translate(new rotate_y(new scale(brick, 60.0), 180), Vector3(267.5, 0, 300));
+    list[i++] = brickFinal;
+    
+    hitable *world = new hitable_list(list,i);
+    
+    
+    hitable *light_shape = new xz_rect(200,356,214,345, 554, nullptr);
+    
+    
+    Vector3 lookfrom(278,278,-800);
+    Vector3 lookat(278,278,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    skybox *sky_box = new constant_skybox();
+    
+    return new scene(world, light_shape, cam, sky_box, aspectRatio);
+    
+    
 }
 
 
