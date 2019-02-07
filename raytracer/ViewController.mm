@@ -23,7 +23,7 @@
     
     int width = 500;
     int height = 500;
-    int ns = 10;
+    int ns = 20;
     
     //scene *s = cornellBoxWithSphere();
     scene *s = legoMan();

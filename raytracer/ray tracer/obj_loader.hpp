@@ -78,11 +78,12 @@ public:
             SimpleVertex s3 = vertices[indices[i+2]];
             
             triangle *t = new triangle_with_normals(s1.Pos, s2.Pos, s3.Pos, mat, s1.VecNormal, s2.VecNormal, s3.VecNormal);
+            //triangle *t = new triangle(s1.Pos, s2.Pos, s3.Pos, mat);
             h[j++] = t;
         }
         
-        return new hitable_list(h, size);
-        //return new bvh_node(h, size);
+        //return new hitable_list(h, size);
+        return new bvh_node(h, size);
     }
 };
 
@@ -112,8 +113,8 @@ class ObjLoader
 public:
     
     // static methods
-    static MeshGroup *LoadMesh(std::string filename, bool loadMaterials = true);
-    static std::unordered_map<std::string, MeshMaterial *> loadMeshMaterial(std::string filename);
+    //static MeshGroup *LoadMesh(std::string filename, bool loadMaterials = true);
+    //static std::unordered_map<std::string, MeshMaterial *> loadMeshMaterial(std::string filename);
     
     //static MeshGroup *LoadMesh(LPSTR filename, bool loadMaterials = true);
     
