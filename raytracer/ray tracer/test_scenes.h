@@ -298,7 +298,7 @@ scene* cornellBoxWithSphere() {
     material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
     dielectric *glass = new dielectric(1.5);
     glass->density = 0.03;
-    glass->volumeColor = Color(1.0,1.0,0.0);
+    glass->volumeColor = Color(0.0,0.0,0.0);
     hitable **list = new hitable*[8];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));

@@ -44,7 +44,8 @@ bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_reco
     if (Vector3::dotProduct(ray_in.direction(), hrec.normal) > 0) {
         outward_normal = hrec.normal * -1.0;
         ni_over_nt = ref_idx;
-        cosine = ref_idx * Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
+        cosine = Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
+        cosine = sqrt(1 - ref_idx*ref_idx*(1-cosine*cosine));
         
         // Beer-Lambert law
         //Color directionColor(ray_in.direction().x, ray_in.direction().y, ray_in.direction().z);
@@ -57,16 +58,16 @@ bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_reco
         cosine = -Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
     }
     if (refract(ray_in.direction(), outward_normal, ni_over_nt, refracted)) {
-        //scattered = ray(hrec.p, refracted);
+        //scattered = ray(hrec.p, refracted, ray_in.time());
         reflect_prob = this->schlick(cosine, ref_idx);
     } else {
-        //scattered = ray(hrec.p, reflected);
+        //scattered = ray(hrec.p, reflected, ray_in.time());
         reflect_prob = 1.0;
     }
     if (drand48() < reflect_prob) {
-        srec.specular_ray = ray(hrec.p, reflected);
+        srec.specular_ray = ray(hrec.p, reflected, ray_in.time());
     } else {
-        srec.specular_ray = ray(hrec.p, refracted);
+        srec.specular_ray = ray(hrec.p, refracted, ray_in.time());
     }
     return true;
 }

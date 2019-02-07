@@ -23,7 +23,7 @@ Vector3 metal::random_in_unit_sphere() const {
 
 bool metal::scatter(const ray& ray_in, const hit_record& hrec, scatter_record& srec) const {
     Vector3 reflected = reflect(ray_in.direction().normalise(), hrec.normal);
-    srec.specular_ray = ray(hrec.p, reflected + fuzz * this->random_in_unit_sphere());
+    srec.specular_ray = ray(hrec.p, reflected + fuzz * this->random_in_unit_sphere(), ray_in.time());
     srec.attenuation = albedo;
     srec.is_specular = true;
     srec.pdf_ptr = nullptr;

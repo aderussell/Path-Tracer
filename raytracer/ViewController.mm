@@ -23,8 +23,9 @@
     
     int width = 500;
     int height = 500;
-    int ns = 200;
+    int ns = 10;
     
+    //scene *s = cornellBoxWithSphere();
     scene *s = legoMan();
     //scene *s = cornellBoxWithSuzanne();
     ImageBuffer *buffer = new ImageBuffer(width, height);

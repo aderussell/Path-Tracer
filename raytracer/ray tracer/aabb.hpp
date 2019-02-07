@@ -61,6 +61,23 @@ public:
         return true;
     }
     
+    int longest_axis() {
+        Vector3 length = _max - _min;
+        double max = ffmax(length.x, ffmax(length.y, length.z));
+        if (max == length.x) {
+            return 0;
+        } else if (max == length.y) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+    
+    double area() {
+        Vector3 length = _max - _min;
+        return length.x * length.y * length.z;
+    }
+    
 private:
     Vector3 _min;
     Vector3 _max;

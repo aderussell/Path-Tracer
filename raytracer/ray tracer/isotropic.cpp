@@ -18,7 +18,7 @@ Vector3 isotropic::random_in_unit_sphere() const {
 }
 
 bool isotropic::scatter(const ray& r_in, const hit_record& rec, scatter_record& srec) const  {
-    srec.specular_ray = ray(rec.p, this->random_in_unit_sphere());
+    srec.specular_ray = ray(rec.p, this->random_in_unit_sphere(), r_in.time());
     srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
     return true;
 }

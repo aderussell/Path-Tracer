@@ -16,8 +16,8 @@
 class material;
 
 struct hit_record {
-    float t;
-    Vector3 p;
+    float t;            // time
+    Vector3 p;          // position
     Vector3 normal;
     material *mat_ptr;
     float u, v;

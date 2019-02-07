@@ -76,8 +76,12 @@ Color TestIntegrator::color(const ray &r, hitable *world, hitable *light_shape, 
                 hitable_pdf plight(light_shape, hrec.p);
                 pdf *plightP = (light_shape != nullptr) ? &plight : srec.pdf_ptr;
                 mixture_pdf p(plightP, srec.pdf_ptr);
-                ray scattered = ray(hrec.p, p.generate(), r.time());
-                float pdf_val = p.value(scattered.direction());
+                ray scattered;
+                float pdf_val;
+                //do {
+                   scattered = ray(hrec.p, p.generate(), r.time());
+                   pdf_val = p.value(scattered.direction());
+                //} while (pdf_val < 1E-13);
                 delete srec.pdf_ptr;
                 return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, sky_box, depth+1) / pdf_val;
             }

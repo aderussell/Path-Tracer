@@ -28,7 +28,7 @@ bool anisotropic_phong::scatter(const ray& r_in, const hit_record& rec, scatter_
         while (Vector3::dotProduct(rec.normal, dir) < 0) {
             dir = srec.pdf_ptr->generate();
         }
-        srec.specular_ray = ray((rec.p + 0.0001) * rec.normal, dir);
+        srec.specular_ray = ray((rec.p + 0.0001) * rec.normal, dir, r_in.time());
     }
     
     return true;

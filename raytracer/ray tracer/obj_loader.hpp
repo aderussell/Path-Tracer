@@ -81,7 +81,8 @@ public:
             h[j++] = t;
         }
         
-        return new bvh_node(h, size);
+        return new hitable_list(h, size);
+        //return new bvh_node(h, size);
     }
 };
 
