@@ -126,7 +126,7 @@ scene *cornellBoxWithSuzanne() {
     glass->volumeColor = Color(1.0,1.0,0.0);
     
     CFBundleRef mainBundle = CFBundleGetMainBundle();
-    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("suzanne.obj"), NULL, NULL);
+    CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("suzanne2.obj"), NULL, NULL);
     char path[PATH_MAX];
     if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX)){
         // error!
@@ -134,8 +134,8 @@ scene *cornellBoxWithSuzanne() {
     CFRelease(resourcesURL);
     
     auto suzanneMesh = ObjLoader::LoadSingleMesh(path);
-    hitable *suzanne = suzanneMesh->create_hitable(blue);
-    hitable *suzanneFinal = new translate(new rotate_y(new scale(suzanne, 160), 180), Vector3(267.5, 277.5, 860));
+    hitable *suzanne = suzanneMesh->create_hitable(glass);
+    hitable *suzanneFinal = new translate(new rotate_y(new scale(suzanne, 160), 180), Vector3(267.5, 277.5, 400));
 //    aabb hit;
 //    suzanneFinal->bounding_box(0, 1, hit);
     hitable **list = new hitable*[10];
@@ -143,7 +143,7 @@ scene *cornellBoxWithSuzanne() {
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
     list[i++] = new yz_rect(0,555,0,555,0, red);
     //list[i++] = new yz_rect(100,455,100,455,0, mirror);
-    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    list[i++] = new flip_normals(new xz_rect(200,356,214,345,554, light));
     list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
     list[i++] = new xz_rect(0,555,0,555,0, white);
     list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
@@ -153,7 +153,7 @@ scene *cornellBoxWithSuzanne() {
     hitable *world = new hitable_list(list,i);
     
     
-    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    hitable *light_shape = new xz_rect(200,356,214,345,554, nullptr);
     //hitable *glass_sphere = new sphere(Vector3(190, 90, 190), 90, nullptr);
     hitable **a = new hitable*[2];
     a[0] = light_shape;
@@ -540,7 +540,7 @@ scene *legoMan() {
     float aspectRatio = 1.0;
     camera *cam = new cameraC(lookfrom, lookat, Vector3(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
-    skybox *sky_box = new constant_skybox();
+    skybox *sky_box = new sky_skybox();
     
     return new scene(world, light_list, cam, sky_box, aspectRatio);
     

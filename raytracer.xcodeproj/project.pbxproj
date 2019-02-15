@@ -12,6 +12,7 @@
 		AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB46D28A21FA63B6006A0DDA /* teapot.obj */; };
 		AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */; };
 		AB46D29321FDD6C3006A0DDA /* integrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D29121FDD6C3006A0DDA /* integrator.cpp */; };
+		AB4F132C22162C8100761816 /* suzanne2.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB4F132B22162C8100761816 /* suzanne2.obj */; };
 		AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135820E6C15000FE57F5 /* Matrix44.cpp */; };
 		AB57135F20E6C15000FE57F5 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135A20E6C15000FE57F5 /* Vector3.cpp */; };
 		AB57136020E6C15000FE57F5 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135B20E6C15000FE57F5 /* Vector4.cpp */; };
@@ -64,6 +65,7 @@
 		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
 		AB46D29121FDD6C3006A0DDA /* integrator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = integrator.cpp; sourceTree = "<group>"; };
 		AB46D29221FDD6C3006A0DDA /* integrator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = integrator.hpp; sourceTree = "<group>"; };
+		AB4F132B22162C8100761816 /* suzanne2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = suzanne2.obj; sourceTree = "<group>"; };
 		AB57135820E6C15000FE57F5 /* Matrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix44.cpp; sourceTree = "<group>"; };
 		AB57135920E6C15000FE57F5 /* Matrix44.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix44.hpp; sourceTree = "<group>"; };
 		AB57135A20E6C15000FE57F5 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector3.cpp; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				ABDE7E6B21C1AA280048E4B1 /* 1_earth.jpg */,
 				AB46D28A21FA63B6006A0DDA /* teapot.obj */,
 				AB1493C021D56658000FA0D3 /* suzanne.obj */,
+				AB4F132B22162C8100761816 /* suzanne2.obj */,
 				ABFE0EA4220A222E00F77645 /* lego_brick.obj */,
 				ABFE0EA6220B6F0C00F77645 /* lego_man.obj */,
 				ABB1805520E6BF9300E654F2 /* Assets.xcassets */,
@@ -371,6 +374,7 @@
 				AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */,
 				ABFE0EA7220B6F0C00F77645 /* lego_man.obj in Resources */,
 				BFCB8C0C21F9F726006C7773 /* yokohama3-right.jpg in Resources */,
+				AB4F132C22162C8100761816 /* suzanne2.obj in Resources */,
 				BFCB8C0B21F9F726006C7773 /* yokohama3-bottom.jpg in Resources */,
 				AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */,
 				ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */,

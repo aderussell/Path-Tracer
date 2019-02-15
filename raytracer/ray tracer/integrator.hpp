@@ -31,4 +31,16 @@ private:
     Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth);
 };
 
+
+class BasicIntegrator : public Integrator {
+public:
+    BasicIntegrator(ImageBuffer *buffer, int ns = 100) : imageBuffer(buffer), ns(ns) {}
+    void render(const scene &scene);
+    
+private:
+    ImageBuffer* imageBuffer;
+    int ns;
+    Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth);
+};
+
 #endif /* integrator_hpp */
