@@ -202,8 +202,9 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
 
     while (std::getline(fileStream, line)) {
         
-        // trim leading whitespace
+        // trim leading whitespace and remove and '\r' characters
         line = TrimStart(line);
+        line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
         
         // if it's a comment (start with a #) the go to next line
         if (line[0] == '#') continue;
