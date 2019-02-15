@@ -43,4 +43,17 @@ private:
     Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth);
 };
 
+
+class JitterIntegrator : public Integrator {
+public:
+    JitterIntegrator(ImageBuffer *buffer, int ns = 100) : imageBuffer(buffer), ns(ceil(sqrt(ns))) {}
+    void render(const scene &scene);
+    
+private:
+    ImageBuffer* imageBuffer;
+    int ns;
+    Color color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth);
+};
+
+
 #endif /* integrator_hpp */
