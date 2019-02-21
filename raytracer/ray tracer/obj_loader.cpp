@@ -186,9 +186,9 @@ std::string TrimEnd(std::string s)
 
 Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
 {
-    std::vector<Vector3> verticies;
-    std::vector<Vector3> normals;
-    std::vector<Vector3> TexUV;
+    std::vector<Vector3f> verticies;
+    std::vector<Vector3f> normals;
+    std::vector<Vector3f> TexUV;
     
     std::vector<int> vertexIndicies;
     std::vector<int> normalIndicies;
@@ -222,7 +222,7 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
             float x, y, z;
             std::istringstream sstream(line.substr(2));
             sstream >> x >> y >> z;
-            Vector3 v(x, y, z);
+            Vector3f v(x, y, z);
             verticies.push_back(v);
             continue;
         }
@@ -232,7 +232,7 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
             float x, y, z;
             std::istringstream sstream(line.substr(3));
             sstream >> x >> y >> z;
-            Vector3 v(x, y, z);
+            Vector3f v(x, y, z);
             normals.push_back(v);
             continue;
         }
@@ -242,7 +242,7 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
             float x, y;
             std::istringstream sstream(line.substr(3));
             sstream >> x >> y;
-            Vector3 v(x, y, 1);
+            Vector3f v(x, y, 1);
             TexUV.push_back(v);
             continue;
         }
@@ -352,16 +352,16 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
     }
     
     if (requiresCalculatingNormals) {
-        std::vector<std::vector<Vector3>> normalBuffers(vertices.size());
+        std::vector<std::vector<Vector3f>> normalBuffers(vertices.size());
         
         for (unsigned int i = 0; i < indices.size(); i+=3) {
             int x = indices[i];
             int y = indices[i+1];
             int z = indices[i+2];
             
-            Vector3 v1 = vertices[y].Pos - vertices[x].Pos;
-            Vector3 v2 = vertices[z].Pos - vertices[x].Pos;
-            Vector3 n = Vector3::crossProduct(v1, v2);
+            Vector3f v1 = vertices[y].Pos - vertices[x].Pos;
+            Vector3f v2 = vertices[z].Pos - vertices[x].Pos;
+            Vector3f n = Vector3f::crossProduct(v1, v2);
             
             normalBuffers[x].push_back(n);
             normalBuffers[y].push_back(n);
@@ -369,11 +369,11 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
         }
         
         for (unsigned int i = 0; i < vertices.size(); i++) {
-            Vector3 n;
+            Vector3f n;
             for (unsigned int j = 0; j < normalBuffers[i].size(); j++) {
                 n += normalBuffers[i][j];
             }
-            n = n.normalise();
+            n = n.normalized();
             vertices[i].VecNormal = n;
         }
     }
@@ -384,166 +384,3 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
     
     return mesh;
 }
-
-
-//MeshGroup *ObjLoader::LoadMesh(std::string filename, bool loadMaterials)
-//{
-//    std::string filePath = folderForPath(filename);
-//
-//    MeshGroup *meshGroup = new MeshGroup();
-//
-//
-//    std::vector<Vector3> verticies;
-//    std::vector<Vector3> normals;
-//    std::vector<Vector3> TexUV;
-//
-//    std::vector<int> startOfGroup;
-//    std::vector<int> startOfRange;
-//    std::vector<std::string> materialAtRange;
-//
-//    std::vector<int> vertexIndicies;
-//    std::vector<int> normalIndicies;
-//    std::vector<int> texUVIndicies;
-//
-//    std::ifstream          fileStream;
-//    std::string            line;
-//
-//
-//    fileStream.open(filename);
-//    //bool isOpen = fileStream.is_open();        //debugging only.
-//
-//    int lineNumber       = 0;
-//    int faceIndex = 0;
-//    while(std::getline(fileStream, line))
-//    {
-//        // trim leading whitespace
-//        line = TrimStart(line);
-//
-//       // WCHAR oldStyleStr[200];
-//       // wcscpy(oldStyleStr, line.c_str());
-//
-//        // if it's a comment (start with a #) the go to next line
-//        if (line[0] == '#') continue;
-//
-//        if (line[0] == 'g') {
-//            startOfGroup.push_back(faceIndex);
-//        }
-//
-//        if (line.substr(0, 6) == "mtllib") {
-//
-//            if (loadMaterials) {
-//                std::string name = line.substr(7);
-//
-//                //std::string name(wname.begin(), wname.end());
-//
-//                std::string materialPath = filePath + name;
-//
-//                //LPSTR materialPath2 = const_cast<char *>(materialPath.c_str());
-//
-//                //std::unordered_map<std::string, MeshMaterial *> newMaterials = loadMeshMaterial(materialPath);
-//
-//                meshGroup->addMaterials(newMaterials);
-//            }
-//        }
-//
-//        //******************************************************************//
-//        // If true, we have found a vertex.  Read it in as a 2 character    //
-//        // string, followed by 3 decimal numbers.    Suprisingly the C++        //
-//        // string has no split() method.   I am using really old stuff,        //
-//        // fscanf.  There  must be a better way, use regular expressions?    //
-//        //******************************************************************//
-//        if (line[0] == 'v') {
-//            float x, y, z;
-//            std::istringstream sstream(line.substr(2));
-//            sstream >> x >> y >> z;
-//            Vector3 v(x, y, z);
-//            verticies.push_back(v);
-//        }
-//
-//
-//        if (line.substr(0, 2) == "vn") {
-//            float x, y, z;
-//            std::istringstream sstream(line.substr(3));
-//            sstream >> x >> y >> z;
-//            Vector3 v(x, y, z);
-//            normals.push_back(v);
-//        }
-//
-//
-//        if (line.substr(0, 2) == "vt") {
-//            float x, y;
-//            std::istringstream sstream(line.substr(3));
-//            sstream >> x >> y;
-//            Vector3 v(x, y, 1);
-//            TexUV.push_back(v);
-//        }
-//
-//        //******************************************************************//
-//        // If true, we have found a face.   Read it in as a 2 character        //
-//        // string, followed by 3 decimal numbers.    Suprisingly the C++        //
-//        // string has no split() method.   I am using really old stuff,        //
-//        // fscanf.  There must be a better way, use regular expressions?    //
-//        //                                                                    //
-//        // It assumes the line is in the format                                //
-//        // f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3 ...                            //
-//        //******************************************************************//
-//        if (line[0] == 'f') {
-//            loadFaces(line, vertexIndicies, normalIndicies, texUVIndicies);
-//
-//            faceIndex += 3;
-//        }
-//
-//        if (line.substr(0, 6) == "usemtl") {
-//            std::string name = line.substr(7);
-//
-//            materialAtRange.push_back(name);
-//            startOfRange.push_back(faceIndex);
-//        }
-//
-//        lineNumber++;
-//    }
-//
-//
-//    std::vector<SimpleVertex> vertices;
-//    std::vector<int> indices;
-//
-//    int index = 0;
-//
-//    ///////////////////////// END SCANNING FILE
-//    for (unsigned int i = 0; i < vertexIndicies.size(); i++)
-//    {
-//
-//
-//        SimpleVertex sv;
-//        sv.Pos.x = verticies[vertexIndicies[i]-1].x;
-//        sv.Pos.y = verticies[vertexIndicies[i]-1].y;
-//        sv.Pos.z = verticies[vertexIndicies[i]-1].z;
-//
-//        sv.VecNormal.x = normals[normalIndicies[i]-1].x;
-//        sv.VecNormal.y = normals[normalIndicies[i]-1].y;
-//        sv.VecNormal.z = normals[normalIndicies[i]-1].z;
-//
-//        sv.TexUV.x = TexUV[texUVIndicies[i]-1].x;
-//        sv.TexUV.y = TexUV[texUVIndicies[i]-1].y;
-//
-//        vertices.push_back(sv);
-//
-//        indices.push_back(index);
-//        index++;
-//    }
-//
-//    meshGroup->vertices = vertices;
-//    meshGroup->indices = indices;
-//    meshGroup->startOfRange = startOfRange;
-//    meshGroup->startOfGroup = startOfGroup;
-//    meshGroup->materialAtRange = materialAtRange;
-//
-//
-//    return meshGroup;
-//}
-
-
-
-
-
-

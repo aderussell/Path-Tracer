@@ -9,18 +9,18 @@
 #include "pdf.hpp"
 #include <stdlib.h>
 
-inline Vector3 random_cosine_direction() {
+inline Vector3f random_cosine_direction() {
     float r1 = drand48();
     float r2 = drand48();
     float z = sqrt(1-r2);
     float phi = 2*M_PI*r1;
     float x = cos(phi)*2*sqrt(r2);
     float y = sin(phi)*2*sqrt(r2);
-    return Vector3(x,y,z);
+    return Vector3f(x,y,z);
 }
 
-float cosine_pdf::value(const Vector3& direction) const {
-    float cosine = Vector3::dotProduct(direction.normalise(), uvw.w());
+float cosine_pdf::value(const Vector3f& direction) const {
+    float cosine = Vector3f::dotProduct(direction.normalized(), uvw.w());
     if (cosine > 0) {
         return cosine / M_PI;
     } else {
@@ -28,12 +28,12 @@ float cosine_pdf::value(const Vector3& direction) const {
     }
 }
 
-Vector3 cosine_pdf::generate() const {
+Vector3f cosine_pdf::generate() const {
     return uvw.local(random_cosine_direction());
 }
 
 
-Vector3 anisotropic_phong_pdf::generate() const {
+Vector3f anisotropic_phong_pdf::generate() const {
     double xi = drand48();
     
     double phase = 0;
@@ -114,9 +114,9 @@ Vector3 anisotropic_phong_pdf::generate() const {
     const double cos2 = ct * ct;
     const double sin2 = st * st;
     
-    const Vector3 h = uvw.local(Vector3(st * c, st * s, ct));
+    const Vector3f h = uvw.local(Vector3f(st * c, st * s, ct));
     
-    const double kh = Vector3::dotProduct(incident*-1, h);
+    const double kh = Vector3f::dotProduct(incident*-1, h);
     const double specularProbability = GetSpecularPDH(h, kh, cos2, sin2);
     const double weight = 1.0 + specularProbability;
     

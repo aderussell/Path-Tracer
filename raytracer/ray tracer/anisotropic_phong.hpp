@@ -28,7 +28,7 @@ private:
     texture *specular;
     double nu, nv;
     
-    Vector3 random_in_unit_sphere() const;
+    Vector3f random_in_unit_sphere() const;
 };
 
 #endif /* anisotropic_phong_hpp */

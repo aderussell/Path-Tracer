@@ -24,8 +24,8 @@ public:
 private:
     float ref_idx;
     
-    bool refract(const Vector3& v, const Vector3& n, float ni_over_nt, Vector3& refracted) const;
-    Vector3 reflect(const Vector3& v, const Vector3& n) const;
+    bool refract(const Vector3f& v, const Vector3f& n, float ni_over_nt, Vector3f& refracted) const;
+    Vector3f reflect(const Vector3f& v, const Vector3f& n) const;
     float schlick(float cosine, float ref_idx) const;
 };
 

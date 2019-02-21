@@ -34,7 +34,7 @@ private:
 class sky_skybox : public skybox {
 public:
     virtual Color get_color(const ray& r) const {
-        Vector3 unit_direction = r.direction().normalise();
+        Vector3f unit_direction = r.direction().normalized();
         float t = 0.5*(unit_direction.y + 1.0);
         return (1.0-t)*Color(1,1,1) + t*Color(0.5,0.7,1.0);
     }
@@ -45,7 +45,7 @@ public:
     cubemap_skybox(image_texture* top, image_texture* bottom, image_texture* left, image_texture* right, image_texture* front, image_texture* back) : _up(top), _down(bottom), _left(left), _right(right), _front(front), _back(back) {}
     
     virtual Color get_color(const ray& r) const {
-        Vector3 unit_direction = r.direction();
+        Vector3f unit_direction = r.direction();
         
         if (fabs(unit_direction.x) >= fabs(unit_direction.y) && fabs(unit_direction.x) >= fabs(unit_direction.z)) {
             if (unit_direction.x >= 0.0) {

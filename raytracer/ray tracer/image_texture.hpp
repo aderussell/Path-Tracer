@@ -16,7 +16,7 @@ public:
     image_texture() {}
     image_texture(unsigned char *pixels, int A, int B) : data(pixels), nx(A), ny(B) {}
     
-    virtual Color value(float u, float v, const Vector3& p) const;
+    virtual Color value(float u, float v, const Vector3f& p) const;
     
 private:
     unsigned char *data;

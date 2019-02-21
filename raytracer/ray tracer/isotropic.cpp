@@ -9,10 +9,10 @@
 #include "isotropic.hpp"
 #include <stdlib.h>
 
-Vector3 isotropic::random_in_unit_sphere() const {
-    Vector3 p;
+Vector3f isotropic::random_in_unit_sphere() const {
+    Vector3f p;
     do {
-        p = 2.0 * Vector3(drand48(), drand48(), drand48()) - Vector3(1,1,1);
+        p = 2.0 * Vector3f(drand48(), drand48(), drand48()) - Vector3f(1,1,1);
     } while (p.squareMagnitude() >= 1.0);
     return p;
 }

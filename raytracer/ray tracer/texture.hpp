@@ -15,14 +15,14 @@
 
 class texture {
 public:
-    virtual Color value(float u, float v, const Vector3& p) const = 0;
+    virtual Color value(float u, float v, const Vector3f& p) const = 0;
 };
 
 class constant_texture: public texture {
 public:
     constant_texture() {}
     constant_texture(Color c) : color(c) {}
-    Color value(float u, float v, const Vector3& p) const {
+    Color value(float u, float v, const Vector3f& p) const {
         return color;
     }
     
@@ -34,7 +34,7 @@ class checker_texture : public texture {
 public:
     checker_texture() {}
     checker_texture(texture *t0, texture *t1): even(t0), odd(t1) {}
-    Color value(float u, float v, const Vector3& p) const {
+    Color value(float u, float v, const Vector3f& p) const {
         float sines = sin(p.x / factor)*sin(p.y / factor)*sin(p.z / factor);
         if (sines < 0) {
             return odd->value(u,v,p);

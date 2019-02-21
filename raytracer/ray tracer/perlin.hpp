@@ -27,7 +27,7 @@ inline float trilinear_interp(float c[2][2][2], float u, float v, float w) {
     return accum;
 }
 
-inline float perlin_interp(Vector3 c[2][2][2], float u, float v, float w) {
+inline float perlin_interp(Vector3f c[2][2][2], float u, float v, float w) {
     float uu = u*u*(3-2*u);
     float vv = v*v*(3-2*v);
     float ww = w*w*(3-2*w);
@@ -35,10 +35,10 @@ inline float perlin_interp(Vector3 c[2][2][2], float u, float v, float w) {
     for (int i=0; i < 2; i++) {
         for (int j=0; j < 2; j++) {
             for (int k=0; k < 2; k++) {
-                Vector3 weight_v(u-i, v-j, w-k);
+                Vector3f weight_v(u-i, v-j, w-k);
                 accum += (i*uu + (1-i)*(1-uu))*
                 (j*vv + (1-j)*(1-vv))*
-                (k*ww + (1-k)*(1-ww))* Vector3::dotProduct(c[i][j][k], weight_v);
+                (k*ww + (1-k)*(1-ww))* Vector3f::dotProduct(c[i][j][k], weight_v);
             }
         }
     }
@@ -47,7 +47,7 @@ inline float perlin_interp(Vector3 c[2][2][2], float u, float v, float w) {
 
 class perlin {
 public:
-    float noise(const Vector3& p) const {
+    float noise(const Vector3f& p) const {
         float u = p.x - floor(p.x);
         float v = p.y - floor(p.y);
         float w = p.z - floor(p.z);
@@ -57,7 +57,7 @@ public:
         int i = floor(p.x);
         int j = floor(p.y);
         int k = floor(p.z);
-        Vector3 c[2][2][2];
+        Vector3f c[2][2][2];
         for (int di = 0; di < 2; di++) {
             for (int dj = 0; dj < 2; dj++) {
                 for (int dk = 0; dk < 2; dk++) {
@@ -68,9 +68,9 @@ public:
         return perlin_interp(c, u, v, w);
     }
     
-    float turb(const Vector3& p, int depth=7) const;
+    float turb(const Vector3f& p, int depth=7) const;
     
-    static Vector3 *ranvec;
+    static Vector3f *ranvec;
     static int *perm_x;
     static int *perm_y;
     static int *perm_z;
@@ -84,7 +84,7 @@ class noise_texture : public texture {
 public:
     noise_texture() {}
     noise_texture(float sc) : scale(sc) {}
-    Color value(float u, float v, const Vector3& p) const {
+    Color value(float u, float v, const Vector3f& p) const {
         return Color(1,1,1)*0.5*(1 + sin(scale * p.z + 10*noise.turb(p)));
     }
     perlin noise;

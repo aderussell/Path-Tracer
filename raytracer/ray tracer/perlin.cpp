@@ -8,10 +8,10 @@
 
 #include "perlin.hpp"
 
-static Vector3 *perlin_generate() {
-    Vector3 *p = new Vector3[256];
+static Vector3f *perlin_generate() {
+    Vector3f *p = new Vector3f[256];
     for (int i = 0; i < 256; i++) {
-        p[i] = Vector3(-1 + 2*drand48(), -1 + 2*drand48(), -1 + 2*drand48()).normalise();
+        p[i] = Vector3f(-1 + 2*drand48(), -1 + 2*drand48(), -1 + 2*drand48()).normalized();
     }
     return p;
 }
@@ -34,9 +34,9 @@ static int* perlin_generate_perm() {
     return p;
 }
 
-float perlin::turb(const Vector3& p, int depth) const {
+float perlin::turb(const Vector3f& p, int depth) const {
     float accum = 0;
-    Vector3 temp_p = p;
+    Vector3f temp_p = p;
     float weight = 1.0;
     for (int i = 0; i < depth; i++) {
         accum += weight * noise(temp_p);
@@ -46,7 +46,7 @@ float perlin::turb(const Vector3& p, int depth) const {
     return fabs(accum);
 }
 
-Vector3 *perlin::ranvec = perlin_generate();
+Vector3f *perlin::ranvec = perlin_generate();
 int *perlin::perm_x = perlin_generate_perm();
 int *perlin::perm_y = perlin_generate_perm();
 int *perlin::perm_z = perlin_generate_perm();

@@ -15,19 +15,19 @@
 class onb {
 public:
     onb() {}
-    onb(const Vector3& n) { build_from_w(n); } // normal
-    onb(const Vector3& n, const Vector3& i) { build(n,i); } //normal & incident ray vector
+    onb(const Vector3f& n) { build_from_w(n); } // normal
+    onb(const Vector3f& n, const Vector3f& i) { build(n,i); } //normal & incident ray vector
     
-    inline Vector3 operator[](int i) const { return axis[i]; }
-    Vector3 u() const { return axis[0]; }
-    Vector3 v() const { return axis[1]; }
-    Vector3 w() const { return axis[2]; }
-    Vector3 local(float a, float b, float c) const { return a*u() + b*v() + c*w(); }
-    Vector3 local(const Vector3& a) const { return local(a.x, a.y, a.z); }
-    void build_from_w(const Vector3& n);
-    void build(const Vector3& n, const Vector3& i);
+    inline Vector3f operator[](int i) const { return axis[i]; }
+    Vector3f u() const { return axis[0]; }
+    Vector3f v() const { return axis[1]; }
+    Vector3f w() const { return axis[2]; }
+    Vector3f local(float a, float b, float c) const { return a*u() + b*v() + c*w(); }
+    Vector3f local(const Vector3f& a) const { return local(a.x, a.y, a.z); }
+    void build_from_w(const Vector3f& n);
+    void build(const Vector3f& n, const Vector3f& i);
 private:
-    Vector3 axis[3];
+    Vector3f axis[3];
 };
 
 #endif /* onb_hpp */

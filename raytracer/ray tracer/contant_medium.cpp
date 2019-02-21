@@ -34,7 +34,7 @@ bool constant_medium::hit(const ray& r, float t_min, float t_max, hit_record& re
                 if (db) std::cerr << "rec.t = " <<  rec.t << "\n";
                 rec.p = r.parameterAtPoint(rec.t);
                 if (db) std::cerr << "rec.p = " <<  &rec.p << "\n";
-                rec.normal = Vector3(1,0,0);  // arbitrary
+                rec.normal = Vector3f(1,0,0);  // arbitrary
                 rec.mat_ptr = phase_function;
                 return true;
             }

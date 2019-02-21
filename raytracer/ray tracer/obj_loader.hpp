@@ -22,9 +22,9 @@
 
 struct SimpleVertex
 {
-    Vector3 Pos;
-    Vector3 TexUV;
-    Vector3 VecNormal;
+    Vector3f Pos;
+    Vector3f TexUV;
+    Vector3f VecNormal;
 };
 
 class MeshMaterial {

@@ -19,7 +19,7 @@ public:
     
 private:
     texture *albedo;
-    Vector3 random_in_unit_sphere() const;
+    Vector3f random_in_unit_sphere() const;
 };
 
 #endif /* isotropic_hpp */

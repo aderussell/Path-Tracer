@@ -23,39 +23,39 @@ public:
         float theta = vfov * M_PI/180.0;
         float half_height = tan(theta/2);
         float half_width = aspect * half_height;
-        lowerLeftCorner = Vector3(-half_width, -half_height, -1.0);
-        horizontal= Vector3(2*half_width, 0.0, 0.0);
-        vertical= Vector3(0.0, 2*half_height, 0.0);
-        origin= Vector3(0.0, 0.0, 0.0);
+        lowerLeftCorner = Vector3f(-half_width, -half_height, -1.0);
+        horizontal= Vector3f(2*half_width, 0.0, 0.0);
+        vertical= Vector3f(0.0, 2*half_height, 0.0);
+        origin= Vector3f(0.0, 0.0, 0.0);
     }
-    Vector3 lowerLeftCorner;
-    Vector3 horizontal;
-    Vector3 vertical;
-    Vector3 origin;
+    Vector3f lowerLeftCorner;
+    Vector3f horizontal;
+    Vector3f vertical;
+    Vector3f origin;
     
     ray get_ray(float u, float v) { return ray(origin, lowerLeftCorner + (u * horizontal) + (v * vertical)); }
 };
 
 class cameraB: public camera {
 public:
-    cameraB(Vector3 lookfrom, Vector3 lookat, Vector3 vup, float vfov, float aspect) {
-        Vector3 u, v, w;
+    cameraB(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect) {
+        Vector3f u, v, w;
         float theta = vfov * M_PI/180.0;
         float half_height = tan(theta/2);
         float half_width = aspect * half_height;
         origin = lookfrom;
-        w = (lookfrom - lookat).normalise();
-        u = Vector3::crossProduct(vup, w).normalise();
-        v = Vector3::crossProduct(w, u);
-        //lowerLeftCorner = Vector3(-half_width, -half_height, -1.0);
+        w = (lookfrom - lookat).normalized();
+        u = Vector3f::crossProduct(vup, w).normalized();
+        v = Vector3f::crossProduct(w, u);
+        //lowerLeftCorner = Vector3f(-half_width, -half_height, -1.0);
         lowerLeftCorner = origin - half_width*u - half_height*v - w;
         horizontal= u * 2*half_width;
         vertical= v * 2*half_height;
     }
-    Vector3 lowerLeftCorner;
-    Vector3 horizontal;
-    Vector3 vertical;
-    Vector3 origin;
+    Vector3f lowerLeftCorner;
+    Vector3f horizontal;
+    Vector3f vertical;
+    Vector3f origin;
     
     ray get_ray(float u, float v) { return ray(origin, lowerLeftCorner + (u * horizontal) + (v * vertical) - origin); }
 };
@@ -63,7 +63,7 @@ public:
 
 class cameraC: public camera {
 public:
-    cameraC(Vector3 lookfrom, Vector3 lookat, Vector3 vup, float vfov, float aspect, float aperture, float focus_dist, float t0, float t1) {
+    cameraC(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect, float aperture, float focus_dist, float t0, float t1) {
         time0 = t0;
         time1 = t1;
         lens_radius = aperture / 2.0;
@@ -71,35 +71,35 @@ public:
         float half_height = tan(theta/2);
         float half_width = aspect * half_height;
         origin = lookfrom;
-        w = (lookfrom - lookat).normalise();
-        u = Vector3::crossProduct(vup, w).normalise();
-        v = Vector3::crossProduct(w, u);
-        //lowerLeftCorner = Vector3(-half_width, -half_height, -1.0);
+        w = (lookfrom - lookat).normalized();
+        u = Vector3f::crossProduct(vup, w).normalized();
+        v = Vector3f::crossProduct(w, u);
+        //lowerLeftCorner = Vector3f(-half_width, -half_height, -1.0);
         lowerLeftCorner = origin - half_width*focus_dist*u - half_height*focus_dist*v - w*focus_dist;
         horizontal= u * 2*half_width*focus_dist;
         vertical= v * 2*half_height*focus_dist;
     }
-    Vector3 lowerLeftCorner;
-    Vector3 horizontal;
-    Vector3 vertical;
-    Vector3 origin;
-    Vector3 u, v, w;
+    Vector3f lowerLeftCorner;
+    Vector3f horizontal;
+    Vector3f vertical;
+    Vector3f origin;
+    Vector3f u, v, w;
     float time0, time1;
     float lens_radius;
     
-    Vector3 random_in_unit_disk() {
-        Vector3 p;
+    Vector3f random_in_unit_disk() {
+        Vector3f p;
         do {
-            p = 2.0 * Vector3(drand48(), drand48(), 0) - Vector3(1,1,0);
-        } while (Vector3::dotProduct(p, p) >= 1.0);
+            p = 2.0 * Vector3f(drand48(), drand48(), 0) - Vector3f(1,1,0);
+        } while (Vector3f::dotProduct(p, p) >= 1.0);
         return p;
     }
     
-    ray get_ray(float u, float v) {
-        Vector3 rd = lens_radius * this->random_in_unit_disk();
-        Vector3 offset = u * rd.x + v * rd.y;
+    ray get_ray(float s, float t) {
+        Vector3f rd = lens_radius * this->random_in_unit_disk();
+        Vector3f offset = u * rd.x + v * rd.y;
         float time = time0 + drand48()*(time1-time0);
-        return ray(origin + offset, lowerLeftCorner + (u * horizontal) + (v * vertical) - origin - offset, time);
+        return ray(origin + offset, lowerLeftCorner + (s * horizontal) + (t * vertical) - origin - offset, time);
         
     }
 };

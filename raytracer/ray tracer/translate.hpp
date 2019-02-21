@@ -14,11 +14,11 @@
 
 class translate : public hitable {
 public:
-    translate(hitable *p, const Vector3& displacement) : ptr(p), offset(displacement) {}
+    translate(hitable *p, const Vector3f& displacement) : ptr(p), offset(displacement) {}
     virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
     virtual bool bounding_box(float t0, float t1, aabb& box) const;
     hitable *ptr;
-    Vector3 offset;
+    Vector3f offset;
 };
 
 class rotate_y : public hitable {

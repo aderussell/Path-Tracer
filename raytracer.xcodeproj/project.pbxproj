@@ -15,9 +15,6 @@
 		AB4F132C22162C8100761816 /* suzanne2.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB4F132B22162C8100761816 /* suzanne2.obj */; };
 		AB4F132F2217375F00761816 /* glass.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB4F132E2217375F00761816 /* glass.obj */; };
 		AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135820E6C15000FE57F5 /* Matrix44.cpp */; };
-		AB57135F20E6C15000FE57F5 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135A20E6C15000FE57F5 /* Vector3.cpp */; };
-		AB57136020E6C15000FE57F5 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135B20E6C15000FE57F5 /* Vector4.cpp */; };
-		AB57136320E6C1E100FE57F5 /* RayTracer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57136120E6C1E100FE57F5 /* RayTracer.cpp */; };
 		AB57136920E6C5AA00FE57F5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57136720E6C5AA00FE57F5 /* Material.cpp */; };
 		AB57136F20E6D34B00FE57F5 /* ImageBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57136D20E6D34B00FE57F5 /* ImageBuffer.cpp */; };
 		ABB1805120E6BF9200E654F2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB1805020E6BF9200E654F2 /* AppDelegate.m */; };
@@ -61,6 +58,7 @@
 		AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = obj_loader.cpp; sourceTree = "<group>"; };
 		AB1493BB21D4133A000FA0D3 /* obj_loader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = obj_loader.hpp; sourceTree = "<group>"; };
 		AB1493C021D56658000FA0D3 /* suzanne.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = suzanne.obj; sourceTree = "<group>"; };
+		AB26EA28221F373E0009E5AF /* Vector2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector2.hpp; sourceTree = "<group>"; };
 		AB46D28A21FA63B6006A0DDA /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = anisotropic_phong.cpp; sourceTree = "<group>"; };
 		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
@@ -70,12 +68,8 @@
 		AB4F132E2217375F00761816 /* glass.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = glass.obj; sourceTree = "<group>"; };
 		AB57135820E6C15000FE57F5 /* Matrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix44.cpp; sourceTree = "<group>"; };
 		AB57135920E6C15000FE57F5 /* Matrix44.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix44.hpp; sourceTree = "<group>"; };
-		AB57135A20E6C15000FE57F5 /* Vector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector3.cpp; sourceTree = "<group>"; };
-		AB57135B20E6C15000FE57F5 /* Vector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector4.cpp; sourceTree = "<group>"; };
 		AB57135C20E6C15000FE57F5 /* Vector4.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector4.hpp; sourceTree = "<group>"; };
 		AB57135D20E6C15000FE57F5 /* Vector3.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector3.hpp; sourceTree = "<group>"; };
-		AB57136120E6C1E100FE57F5 /* RayTracer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RayTracer.cpp; sourceTree = "<group>"; };
-		AB57136220E6C1E100FE57F5 /* RayTracer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RayTracer.hpp; sourceTree = "<group>"; };
 		AB57136720E6C5AA00FE57F5 /* Material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		AB57136820E6C5AA00FE57F5 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		AB57136D20E6D34B00FE57F5 /* ImageBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBuffer.cpp; sourceTree = "<group>"; };
@@ -225,8 +219,6 @@
 		ABB1806320E6BFA200E654F2 /* ray tracer */ = {
 			isa = PBXGroup;
 			children = (
-				AB57136220E6C1E100FE57F5 /* RayTracer.hpp */,
-				AB57136120E6C1E100FE57F5 /* RayTracer.cpp */,
 				AB46D29021FDD69C006A0DDA /* integrators */,
 				ABDE7E7F21CD5CBB0048E4B1 /* scenes */,
 				ABDE7E5121B9F0980048E4B1 /* materials */,
@@ -267,10 +259,9 @@
 		ABB1807220E6C0F000E654F2 /* stuff */ = {
 			isa = PBXGroup;
 			children = (
+				AB26EA28221F373E0009E5AF /* Vector2.hpp */,
 				AB57135D20E6C15000FE57F5 /* Vector3.hpp */,
-				AB57135A20E6C15000FE57F5 /* Vector3.cpp */,
 				AB57135C20E6C15000FE57F5 /* Vector4.hpp */,
-				AB57135B20E6C15000FE57F5 /* Vector4.cpp */,
 				AB57135920E6C15000FE57F5 /* Matrix44.hpp */,
 				AB57135820E6C15000FE57F5 /* Matrix44.cpp */,
 				ABB1806820E6BFC600E654F2 /* Ray.hpp */,
@@ -434,12 +425,9 @@
 				ABDE7E5A21BB04CB0048E4B1 /* dielectric.cpp in Sources */,
 				AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */,
 				AB57136F20E6D34B00FE57F5 /* ImageBuffer.cpp in Sources */,
-				AB57135F20E6C15000FE57F5 /* Vector3.cpp in Sources */,
-				AB57136020E6C15000FE57F5 /* Vector4.cpp in Sources */,
 				ABB1805420E6BF9200E654F2 /* ViewController.mm in Sources */,
 				ABB1805C20E6BF9400E654F2 /* main.m in Sources */,
 				ABB1805120E6BF9200E654F2 /* AppDelegate.m in Sources */,
-				AB57136320E6C1E100FE57F5 /* RayTracer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

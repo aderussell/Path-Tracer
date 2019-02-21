@@ -17,22 +17,22 @@ class ray {
     
     ray() {}
     
-    ray(const Vector3& a, const Vector3& b, float ti = 0.0) {
+    ray(const Vector3f& a, const Vector3f& b, float ti = 0.0) {
         _a = a;
         _b = b;
         _time = ti;
     }
     
-    Vector3 origin() const { return _a; }
-    Vector3 direction() const { return _b; }
+    Vector3f origin() const { return _a; }
+    Vector3f direction() const { return _b; }
     float time() const { return _time; }
-    Vector3 parameterAtPoint(float t) const {
+    Vector3f parameterAtPoint(float t) const {
         return _a + (t * _b);
     }
     
     private:
-    Vector3 _a;
-    Vector3 _b;
+    Vector3f _a;
+    Vector3f _b;
     float _time;
 };
 

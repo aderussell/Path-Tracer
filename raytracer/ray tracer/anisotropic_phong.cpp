@@ -8,10 +8,10 @@
 
 #include "anisotropic_phong.hpp"
 
-Vector3 anisotropic_phong::random_in_unit_sphere() const {
-    Vector3 p;
+Vector3f anisotropic_phong::random_in_unit_sphere() const {
+    Vector3f p;
     do {
-        p = 2.0 * Vector3(drand48(), drand48(), drand48()) - Vector3(1,1,1);
+        p = 2.0 * Vector3f(drand48(), drand48(), drand48()) - Vector3f(1,1,1);
     } while (p.squareMagnitude() >= 1.0);
     return p;
 }
@@ -24,11 +24,12 @@ bool anisotropic_phong::scatter(const ray& r_in, const hit_record& rec, scatter_
     srec.pdf_ptr = new anisotropic_phong_pdf(r_in.direction(), rec.normal, nu, nv);
     
     if (srec.is_specular) {
-        Vector3 dir = srec.pdf_ptr->generate();
-        while (Vector3::dotProduct(rec.normal, dir) < 0) {
+        Vector3f dir = srec.pdf_ptr->generate();
+        while (Vector3f::dotProduct(rec.normal, dir) < 0) {
             dir = srec.pdf_ptr->generate();
         }
-        srec.specular_ray = ray((rec.p + 0.0001) * rec.normal, dir, r_in.time());
+        double f = Vector3f::dotProduct((rec.p + Vector3f(0.0001, 0.0001, 0.0001)), rec.normal);
+        srec.specular_ray = ray(Vector3f(f,f,f), dir, r_in.time());
     }
     
     return true;
@@ -36,7 +37,7 @@ bool anisotropic_phong::scatter(const ray& r_in, const hit_record& rec, scatter_
 
 
 float anisotropic_phong::scattering_pdf(const ray& ray_in, const hit_record& rec, ray& scattered) const {
-    float cosine = Vector3::dotProduct(rec.normal, scattered.direction().normalise());
+    float cosine = Vector3f::dotProduct(rec.normal, scattered.direction().normalized());
     if (cosine < 0) {
         cosine = 0;
     }

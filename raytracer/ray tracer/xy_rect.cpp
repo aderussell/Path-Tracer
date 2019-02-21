@@ -25,7 +25,7 @@ bool xy_rect::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
     rec.t = t;
     rec.mat_ptr = mp;
     rec.p = r.parameterAtPoint(t);
-    rec.normal = Vector3(0,0,1);
+    rec.normal = Vector3f(0,0,1);
     return true;
 }
 
@@ -42,25 +42,25 @@ bool xz_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
     rec.t = t;
     rec.mat_ptr = mp;
     rec.p = r.parameterAtPoint(t);
-    rec.normal = Vector3(0, 1, 0);
+    rec.normal = Vector3f(0, 1, 0);
     return true;
 }
 
 
-float xz_rect::pdf_value(const Vector3 &o, const Vector3 &v) const {
+float xz_rect::pdf_value(const Vector3f &o, const Vector3f &v) const {
     hit_record rec;
     if (this->hit(ray(o,v), 0.001, FLT_MAX, rec)) {
         float area = (x1-x0)*(z1-z0);
         float distance_squared = rec.t*rec.t * v.squareMagnitude();
-        float cosine = fabs(Vector3::dotProduct(v, rec.normal) / v.length());
+        float cosine = fabs(Vector3f::dotProduct(v, rec.normal) / v.length());
         return distance_squared / (cosine * area);
     } else {
         return 0;
     }
 }
 
-Vector3 xz_rect::random(const Vector3 &o) const {
-    Vector3 randomPoint = Vector3(x0 + drand48()*(x1-x0), k, z0 + drand48()*(z1-z0));
+Vector3f xz_rect::random(const Vector3f &o) const {
+    Vector3f randomPoint = Vector3f(x0 + drand48()*(x1-x0), k, z0 + drand48()*(z1-z0));
     return randomPoint - o;
 }
 
@@ -80,6 +80,6 @@ bool yz_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
     rec.t = t;
     rec.mat_ptr = mp;
     rec.p = r.parameterAtPoint(t);
-    rec.normal = Vector3(1, 0, 0);
+    rec.normal = Vector3f(1, 0, 0);
     return true;
 }

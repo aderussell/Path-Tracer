@@ -7,8 +7,8 @@
 
 #ifndef __Matrix44_H__
 #define __Matrix44_H__
-#include "Vector3.hpp"
 
+#include "Vector3.hpp"
 
 struct Matrix44 {
     
@@ -69,7 +69,7 @@ public:
     
     static Matrix44 Orthographic(double left, double right, double bottom, double top, double nearZ, double farZ);
     
-    static Matrix44 lookAtLH(Vector3 position, Vector3 target, Vector3 upVector);
+    static Matrix44 lookAtLH(Vector3f position, Vector3f target, Vector3f upVector);
     
     static Matrix44 rotationX(double a);
     

@@ -21,7 +21,7 @@ struct Color {
         this->b = b * luminosity;
     }
     
-//    Color(const Vector3& input) {
+//    Color(const Vector3f& input) {
 //        r = input.x;
 //        g = input.y;
 //        b = input.z;
@@ -77,7 +77,7 @@ inline Color operator + (const Color& a, const Color& b) {
     return Color(a.r + b.r, a.g + b.g, a.b + b.b);
 }
 
-inline Color operator * (const Color& a, const Vector3& b) {
+inline Color operator * (const Color& a, const Vector3f& b) {
     return Color(a.r * b.x, a.g * b.y, a.b * b.z);
 }
 
@@ -105,7 +105,7 @@ public:
     };
     
     
-    virtual Color emitted(const ray& ray_in, const hit_record& rec, float u, float v, const Vector3& p) const {
+    virtual Color emitted(const ray& ray_in, const hit_record& rec, float u, float v, const Vector3f& p) const {
         return Color(0,0,0);
     }
 };

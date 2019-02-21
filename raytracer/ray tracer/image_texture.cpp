@@ -8,7 +8,7 @@
 
 #include "image_texture.hpp"
 
-Color image_texture::value(float u, float v, const Vector3& p) const {
+Color image_texture::value(float u, float v, const Vector3f& p) const {
     int i = u*nx;
     int j = (1-v)*ny-0.001;
     if (i<0)i=0;

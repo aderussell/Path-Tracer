@@ -8,7 +8,7 @@
 
 #include "box.hpp"
 
-box::box(const Vector3& p0, const Vector3& p1, material *ptr) {
+box::box(const Vector3f& p0, const Vector3f& p1, material *ptr) {
     pmin = p0;
     pmax = p1;
     hitable **list = new hitable*[6];

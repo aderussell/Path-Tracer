@@ -22,8 +22,8 @@ private:
     Color albedo;
     float fuzz; // how 'fuzzy' the reflections are
     
-    Vector3 random_in_unit_sphere() const;
-    Vector3 reflect(const Vector3& v, const Vector3& n) const;
+    Vector3f random_in_unit_sphere() const;
+    Vector3f reflect(const Vector3f& v, const Vector3f& n) const;
 };
 
 #endif /* metal_hpp */

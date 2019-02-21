@@ -172,14 +172,14 @@ bool bvh_node::hit(const ray&r, float t_min, float t_max, hit_record& rec) const
 }
 
 
-float bvh_node::pdf_value(const Vector3& o, const Vector3& v) const
+float bvh_node::pdf_value(const Vector3f& o, const Vector3f& v) const
 {
     float weight = 0.5;
     float sum = weight * left->pdf_value(o, v) + weight * right->pdf_value(o, v);
     return sum;
 }
 
-Vector3 bvh_node::random(const Vector3& o) const
+Vector3f bvh_node::random(const Vector3f& o) const
 {
     if (drand48() < 0.5)
         return left->random(o);

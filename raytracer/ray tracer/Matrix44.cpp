@@ -211,16 +211,16 @@ Matrix44 Matrix44::mtxLoadPerspective(double fov, double aspect, double nearZ, d
     return Matrix44(mtx);
 }
 
-Matrix44 Matrix44::lookAtLH(Vector3 position, Vector3 target, Vector3 upVector)
+Matrix44 Matrix44::lookAtLH(Vector3f position, Vector3f target, Vector3f upVector)
 {
-    Vector3 zAxis = (target - position).normalise();
-    Vector3 xAxis = Vector3::crossProduct(upVector, zAxis).normalise();
-    Vector3 yAxis = Vector3::crossProduct(zAxis, xAxis);
+    Vector3f zAxis = (target - position).normalized();
+    Vector3f xAxis = Vector3f::crossProduct(upVector, zAxis).normalized();
+    Vector3f yAxis = Vector3f::crossProduct(zAxis, xAxis);
     
     return Matrix44(xAxis.x, yAxis.x, zAxis.x, 0,
                     xAxis.y, yAxis.y, zAxis.y, 0,
                     xAxis.z, yAxis.z, zAxis.z, 0,
-                    -Vector3::dotProduct(xAxis, position), -Vector3::dotProduct(yAxis, position), -Vector3::dotProduct(yAxis, position), 1);
+                    -Vector3f::dotProduct(xAxis, position), -Vector3f::dotProduct(yAxis, position), -Vector3f::dotProduct(yAxis, position), 1);
 }
 
 

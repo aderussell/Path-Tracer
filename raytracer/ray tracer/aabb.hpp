@@ -12,16 +12,18 @@
 #include "Vector3.hpp"
 #include "Ray.hpp"
 
-inline float ffmin(float a, float b) { return a < b ? a : b; }
-inline float ffmax(float a, float b) { return a > b ? a : b; }
+template <typename T>
+inline T ffmin(T a, T b) { return a < b ? a : b; }
+template <typename T>
+inline T ffmax(T a, T b) { return a > b ? a : b; }
 
 class aabb {
 public:
     aabb() {}
-    aabb(const Vector3& a, const Vector3& b) { _min = a; _max = b; }
+    aabb(const Vector3f& a, const Vector3f& b) { _min = a; _max = b; }
     
-    Vector3 min() const { return _min; }
-    Vector3 max() const { return _max; }
+    Vector3f min() const { return _min; }
+    Vector3f max() const { return _max; }
     
     // TODO: replace with version on next week page 11
     bool hit(const ray& r, float tmin, float tmax) const {
@@ -62,7 +64,7 @@ public:
     }
     
     int longest_axis() {
-        Vector3 length = _max - _min;
+        Vector3f length = _max - _min;
         double max = ffmax(length.x, ffmax(length.y, length.z));
         if (max == length.x) {
             return 0;
@@ -74,13 +76,13 @@ public:
     }
     
     double area() {
-        Vector3 length = _max - _min;
+        Vector3f length = _max - _min;
         return length.x * length.y * length.z;
     }
     
 private:
-    Vector3 _min;
-    Vector3 _max;
+    Vector3f _min;
+    Vector3f _max;
 };
 
 aabb surronding_box(aabb box0, aabb box1);

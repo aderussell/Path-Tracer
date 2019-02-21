@@ -9,60 +9,106 @@
 #ifndef __Drawing__Vector4__
 #define __Drawing__Vector4__
 
-#include <math.h>
-#include "Vector3.hpp"
 #include "Matrix44.hpp"
 
-struct Vector4 {
-    
+typedef Vector4<double> Vector4f;
+typedef Vector4<int> Vector4i;
+
+template <typename T>
+class Vector4 {
 public:
-    Vector4(double x = 0, double y = 0, double z = 0, double w = 0);
-    Vector4(Vector3 v);
+    Vector4() { x = y = z = w = 0.0; }
     
-    Vector4 operator+= (Vector4 v);
-    Vector4 operator-= (Vector4 v);
-    Vector4 operator*= (double s);
-    Vector4 operator/= (double s);
+    Vector4(T x, T y, T z, T w = 0) : x(x), y(y), z(z), w(w) {};
     
-    Vector4 operator+ (Vector4 v);
-    Vector4 operator- (Vector4 v);
-    Vector4 operator* (double s);
-    Vector4 operator/ (double s);
+    //Vector4(const Vector3f &v) : x(v.x), y(v.y), z(v.z), w(0) {};
     
-    Vector4 operator- ();
     
-    bool operator== (Vector4 &v);
-    bool operator!= (Vector4 &v);
+    Vector4<T> &operator+= (const Vector4<T> &v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        w += v.w;
+        return *this;
+    }
     
-    Vector4 inverse();
+    Vector4<T> &operator-= (const Vector4<T> &v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
+        w -= v.w;
+        return *this;
+    }
     
-    Vector4 normaliseScale();
+    template <typename U>
+    Vector4<T> &operator*= (U s) {
+        x *= s;
+        y *= s;
+        z *= s;
+        w *= s;
+        return *this;
+    }
     
-    //const Vector3 transform(const double angle);
+    template <typename U>
+    Vector4<T> &operator/= (U s) {
+        double inv = (double)1.0 / s;
+        x *= inv;
+        y *= inv;
+        z *= inv;
+        w *= inv;
+        return *this;
+    }
     
-    //const Vector4 normalise();
+    Vector4<T> operator+ (const Vector4<T> &v) const {
+        return Vector4(x + v.x, y + v.y, z + v.z, w + v.w);
+    }
+    Vector4<T> operator- (const Vector4<T> &v) const {
+        return Vector4(x - v.x, y - v.y, z - v.z, w - v.w);
+    }
     
-    //double squareMagnitude();
-    //double magnitude();
+    template <typename U>
+    Vector4<T> operator* (U s) const {
+        return Vector4<T>(x*s, y*s, z*s, w*s);
+    }
     
-    //double length();
+    template <typename U>
+    Vector4<T> operator/ (U s) const {
+        double inv = (double)1.0 / s;
+        return Vector4<T>(x*inv, y*inv, z*inv, w*inv);
+    }
     
-    //static const double dotProduct(const Vector4 &v1, const Vector4 &v2);
+    Vector4<T> operator-() const {
+        return Vector4<T>(-x, -y, -z, -w);
+    }
     
-    //static const Vector3 vectorWithMagnitudeRotation(const double magnitude, const double angle);
+    bool operator== (const Vector4<T> &v) const {
+        return ((x == v.x) && (y == v.y) && (z == v.z) && (w == v.w));
+    }
     
-    //static const Vector3 crossProduct(const Vector4 &v1, const Vector4 &v2);
+    bool operator!= (const Vector4<T> &v) const {
+        return ((x != v.x) || (y == v.y) || (z != v.z) || (w != v.w));
+    }
     
-    static const double distance(const Vector4 &v1, const Vector4 &v2);
+    Vector4<T> inverse() const {
+        return Vector4<T>(-this->x, -this->y, -this->z, -this->w);
+    }
     
-    static const Vector4 Vector4Zero;
+    Vector4<T> normalized() const {
+        if (w == 0.0) return Vector4();
+        return Vector4<T>(x/w, y/w, z/w, 1.0);
+    }
     
-    static const Vector4 Vector4NoPoint;
     
-    Vector4 transform(const Matrix44 &m) const;
+    Vector4 transform(const Matrix44 &m) const {
+        double x = (this->x * m.u.m11) + (this->y * m.u.m21) + (this->z * m.u.m31) + (this->w * m.u.m41);
+        double y = (this->x * m.u.m12) + (this->y * m.u.m22) + (this->z * m.u.m32) + (this->w * m.u.m42);
+        double z = (this->x * m.u.m13) + (this->y * m.u.m23) + (this->z * m.u.m33) + (this->w * m.u.m43);
+        double w = (this->x * m.u.m14) + (this->y * m.u.m24) + (this->z * m.u.m34) + (this->w * m.u.m44);
+        return Vector4(x, y, z, w);
+    }
     
-    double x, y, z, w;
     
+    T x, y, z, w;
 };
 
 #endif /* defined(__Drawing__Vector4__) */

@@ -9,13 +9,13 @@
 #include "dielectric.hpp"
 #include <stdlib.h>
 
-Vector3 dielectric::reflect(const Vector3& v, const Vector3& n) const {
-    return v - 2 * Vector3::dotProduct(v, n) * n;
+Vector3f dielectric::reflect(const Vector3f& v, const Vector3f& n) const {
+    return v - 2 * Vector3f::dotProduct(v, n) * n;
 }
 
-bool dielectric::refract(const Vector3& v, const Vector3& n, float ni_over_nt, Vector3& refracted) const {
-    Vector3 uv = v.normalise();
-    float dt = Vector3::dotProduct(uv, n);
+bool dielectric::refract(const Vector3f& v, const Vector3f& n, float ni_over_nt, Vector3f& refracted) const {
+    Vector3f uv = v.normalized();
+    float dt = Vector3f::dotProduct(uv, n);
     float discriminant = 1.0 - ni_over_nt*ni_over_nt*(1-dt*dt);
     if (discriminant > 0) {
         refracted = ni_over_nt * (uv - n*dt) - n*sqrt(discriminant);
@@ -35,16 +35,16 @@ bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_reco
     srec.is_specular = true;
     srec.pdf_ptr = nullptr;
     srec.attenuation = Color(1,1,1);
-    Vector3 outward_normal;
-    Vector3 reflected = this->reflect(ray_in.direction(), hrec.normal);
-    Vector3 refracted;
+    Vector3f outward_normal;
+    Vector3f reflected = this->reflect(ray_in.direction(), hrec.normal);
+    Vector3f refracted;
     float ni_over_nt;
     float reflect_prob;
     float cosine;
-    if (Vector3::dotProduct(ray_in.direction(), hrec.normal) > 0) {
+    if (Vector3f::dotProduct(ray_in.direction(), hrec.normal) > 0) {
         outward_normal = hrec.normal * -1.0;
         ni_over_nt = ref_idx;
-        cosine = Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
+        cosine = Vector3f::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
         cosine = sqrt(1 - ref_idx*ref_idx*(1-cosine*cosine));
         
         // Beer-Lambert law
@@ -55,7 +55,7 @@ bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_reco
     } else {
         outward_normal = hrec.normal;
         ni_over_nt = 1.0 / ref_idx;
-        cosine = -Vector3::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
+        cosine = -Vector3f::dotProduct(ray_in.direction(), hrec.normal) / ray_in.direction().length();
     }
     if (refract(ray_in.direction(), outward_normal, ni_over_nt, refracted)) {
         //scattered = ray(hrec.p, refracted, ray_in.time());
