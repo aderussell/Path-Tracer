@@ -10,7 +10,7 @@
 #define hitable_hpp
 
 #include "Vector3.hpp"
-#include "Ray.hpp"
+#include "ray.hpp"
 #include "aabb.hpp"
 
 class material;

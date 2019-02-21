@@ -8,7 +8,7 @@
 
 #include "aabb.hpp"
 
-aabb surronding_box(aabb box0, aabb box1) {
+aabb surrounding_box(aabb box0, aabb box1) {
     Vector3f small(fmin(box0.min().x, box1.min().x),
                   fmin(box0.min().y, box1.min().y),
                   fmin(box0.min().z, box1.min().z));

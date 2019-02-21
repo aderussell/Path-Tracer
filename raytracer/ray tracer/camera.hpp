@@ -9,7 +9,7 @@
 #ifndef camera_hpp
 #define camera_hpp
 
-#include "Ray.hpp"
+#include "ray.hpp"
 #include <stdlib.h>
 
 class camera {

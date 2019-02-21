@@ -46,7 +46,7 @@ void TestIntegrator::render(const scene &scene) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
                                                           ray ray = scene.camera->get_ray(u, v);
-                                                          Vector3f p = ray.parameterAtPoint(2.0);
+                                                          Vector3f p = ray.pointAtParameter(2.0);
                                                           Color col2 = color(ray, scene.world, scene.light_shape, scene.sky_box, 0);
                                                           col += de_nan(col2);
                                                       }
@@ -124,7 +124,7 @@ void BasicIntegrator::render(const scene &scene) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
                                                           ray ray = scene.camera->get_ray(u, v);
-                                                          Vector3f p = ray.parameterAtPoint(2.0);
+                                                          Vector3f p = ray.pointAtParameter(2.0);
                                                           Color col2 = color(ray, scene.world, scene.light_shape, scene.sky_box, 0);
                                                           col += de_nan(col2);
                                                       }
@@ -199,7 +199,7 @@ void JitterIntegrator::render(const scene &scene) {
                                                               double u = (originX + posX + drand48() / ns) / width;
                                                               double v = (originY + posY + drand48() / ns) / height;
                                                               ray ray = scene.camera->get_ray(u, v);
-                                                              Vector3f p = ray.parameterAtPoint(2.0);
+                                                              Vector3f p = ray.pointAtParameter(2.0);
                                                               Color col2 = color(ray, scene.world, scene.light_shape, scene.sky_box, 0);
                                                               col += de_nan(col2);
                                                               

@@ -48,7 +48,7 @@ bool triangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
     //Vector3f normal = Vector3f(0,1,0);
     
     rec.t = t;
-    rec.p = r.parameterAtPoint(rec.t);
+    rec.p = r.pointAtParameter(rec.t);
     rec.normal = normal;
     rec.mat_ptr = mat;
     rec.u = u;
@@ -135,7 +135,7 @@ bool triangle_with_normals::hit(const ray& r, float t_min, float t_max, hit_reco
     Vector3f normal = (w * na + u * nb + v * nc).normalized();
     
     rec.t = t;
-    rec.p = r.parameterAtPoint(rec.t);
+    rec.p = r.pointAtParameter(rec.t);
     rec.normal = normal;
     rec.mat_ptr = mat;
     rec.u = u;

@@ -10,7 +10,7 @@
 #define aabb_hpp
 
 #include "Vector3.hpp"
-#include "Ray.hpp"
+#include "ray.hpp"
 
 template <typename T>
 inline T ffmin(T a, T b) { return a < b ? a : b; }
@@ -85,7 +85,7 @@ private:
     Vector3f _max;
 };
 
-aabb surronding_box(aabb box0, aabb box1);
+aabb surrounding_box(aabb box0, aabb box1);
 
 
 

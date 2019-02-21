@@ -10,7 +10,7 @@
 #define skybox_h
 
 #include "Vector3.hpp"
-#include "Ray.hpp"
+#include "ray.hpp"
 #include "Material.hpp"
 #include "image_texture.hpp"
 

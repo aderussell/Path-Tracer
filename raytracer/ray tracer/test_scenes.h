@@ -11,7 +11,7 @@
 
 #include "scene.h"
 #include "Vector3.hpp"
-#include "Ray.hpp"
+#include "ray.hpp"
 #include "Material.hpp"
 #include "hitable.hpp"
 #include "hitable_list.hpp"

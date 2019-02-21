@@ -29,7 +29,7 @@ bool sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec) const 
         float temp = (-b - sqrt(b*b-a*c))/a;
         if (temp < t_max && temp > t_min) {
             rec.t = temp;
-            rec.p = r.parameterAtPoint(rec.t);
+            rec.p = r.pointAtParameter(rec.t);
             rec.normal = (rec.p - center) / radius;
             rec.mat_ptr = mat;
             get_sphere_uv((rec.p-center)/radius, rec.u, rec.v);
@@ -38,7 +38,7 @@ bool sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec) const 
         temp = (-b + sqrt(b*b-a*c))/a;
         if (temp < t_max && temp > t_min) {
             rec.t = temp;
-            rec.p = r.parameterAtPoint(rec.t);
+            rec.p = r.pointAtParameter(rec.t);
             rec.normal = (rec.p - center) / radius;
             rec.mat_ptr = mat;
             get_sphere_uv((rec.p-center)/radius, rec.u, rec.v);
@@ -100,7 +100,7 @@ bool moving_sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec)
         float temp = (-b - sqrt(b*b-a*c))/a;
         if (temp < t_max && temp > t_min) {
             rec.t = temp;
-            rec.p = r.parameterAtPoint(rec.t);
+            rec.p = r.pointAtParameter(rec.t);
             rec.normal = (rec.p - center(r.time())) / radius;
             rec.mat_ptr = mat;
             get_sphere_uv((rec.p-center(r.time()))/radius, rec.u, rec.v);
@@ -109,7 +109,7 @@ bool moving_sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec)
         temp = (-b + sqrt(b*b-a*c))/a;
         if (temp < t_max && temp > t_min) {
             rec.t = temp;
-            rec.p = r.parameterAtPoint(rec.t);
+            rec.p = r.pointAtParameter(rec.t);
             rec.normal = (rec.p - center(r.time())) / radius;
             rec.mat_ptr = mat;
             get_sphere_uv((rec.p-center(r.time()))/radius, rec.u, rec.v);
@@ -123,6 +123,6 @@ bool moving_sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec)
 bool moving_sphere::bounding_box(float t0, float t1, aabb &box) const {
     aabb box0 = aabb(center(t0) - Vector3f(radius, radius, radius), center(t0) + Vector3f(radius, radius, radius));
     aabb box1 = aabb(center(t1) - Vector3f(radius, radius, radius), center(t1) + Vector3f(radius, radius, radius));
-    box = surronding_box(box0, box1);
+    box = surrounding_box(box0, box1);
     return true;
 }
