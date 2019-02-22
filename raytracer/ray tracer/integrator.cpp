@@ -19,7 +19,7 @@ inline Color de_nan(const Color& c) {
 }
 
 
-void TestIntegrator::render(const scene &scene) {
+void TestIntegrator::render(const Scene &scene) {
     
     int width  = imageBuffer->width;
     int height = imageBuffer->height;
@@ -45,9 +45,9 @@ void TestIntegrator::render(const scene &scene) {
                                                       for(int s = 0; s < ns; s++) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
-                                                          ray ray = scene.camera->get_ray(u, v);
+                                                          Ray ray = scene.camera->get_ray(u, v);
                                                           Vector3f p = ray.pointAtParameter(2.0);
-                                                          Color col2 = color(ray, scene.world, scene.light_shape, scene.sky_box, 0);
+                                                          Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
                                                           col += de_nan(col2);
                                                       }
                                                       
@@ -63,7 +63,7 @@ void TestIntegrator::render(const scene &scene) {
 }
 
 
-Color TestIntegrator::color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth) {
+Color TestIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
     hit_record hrec;
     if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
         scatter_record srec;
@@ -76,10 +76,10 @@ Color TestIntegrator::color(const ray &r, hitable *world, hitable *light_shape, 
                 hitable_pdf plight(light_shape, hrec.p);
                 pdf *plightP = (light_shape != nullptr) ? &plight : srec.pdf_ptr;
                 mixture_pdf p(plightP, srec.pdf_ptr);
-                ray scattered;
+                Ray scattered;
                 float pdf_val;
                 do {
-                   scattered = ray(hrec.p, p.generate(), r.time());
+                   scattered = Ray(hrec.p, p.generate(), r.time());
                    pdf_val = p.value(scattered.direction());
                 } while (pdf_val < 1E-13);
                 delete srec.pdf_ptr;
@@ -97,7 +97,7 @@ Color TestIntegrator::color(const ray &r, hitable *world, hitable *light_shape, 
 
 
 
-void BasicIntegrator::render(const scene &scene) {
+void BasicIntegrator::render(const Scene &scene) {
     
     int width  = imageBuffer->width;
     int height = imageBuffer->height;
@@ -123,9 +123,9 @@ void BasicIntegrator::render(const scene &scene) {
                                                       for(int s = 0; s < ns; s++) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
-                                                          ray ray = scene.camera->get_ray(u, v);
+                                                          Ray ray = scene.camera->get_ray(u, v);
                                                           Vector3f p = ray.pointAtParameter(2.0);
-                                                          Color col2 = color(ray, scene.world, scene.light_shape, scene.sky_box, 0);
+                                                          Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
                                                           col += de_nan(col2);
                                                       }
                                                       
@@ -140,14 +140,14 @@ void BasicIntegrator::render(const scene &scene) {
     }
 }
 
-Color BasicIntegrator::color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth) {
+Color BasicIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
     hit_record hrec;
     if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
         scatter_record srec;
         Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
         if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec)) {
-            ray scattered = srec.specular_ray;
-            scattered = ray(hrec.p, srec.pdf_ptr->generate(), r.time());
+            Ray scattered = srec.specular_ray;
+            scattered = Ray(hrec.p, srec.pdf_ptr->generate(), r.time());
             delete srec.pdf_ptr;
             return emitted + srec.attenuation * color(scattered, world, light_shape, sky_box, depth+1);
         } else {
@@ -165,7 +165,7 @@ Color BasicIntegrator::color(const ray &r, hitable *world, hitable *light_shape,
 
 
 
-void JitterIntegrator::render(const scene &scene) {
+void JitterIntegrator::render(const Scene &scene) {
     
     int width  = imageBuffer->width;
     int height = imageBuffer->height;
@@ -198,9 +198,9 @@ void JitterIntegrator::render(const scene &scene) {
                                                               
                                                               double u = (originX + posX + drand48() / ns) / width;
                                                               double v = (originY + posY + drand48() / ns) / height;
-                                                              ray ray = scene.camera->get_ray(u, v);
+                                                              Ray ray = scene.camera->get_ray(u, v);
                                                               Vector3f p = ray.pointAtParameter(2.0);
-                                                              Color col2 = color(ray, scene.world, scene.light_shape, scene.sky_box, 0);
+                                                              Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
                                                               col += de_nan(col2);
                                                               
                                                               
@@ -219,7 +219,7 @@ void JitterIntegrator::render(const scene &scene) {
 }
 
 
-Color JitterIntegrator::color(const ray &r, hitable *world, hitable *light_shape, skybox *sky_box, int depth) {
+Color JitterIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
     hit_record hrec;
     if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
         scatter_record srec;
@@ -232,10 +232,10 @@ Color JitterIntegrator::color(const ray &r, hitable *world, hitable *light_shape
                 hitable_pdf plight(light_shape, hrec.p);
                 pdf *plightP = (light_shape != nullptr) ? &plight : srec.pdf_ptr;
                 mixture_pdf p(plightP, srec.pdf_ptr);
-                ray scattered;
+                Ray scattered;
                 float pdf_val;
                 do {
-                    scattered = ray(hrec.p, p.generate(), r.time());
+                    scattered = Ray(hrec.p, p.generate(), r.time());
                     pdf_val = p.value(scattered.direction());
                 } while (pdf_val < 1E-13);
                 delete srec.pdf_ptr;

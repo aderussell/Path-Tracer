@@ -85,7 +85,7 @@ inline Color operator * (const Color& a, const Vector3f& b) {
 
 
 struct scatter_record {
-    ray specular_ray;
+    Ray specular_ray;
     bool is_specular;
     Color attenuation;
     Color specular;
@@ -96,16 +96,16 @@ struct scatter_record {
 
 class material {
 public:
-    virtual bool scatter(const ray& ray_in, const hit_record& rec, scatter_record& srec) const {
+    virtual bool scatter(const Ray& ray_in, const hit_record& rec, scatter_record& srec) const {
         return false;
     };
     
-    virtual float scattering_pdf(const ray& ray_in, const hit_record& rec, ray& scattered) const {
+    virtual float scattering_pdf(const Ray& ray_in, const hit_record& rec, Ray& scattered) const {
         return false;
     };
     
     
-    virtual Color emitted(const ray& ray_in, const hit_record& rec, float u, float v, const Vector3f& p) const {
+    virtual Color emitted(const Ray& ray_in, const hit_record& rec, float u, float v, const Vector3f& p) const {
         return Color(0,0,0);
     }
 };

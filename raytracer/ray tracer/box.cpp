@@ -21,6 +21,6 @@ box::box(const Vector3f& p0, const Vector3f& p1, material *ptr) {
     list_ptr = new hitable_list(list,6);
 }
 
-bool box::hit(const ray& r, float t0, float t1, hit_record& rec) const {
+bool box::hit(const Ray& r, float t0, float t1, hit_record& rec) const {
     return list_ptr->hit(r, t0, t1, rec);
 }

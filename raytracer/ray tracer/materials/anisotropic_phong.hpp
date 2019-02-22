@@ -19,8 +19,8 @@ class anisotropic_phong : public material {
 public:
     anisotropic_phong(texture *a, texture *s, double nu, double nv) : albedo(a), specular(s), nu(nu), nv(nv) {}
     
-    bool scatter(const ray& r_in, const hit_record& rec, scatter_record& srec) const;
-    float scattering_pdf(const ray& ray_in, const hit_record& rec, ray& scattered) const;
+    bool scatter(const Ray& r_in, const hit_record& rec, scatter_record& srec) const;
+    float scattering_pdf(const Ray& ray_in, const hit_record& rec, Ray& scattered) const;
     
     
 private:

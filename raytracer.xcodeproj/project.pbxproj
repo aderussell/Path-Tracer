@@ -16,7 +16,6 @@
 		AB4F132F2217375F00761816 /* glass.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB4F132E2217375F00761816 /* glass.obj */; };
 		AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135820E6C15000FE57F5 /* Matrix44.cpp */; };
 		AB57136920E6C5AA00FE57F5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57136720E6C5AA00FE57F5 /* Material.cpp */; };
-		AB57136F20E6D34B00FE57F5 /* ImageBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57136D20E6D34B00FE57F5 /* ImageBuffer.cpp */; };
 		ABB1805120E6BF9200E654F2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB1805020E6BF9200E654F2 /* AppDelegate.m */; };
 		ABB1805420E6BF9200E654F2 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABB1805320E6BF9200E654F2 /* ViewController.mm */; };
 		ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB1805520E6BF9300E654F2 /* Assets.xcassets */; };
@@ -26,7 +25,6 @@
 		ABDE7E4721B9AD380048E4B1 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4521B9AD380048E4B1 /* sphere.cpp */; };
 		ABDE7E4A21B9AD640048E4B1 /* hitable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4821B9AD640048E4B1 /* hitable.cpp */; };
 		ABDE7E4D21B9D09C0048E4B1 /* hitable_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4B21B9D09C0048E4B1 /* hitable_list.cpp */; };
-		ABDE7E5021B9DBD80048E4B1 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4E21B9DBD80048E4B1 /* camera.cpp */; };
 		ABDE7E5421B9F0B60048E4B1 /* lambertian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E5221B9F0B60048E4B1 /* lambertian.cpp */; };
 		ABDE7E5721BAFD320048E4B1 /* metal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E5521BAFD320048E4B1 /* metal.cpp */; };
 		ABDE7E5A21BB04CB0048E4B1 /* dielectric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E5821BB04CB0048E4B1 /* dielectric.cpp */; };
@@ -59,6 +57,7 @@
 		AB1493BB21D4133A000FA0D3 /* obj_loader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = obj_loader.hpp; sourceTree = "<group>"; };
 		AB1493C021D56658000FA0D3 /* suzanne.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = suzanne.obj; sourceTree = "<group>"; };
 		AB26EA28221F373E0009E5AF /* Vector2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector2.hpp; sourceTree = "<group>"; };
+		AB26EA30222085F10009E5AF /* testscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = testscene.hpp; sourceTree = "<group>"; };
 		AB46D28A21FA63B6006A0DDA /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = anisotropic_phong.cpp; sourceTree = "<group>"; };
 		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
@@ -72,9 +71,8 @@
 		AB57135D20E6C15000FE57F5 /* Vector3.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector3.hpp; sourceTree = "<group>"; };
 		AB57136720E6C5AA00FE57F5 /* Material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		AB57136820E6C5AA00FE57F5 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
-		AB57136D20E6D34B00FE57F5 /* ImageBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImageBuffer.cpp; sourceTree = "<group>"; };
 		AB57136E20E6D34B00FE57F5 /* ImageBuffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImageBuffer.hpp; sourceTree = "<group>"; };
-		ABB0561E21D0120200A8AC22 /* skybox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = skybox.h; sourceTree = "<group>"; };
+		ABB0561E21D0120200A8AC22 /* skybox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = skybox.hpp; sourceTree = "<group>"; };
 		ABB1804C20E6BF9100E654F2 /* raytracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = raytracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB1804F20E6BF9200E654F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ABB1805020E6BF9200E654F2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -94,7 +92,6 @@
 		ABDE7E4921B9AD640048E4B1 /* hitable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hitable.hpp; sourceTree = "<group>"; };
 		ABDE7E4B21B9D09C0048E4B1 /* hitable_list.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hitable_list.cpp; sourceTree = "<group>"; };
 		ABDE7E4C21B9D09C0048E4B1 /* hitable_list.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hitable_list.hpp; sourceTree = "<group>"; };
-		ABDE7E4E21B9DBD80048E4B1 /* camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
 		ABDE7E4F21B9DBD80048E4B1 /* camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = camera.hpp; sourceTree = "<group>"; };
 		ABDE7E5221B9F0B60048E4B1 /* lambertian.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lambertian.cpp; sourceTree = "<group>"; };
 		ABDE7E5321B9F0B60048E4B1 /* lambertian.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = lambertian.hpp; sourceTree = "<group>"; };
@@ -127,7 +124,7 @@
 		ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = isotropic.cpp; sourceTree = "<group>"; };
 		ABDE7E7D21C6C4D70048E4B1 /* isotropic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = isotropic.hpp; sourceTree = "<group>"; };
 		ABDE7E8121CD5CED0048E4B1 /* test_scenes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_scenes.h; sourceTree = "<group>"; };
-		ABDE7E8221CD5D110048E4B1 /* scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scene.h; sourceTree = "<group>"; };
+		ABDE7E8221CD5D110048E4B1 /* scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scene.hpp; sourceTree = "<group>"; };
 		ABFE0EA4220A222E00F77645 /* lego_brick.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lego_brick.obj; sourceTree = "<group>"; };
 		ABFE0EA6220B6F0C00F77645 /* lego_man.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lego_man.obj; sourceTree = "<group>"; };
 		BF5EDA8521C8F14B00B5D877 /* onb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = onb.cpp; sourceTree = "<group>"; };
@@ -192,6 +189,20 @@
 			path = materials;
 			sourceTree = "<group>";
 		};
+		AB26EA2D221F725C0009E5AF /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = scenes;
+			sourceTree = "<group>";
+		};
+		AB26EA2E221F726F0009E5AF /* cameras */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = cameras;
+			sourceTree = "<group>";
+		};
 		AB46D29021FDD69C006A0DDA /* integrators */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +244,7 @@
 		ABB1804E20E6BF9100E654F2 /* raytracer */ = {
 			isa = PBXGroup;
 			children = (
+				AB26EA2D221F725C0009E5AF /* scenes */,
 				ABB1806320E6BFA200E654F2 /* ray tracer */,
 				ABB1804F20E6BF9200E654F2 /* AppDelegate.h */,
 				ABB1805020E6BF9200E654F2 /* AppDelegate.m */,
@@ -258,6 +270,7 @@
 		ABB1806320E6BFA200E654F2 /* ray tracer */ = {
 			isa = PBXGroup;
 			children = (
+				AB26EA2E221F726F0009E5AF /* cameras */,
 				AB26EA2B221F6ED80009E5AF /* core */,
 				AB26EA2C221F6EFB0009E5AF /* materials */,
 				AB46D29021FDD69C006A0DDA /* integrators */,
@@ -302,15 +315,13 @@
 			children = (
 				ABB1806820E6BFC600E654F2 /* ray.hpp */,
 				AB57136E20E6D34B00FE57F5 /* ImageBuffer.hpp */,
-				AB57136D20E6D34B00FE57F5 /* ImageBuffer.cpp */,
 				ABDE7E4F21B9DBD80048E4B1 /* camera.hpp */,
-				ABDE7E4E21B9DBD80048E4B1 /* camera.cpp */,
 				BF5EDA8621C8F14B00B5D877 /* onb.hpp */,
 				BF5EDA8521C8F14B00B5D877 /* onb.cpp */,
 				BF5EDA8921C8F71F00B5D877 /* pdf.hpp */,
 				BF5EDA8821C8F71F00B5D877 /* pdf.cpp */,
-				ABDE7E8221CD5D110048E4B1 /* scene.h */,
-				ABB0561E21D0120200A8AC22 /* skybox.h */,
+				ABDE7E8221CD5D110048E4B1 /* scene.hpp */,
+				ABB0561E21D0120200A8AC22 /* skybox.hpp */,
 			);
 			name = stuff;
 			sourceTree = "<group>";
@@ -335,6 +346,7 @@
 		ABDE7E7F21CD5CBB0048E4B1 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				AB26EA30222085F10009E5AF /* testscene.hpp */,
 				ABDE7E8121CD5CED0048E4B1 /* test_scenes.h */,
 			);
 			name = scenes;
@@ -424,7 +436,6 @@
 			files = (
 				ABDE7E7B21C6C3E10048E4B1 /* contant_medium.cpp in Sources */,
 				ABDE7E5D21BDA20A0048E4B1 /* aabb.cpp in Sources */,
-				ABDE7E5021B9DBD80048E4B1 /* camera.cpp in Sources */,
 				ABDE7E6921BF0D590048E4B1 /* image_texture.cpp in Sources */,
 				ABDE7E4A21B9AD640048E4B1 /* hitable.cpp in Sources */,
 				ABDE7E7221C30BD80048E4B1 /* xy_rect.cpp in Sources */,
@@ -448,7 +459,6 @@
 				ABDE7E6321BDBDC40048E4B1 /* texture.cpp in Sources */,
 				ABDE7E5A21BB04CB0048E4B1 /* dielectric.cpp in Sources */,
 				AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */,
-				AB57136F20E6D34B00FE57F5 /* ImageBuffer.cpp in Sources */,
 				ABB1805420E6BF9200E654F2 /* ViewController.mm in Sources */,
 				ABB1805C20E6BF9400E654F2 /* main.m in Sources */,
 				ABB1805120E6BF9200E654F2 /* AppDelegate.m in Sources */,

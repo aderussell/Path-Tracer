@@ -31,7 +31,7 @@ float dielectric::schlick(float cosine, float ref_idx) const {
     return r0 + (1-r0)*pow((1-cosine), 5);
 }
 
-bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_record& srec) const {
+bool dielectric::scatter(const Ray &ray_in, const hit_record &hrec, scatter_record& srec) const {
     srec.is_specular = true;
     srec.pdf_ptr = nullptr;
     srec.attenuation = Color(1,1,1);
@@ -65,9 +65,9 @@ bool dielectric::scatter(const ray &ray_in, const hit_record &hrec, scatter_reco
         reflect_prob = 1.0;
     }
     if (drand48() < reflect_prob) {
-        srec.specular_ray = ray(hrec.p, reflected, ray_in.time());
+        srec.specular_ray = Ray(hrec.p, reflected, ray_in.time());
     } else {
-        srec.specular_ray = ray(hrec.p, refracted, ray_in.time());
+        srec.specular_ray = Ray(hrec.p, refracted, ray_in.time());
     }
     return true;
 }

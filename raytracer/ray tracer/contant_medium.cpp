@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-bool constant_medium::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+bool constant_medium::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
     bool db = (drand48() < 0.00001);
     db = false;
     hit_record rec1, rec2;

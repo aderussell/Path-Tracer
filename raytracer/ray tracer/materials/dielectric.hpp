@@ -16,7 +16,7 @@ class dielectric: public material {
 public:
     dielectric(float ri) : ref_idx(ri) { }
     
-    virtual bool scatter(const ray& ray_in, const hit_record& rec, scatter_record& srec) const;
+    virtual bool scatter(const Ray& ray_in, const hit_record& rec, scatter_record& srec) const;
     
     float density = 0.0;
     Color volumeColor = Color(1,1,1);

@@ -14,16 +14,16 @@
 #include "Material.hpp"
 #include "image_texture.hpp"
 
-class skybox {
+class SkyBox {
 public:
-    virtual Color get_color(const ray& ray) const = 0;
+    virtual Color get_color(const Ray& ray) const = 0;
 };
 
-class constant_skybox : public skybox {
+class constant_skybox : public SkyBox {
 public:
     constant_skybox(Color c = Color(0,0,0)) : color(c) {}
     
-    virtual Color get_color(const ray& ray) const {
+    virtual Color get_color(const Ray& ray) const {
         return color;
     }
     
@@ -31,20 +31,20 @@ private:
     Color color;
 };
 
-class sky_skybox : public skybox {
+class sky_skybox : public SkyBox {
 public:
-    virtual Color get_color(const ray& r) const {
+    virtual Color get_color(const Ray& r) const {
         Vector3f unit_direction = r.direction().normalized();
         float t = 0.5*(unit_direction.y + 1.0);
         return (1.0-t)*Color(1,1,1) + t*Color(0.5,0.7,1.0);
     }
 };
 
-class cubemap_skybox : public skybox {
+class cubemap_skybox : public SkyBox {
 public:
     cubemap_skybox(image_texture* top, image_texture* bottom, image_texture* left, image_texture* right, image_texture* front, image_texture* back) : _up(top), _down(bottom), _left(left), _right(right), _front(front), _back(back) {}
     
-    virtual Color get_color(const ray& r) const {
+    virtual Color get_color(const Ray& r) const {
         Vector3f unit_direction = r.direction();
         
         if (fabs(unit_direction.x) >= fabs(unit_direction.y) && fabs(unit_direction.x) >= fabs(unit_direction.z)) {

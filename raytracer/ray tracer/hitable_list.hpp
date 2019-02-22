@@ -18,7 +18,7 @@ public:
     hitable **list;
     int list_size;
     
-    bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const;
+    bool hit(const Ray&r, float t_min, float t_max, hit_record& rec) const;
     bool bounding_box(float t0, float t1, aabb &box) const;
     virtual float pdf_value(const Vector3f& o, const Vector3f& v) const;
     virtual Vector3f random(const Vector3f& o) const;

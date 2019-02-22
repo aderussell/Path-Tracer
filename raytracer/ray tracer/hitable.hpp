@@ -25,7 +25,7 @@ struct hit_record {
 
 class hitable {
 public:
-    virtual bool hit(const ray&r, float t_min, float t_max, hit_record& rec) const = 0;
+    virtual bool hit(const Ray&r, float t_min, float t_max, hit_record& rec) const = 0;
     virtual bool bounding_box(float t0, float t1, aabb& box) const = 0;
     
     virtual float pdf_value(const Vector3f& o, const Vector3f& v) const { return 0.0; }
@@ -35,7 +35,7 @@ public:
 class flip_normals : public hitable {
 public:
     flip_normals(hitable *p) : ptr(p) {}
-    virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+    virtual bool hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
         if (ptr->hit(r, t_min, t_max, rec)) {
             rec.normal *= -1;
             return true;

@@ -29,14 +29,14 @@ inline Vector3f random_cosine_direction() {
 }
 
 
-bool lambertian::scatter(const ray& ray_in, const hit_record& hrec, scatter_record& srec) const {
+bool lambertian::scatter(const Ray& ray_in, const hit_record& hrec, scatter_record& srec) const {
     srec.is_specular = false;
     srec.attenuation = albedo->value(hrec.u, hrec.v, hrec.p);
     srec.pdf_ptr = new cosine_pdf(hrec.normal);
     return true;
 };
 
-float lambertian::scattering_pdf(const ray& ray_in, const hit_record& rec, ray& scattered) const {
+float lambertian::scattering_pdf(const Ray& ray_in, const hit_record& rec, Ray& scattered) const {
     float cosine = Vector3f::dotProduct(rec.normal, scattered.direction().normalized());
     if (cosine < 0) {
         cosine = 0;

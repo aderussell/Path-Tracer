@@ -28,7 +28,7 @@
     //scene *s = legoMan();
     //scene *s = glass();
     //scene *s = phongSpheresScene();
-    scene *s = random_scene();
+    Scene *s = random_scene();
     ImageBuffer *buffer = new ImageBuffer(width, height);
     _outputBuffer = buffer;
     Integrator *integrator = new TestIntegrator(buffer, ns);

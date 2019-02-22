@@ -18,7 +18,7 @@ void get_sphere_uv(const Vector3f& p, float& u, float& v) {
     v = (theta+M_PI/2) / M_PI;
 }
 
-bool sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec) const {
+bool sphere::hit(const Ray &r, float t_min, float t_max, hit_record &rec) const {
     
     Vector3f oc = r.origin() - center;
     float a = Vector3f::dotProduct(r.direction(), r.direction());
@@ -55,7 +55,7 @@ bool sphere::bounding_box(float t0, float t1, aabb &box) const {
 
 float sphere::pdf_value(const Vector3f &o, const Vector3f &v) const {
     hit_record rec;
-    if (this->hit(ray(o, v), 0.001, FLT_MAX, rec)) {
+    if (this->hit(Ray(o, v), 0.001, FLT_MAX, rec)) {
         float cos_theta_max = sqrt(1 - radius*radius/(center-o).squareMagnitude());
         float solid_angle = 2*M_PI*(1-cos_theta_max);
         return 1.0 / solid_angle;
@@ -90,7 +90,7 @@ Vector3f moving_sphere::center(float time) const {
     return center0 + ((time - time0) / (time1 - time0))*(center1-center0);
 }
 
-bool moving_sphere::hit(const ray &r, float t_min, float t_max, hit_record &rec) const {
+bool moving_sphere::hit(const Ray &r, float t_min, float t_max, hit_record &rec) const {
     Vector3f oc = r.origin() - center(r.time());
     float a = Vector3f::dotProduct(r.direction(), r.direction());
     float b = Vector3f::dotProduct(oc, r.direction());

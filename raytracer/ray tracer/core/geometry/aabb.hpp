@@ -26,7 +26,7 @@ public:
     Vector3f max() const { return _max; }
     
     // TODO: replace with version on next week page 11
-    bool hit(const ray& r, float tmin, float tmax) const {
+    bool hit(const Ray& r, float tmin, float tmax) const {
         {
             float t0 = ffmin((_min.x - r.origin().x) / r.direction().x,
                              (_max.x - r.origin().x) / r.direction().x);

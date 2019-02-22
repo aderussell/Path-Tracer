@@ -8,8 +8,8 @@
 
 #include "translate.hpp"
 
-bool translate::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
-    ray moved_r(r.origin() - offset, r.direction(), r.time());
+bool translate::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+    Ray moved_r(r.origin() - offset, r.direction(), r.time());
     if (ptr->hit(moved_r, t_min, t_max, rec)) {
         rec.p += offset;
         return true;
@@ -56,14 +56,14 @@ rotate_y::rotate_y(hitable *p, float angle) : ptr(p) {
     bbox = aabb(min, max);
 }
 
-bool rotate_y::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+bool rotate_y::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
     Vector3f origin = r.origin();
     Vector3f direction = r.direction();
     origin[0] = cos_theta*r.origin()[0] - sin_theta*r.origin()[2];
     origin[2] =  sin_theta*r.origin()[0] + cos_theta*r.origin()[2];
     direction[0] = cos_theta*r.direction()[0] - sin_theta*r.direction()[2];
     direction[2] = sin_theta*r.direction()[0] + cos_theta*r.direction()[2];
-    ray rotated_r(origin, direction, r.time());
+    Ray rotated_r(origin, direction, r.time());
     if (ptr->hit(rotated_r, t_min, t_max, rec)) {
         Vector3f p = rec.p;
         Vector3f normal = rec.normal;
@@ -107,14 +107,14 @@ rotate_x::rotate_x(hitable *p, float angle) : ptr(p) {
     bbox = aabb(min, max);
 }
 
-bool rotate_x::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+bool rotate_x::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
     Vector3f origin = r.origin();
     Vector3f direction = r.direction();
     origin[1] = cos_theta*r.origin()[1] - sin_theta*r.origin()[2];
     origin[2] =  sin_theta*r.origin()[1] + cos_theta*r.origin()[2];
     direction[1] = cos_theta*r.direction()[1] - sin_theta*r.direction()[2];
     direction[2] = sin_theta*r.direction()[1] + cos_theta*r.direction()[2];
-    ray rotated_r(origin, direction, r.time());
+    Ray rotated_r(origin, direction, r.time());
     if (ptr->hit(rotated_r, t_min, t_max, rec)) {
         Vector3f p = rec.p;
         Vector3f normal = rec.normal;
@@ -135,10 +135,10 @@ bool rotate_x::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 
 
 
-bool scale::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+bool scale::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
     const Vector3f origin = r.origin() * (1.0/s);
     const Vector3f direction = r.direction() * (1.0/s);
-    ray moved_r(origin, direction, r.time());
+    Ray moved_r(origin, direction, r.time());
     if (ptr->hit(moved_r, t_min, t_max, rec)) {
         rec.p *= s;
         return true;

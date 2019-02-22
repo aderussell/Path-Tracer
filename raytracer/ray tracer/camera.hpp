@@ -14,7 +14,7 @@
 
 class camera {
 public:
-    virtual ray get_ray(float u, float v) = 0;
+    virtual Ray get_ray(float u, float v) = 0;
 };
 
 class cameraA: public camera {
@@ -33,7 +33,7 @@ public:
     Vector3f vertical;
     Vector3f origin;
     
-    ray get_ray(float u, float v) { return ray(origin, lowerLeftCorner + (u * horizontal) + (v * vertical)); }
+    Ray get_ray(float u, float v) { return Ray(origin, lowerLeftCorner + (u * horizontal) + (v * vertical)); }
 };
 
 class cameraB: public camera {
@@ -57,7 +57,7 @@ public:
     Vector3f vertical;
     Vector3f origin;
     
-    ray get_ray(float u, float v) { return ray(origin, lowerLeftCorner + (u * horizontal) + (v * vertical) - origin); }
+    Ray get_ray(float u, float v) { return Ray(origin, lowerLeftCorner + (u * horizontal) + (v * vertical) - origin); }
 };
 
 
@@ -95,11 +95,11 @@ public:
         return p;
     }
     
-    ray get_ray(float s, float t) {
+    Ray get_ray(float s, float t) {
         Vector3f rd = lens_radius * this->random_in_unit_disk();
         Vector3f offset = u * rd.x + v * rd.y;
         float time = time0 + drand48()*(time1-time0);
-        return ray(origin + offset, lowerLeftCorner + (s * horizontal) + (t * vertical) - origin - offset, time);
+        return Ray(origin + offset, lowerLeftCorner + (s * horizontal) + (t * vertical) - origin - offset, time);
         
     }
 };

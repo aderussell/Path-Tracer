@@ -16,7 +16,7 @@ Vector3f anisotropic_phong::random_in_unit_sphere() const {
     return p;
 }
 
-bool anisotropic_phong::scatter(const ray& r_in, const hit_record& rec, scatter_record& srec) const {
+bool anisotropic_phong::scatter(const Ray& r_in, const hit_record& rec, scatter_record& srec) const {
     srec.is_specular = true;
     srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
     srec.specular    = specular->value(rec.u, rec.v, rec.p);
@@ -29,14 +29,14 @@ bool anisotropic_phong::scatter(const ray& r_in, const hit_record& rec, scatter_
             dir = srec.pdf_ptr->generate();
         }
         double f = Vector3f::dotProduct((rec.p + Vector3f(0.0001, 0.0001, 0.0001)), rec.normal);
-        srec.specular_ray = ray(Vector3f(f,f,f), dir, r_in.time());
+        srec.specular_ray = Ray(Vector3f(f,f,f), dir, r_in.time());
     }
     
     return true;
 }
 
 
-float anisotropic_phong::scattering_pdf(const ray& ray_in, const hit_record& rec, ray& scattered) const {
+float anisotropic_phong::scattering_pdf(const Ray& ray_in, const hit_record& rec, Ray& scattered) const {
     float cosine = Vector3f::dotProduct(rec.normal, scattered.direction().normalized());
     if (cosine < 0) {
         cosine = 0;
