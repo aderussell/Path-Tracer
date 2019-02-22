@@ -12,12 +12,12 @@
 #include <stdio.h>
 #include "Vector3.hpp"
 
-class ray {
+class Ray {
     public:
     
-    ray() {}
+    Ray() {}
     
-    ray(const Vector3f& a, const Vector3f& b, float ti = 0.0) {
+    Ray(const Vector3f& a, const Vector3f& b, float ti = 0.0) {
         _a = a;
         _b = b;
         _time = ti;
