@@ -145,9 +145,9 @@ bool bvh_node::bounding_box(float t0, float t1, aabb &b) const {
     return true;
 }
 
-bool bvh_node::hit(const Ray&r, float t_min, float t_max, hit_record& rec) const {
+bool bvh_node::hit(const Ray&r, float t_min, float t_max, SurfaceInteraction& rec) const {
     if (box.hit(r, t_min, t_max)) {
-        hit_record left_rec, right_rec;
+        SurfaceInteraction left_rec, right_rec;
         bool hit_left = left->hit(r, t_min, t_max, left_rec);
         bool hit_right = right->hit(r, t_min, t_max, right_rec);
         if (hit_left && hit_right) {

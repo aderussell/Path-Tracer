@@ -16,7 +16,7 @@ Vector3f anisotropic_phong::random_in_unit_sphere() const {
     return p;
 }
 
-bool anisotropic_phong::scatter(const Ray& r_in, const hit_record& rec, scatter_record& srec) const {
+bool anisotropic_phong::scatter(const Ray& r_in, const SurfaceInteraction& rec, scatter_record& srec) const {
     srec.is_specular = true;
     srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
     srec.specular    = specular->value(rec.u, rec.v, rec.p);
@@ -36,7 +36,7 @@ bool anisotropic_phong::scatter(const Ray& r_in, const hit_record& rec, scatter_
 }
 
 
-float anisotropic_phong::scattering_pdf(const Ray& ray_in, const hit_record& rec, Ray& scattered) const {
+float anisotropic_phong::scattering_pdf(const Ray& ray_in, const SurfaceInteraction& rec, Ray& scattered) const {
     float cosine = Vector3f::dotProduct(rec.normal, scattered.direction().normalized());
     if (cosine < 0) {
         cosine = 0;

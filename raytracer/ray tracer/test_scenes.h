@@ -111,7 +111,7 @@ Scene *random_scene() {
     float dist_to_focus = 10.0;
     float aperture = 0.1;
     float aspectRatio = 3.0/2.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), 20, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), 20, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
 
     SkyBox *sky_box = new sky_skybox();
     //skybox *sky_box = new constant_skybox(Color(0.5,0.7,1));
@@ -173,7 +173,7 @@ Scene *cornellBoxWithSuzanne() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     
@@ -208,7 +208,7 @@ Scene* cornellBox() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     
@@ -248,7 +248,7 @@ Scene* cornellBoxWithCheckers() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     
@@ -289,7 +289,7 @@ Scene* cornellBoxWithTriangle() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     
@@ -332,7 +332,7 @@ Scene* cornellBoxWithSphere() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     
@@ -369,7 +369,7 @@ Scene* rbgLightSpheres() {
     float aperture = 0.0;
     float vfov = 35.0;
     float aspectRatio = 2.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     
     hitable **a = new hitable*[6];
@@ -409,7 +409,7 @@ Scene* cubemapSkyboxScene() {
     float aperture = 0.0;
     float vfov = 35.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     
     hitable *s = new sphere(Vector3f(0,0,0), 15, glass);
@@ -457,7 +457,7 @@ Scene *phongSpheresScene() {
     float aperture = 0.0;
     float vfov = 35.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     return new Scene(world, light, cam, sky_box, aspectRatio);
 }
@@ -499,7 +499,7 @@ Scene *legoBricks() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     
@@ -546,7 +546,7 @@ Scene *legoMan() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new sky_skybox();
     
@@ -594,7 +594,7 @@ Scene *glass() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     
@@ -642,7 +642,7 @@ Scene *teapot() {
     float aperture = 0.0;
     float vfov = 40.0;
     float aspectRatio = 1.0;
-    camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
     SkyBox *sky_box = new constant_skybox();
     

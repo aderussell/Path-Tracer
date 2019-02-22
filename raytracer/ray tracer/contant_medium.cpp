@@ -11,10 +11,10 @@
 #include <stdlib.h>
 #include <iostream>
 
-bool constant_medium::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool constant_medium::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
     bool db = (drand48() < 0.00001);
     db = false;
-    hit_record rec1, rec2;
+    SurfaceInteraction rec1, rec2;
     if (boundary->hit(r, -FLT_MAX, FLT_MAX, rec1)) {
         if (boundary->hit(r, rec1.t+0.0001, FLT_MAX, rec2)) {
             if (db) std::cerr << "\nt0 t1 " << rec1.t << " " << rec2.t << "\n";

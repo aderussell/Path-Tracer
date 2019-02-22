@@ -96,16 +96,16 @@ struct scatter_record {
 
 class material {
 public:
-    virtual bool scatter(const Ray& ray_in, const hit_record& rec, scatter_record& srec) const {
+    virtual bool scatter(const Ray& ray_in, const SurfaceInteraction& rec, scatter_record& srec) const {
         return false;
     };
     
-    virtual float scattering_pdf(const Ray& ray_in, const hit_record& rec, Ray& scattered) const {
+    virtual float scattering_pdf(const Ray& ray_in, const SurfaceInteraction& rec, Ray& scattered) const {
         return false;
     };
     
     
-    virtual Color emitted(const Ray& ray_in, const hit_record& rec, float u, float v, const Vector3f& p) const {
+    virtual Color emitted(const Ray& ray_in, const SurfaceInteraction& rec, float u, float v, const Vector3f& p) const {
         return Color(0,0,0);
     }
 };

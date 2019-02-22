@@ -31,7 +31,7 @@ float dielectric::schlick(float cosine, float ref_idx) const {
     return r0 + (1-r0)*pow((1-cosine), 5);
 }
 
-bool dielectric::scatter(const Ray &ray_in, const hit_record &hrec, scatter_record& srec) const {
+bool dielectric::scatter(const Ray &ray_in, const SurfaceInteraction &hrec, scatter_record& srec) const {
     srec.is_specular = true;
     srec.pdf_ptr = nullptr;
     srec.attenuation = Color(1,1,1);

@@ -46,7 +46,6 @@ void TestIntegrator::render(const Scene &scene) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
                                                           Ray ray = scene.camera->get_ray(u, v);
-                                                          Vector3f p = ray.pointAtParameter(2.0);
                                                           Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
                                                           col += de_nan(col2);
                                                       }
@@ -54,8 +53,7 @@ void TestIntegrator::render(const Scene &scene) {
                                                       
                                                       col /= float(ns);
                                                       col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
-                                                      
-                                                      imageBuffer->pixels[i + j*width] = col;
+                                                      imageBuffer->setColor(i, j, col);
                                                   }
                                               });
         future_vector.emplace_back(std::move(future));
@@ -64,7 +62,7 @@ void TestIntegrator::render(const Scene &scene) {
 
 
 Color TestIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
-    hit_record hrec;
+    SurfaceInteraction hrec;
     if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
         scatter_record srec;
         Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
@@ -124,7 +122,7 @@ void BasicIntegrator::render(const Scene &scene) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
                                                           Ray ray = scene.camera->get_ray(u, v);
-                                                          Vector3f p = ray.pointAtParameter(2.0);
+                                                          //Vector3f p = ray.pointAtParameter(2.0);
                                                           Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
                                                           col += de_nan(col2);
                                                       }
@@ -133,7 +131,7 @@ void BasicIntegrator::render(const Scene &scene) {
                                                       col /= float(ns);
                                                       col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
                                                       
-                                                      imageBuffer->pixels[i + j*width] = col;
+                                                      imageBuffer->setColor(i, j, col);
                                                   }
                                               });
         future_vector.emplace_back(std::move(future));
@@ -141,7 +139,7 @@ void BasicIntegrator::render(const Scene &scene) {
 }
 
 Color BasicIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
-    hit_record hrec;
+    SurfaceInteraction hrec;
     if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
         scatter_record srec;
         Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
@@ -199,7 +197,6 @@ void JitterIntegrator::render(const Scene &scene) {
                                                               double u = (originX + posX + drand48() / ns) / width;
                                                               double v = (originY + posY + drand48() / ns) / height;
                                                               Ray ray = scene.camera->get_ray(u, v);
-                                                              Vector3f p = ray.pointAtParameter(2.0);
                                                               Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
                                                               col += de_nan(col2);
                                                               
@@ -211,7 +208,7 @@ void JitterIntegrator::render(const Scene &scene) {
                                                       col /= float(ns*ns);
                                                       col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
                                                       
-                                                      imageBuffer->pixels[i + j*width] = col;
+                                                      imageBuffer->setColor(i, j, col);
                                                   }
                                               });
         future_vector.emplace_back(std::move(future));
@@ -220,7 +217,7 @@ void JitterIntegrator::render(const Scene &scene) {
 
 
 Color JitterIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
-    hit_record hrec;
+    SurfaceInteraction hrec;
     if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
         scatter_record srec;
         Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);

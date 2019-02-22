@@ -20,7 +20,7 @@ public:
 //        return false;
 //    };
     
-    virtual Color emitted(const Ray& ray_in, const hit_record& rec, float u, float v, const Vector3f& p) const {
+    virtual Color emitted(const Ray& ray_in, const SurfaceInteraction& rec, float u, float v, const Vector3f& p) const {
         if (Vector3f::dotProduct(rec.normal, ray_in.direction()) < 0.0) {
             return emit->value(u, v, p);
         }

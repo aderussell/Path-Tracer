@@ -20,7 +20,7 @@ public:
     float radius;
     material* mat;
     
-    bool hit(const Ray&r, float t_min, float t_max, hit_record& rec) const;
+    bool hit(const Ray&r, float t_min, float t_max, SurfaceInteraction& rec) const;
     bool bounding_box(float t0, float t1, aabb &box) const;
     virtual float pdf_value(const Vector3f& o, const Vector3f& v) const;
     virtual Vector3f random(const Vector3f& o) const;
@@ -39,7 +39,7 @@ public:
     
     Vector3f center(float time) const;
     
-    bool hit(const Ray&r, float t_min, float t_max, hit_record& rec) const;
+    bool hit(const Ray&r, float t_min, float t_max, SurfaceInteraction& rec) const;
     bool bounding_box(float t0, float t1, aabb &box) const;
 };
 

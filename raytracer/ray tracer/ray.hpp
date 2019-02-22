@@ -13,27 +13,26 @@
 #include "Vector3.hpp"
 
 class Ray {
-    public:
+public:
     
     Ray() {}
     
-    Ray(const Vector3f& a, const Vector3f& b, float ti = 0.0) {
-        _a = a;
-        _b = b;
-        _time = ti;
-    }
+    Ray(const Vector3f& o, const Vector3f& d, double ti = 0.0, double tMax = std::numeric_limits<double>::infinity()) : _origin(o), _direction(d), _time(ti), _tMax(tMax) {}
     
-    Vector3f origin() const { return _a; }
-    Vector3f direction() const { return _b; }
-    float time() const { return _time; }
+    Vector3f origin() const { return _origin; }
+    Vector3f direction() const { return _direction; }
+    double time() const { return _time; }
+    double tMax() const { return _tMax; }
+    
+    
     Vector3f pointAtParameter(float t) const {
-        return _a + (t * _b);
+        return _origin + (t * _direction);
     }
     
-    private:
-    Vector3f _a;
-    Vector3f _b;
-    float _time;
+    Vector3f _origin;
+    Vector3f _direction;
+    double _time;
+    mutable double _tMax;
 };
 
 #endif /* Ray_hpp */

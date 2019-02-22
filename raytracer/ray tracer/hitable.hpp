@@ -12,22 +12,29 @@
 #include "Vector3.hpp"
 #include "ray.hpp"
 #include "aabb.hpp"
+#include "interaction.hpp"
 
 class material;
 
-struct hit_record {
-    float t;            // time
-    Vector3f p;          // position
-    Vector3f normal;
-    material *mat_ptr;
-    float u, v;
-};
 
 class hitable {
 public:
-    virtual bool hit(const Ray&r, float t_min, float t_max, hit_record& rec) const = 0;
+    
+    virtual bool hit(const Ray&r, float t_min, float t_max, SurfaceInteraction& rec) const = 0;
+    
     virtual bool bounding_box(float t0, float t1, aabb& box) const = 0;
     
+    virtual bool intersect(const Ray &ray, SurfaceInteraction& rec) const {
+        return hit(ray, 0.0, 0.0, rec);
+    }
+    
+    virtual bool intersectP(const Ray &ray) const {
+        SurfaceInteraction rec;
+        return hit(ray, 0.0, 0.0, rec);
+    }
+    
+    
+    // TODO: move these in future
     virtual float pdf_value(const Vector3f& o, const Vector3f& v) const { return 0.0; }
     virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
 };
@@ -35,7 +42,7 @@ public:
 class flip_normals : public hitable {
 public:
     flip_normals(hitable *p) : ptr(p) {}
-    virtual bool hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+    virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
         if (ptr->hit(r, t_min, t_max, rec)) {
             rec.normal *= -1;
             return true;

@@ -9,13 +9,9 @@
 #ifndef ImageBuffer_hpp
 #define ImageBuffer_hpp
 
-#import <vector>
-#include <memory>
-#include <algorithm>
-#include "Material.hpp"
+#include <vector>
 
 class ImageBuffer {
-  
 public:
     int width;
     int height;
@@ -25,6 +21,10 @@ public:
         pixels.assign(width * height, defaultColor);
     }
     ~ImageBuffer() {}
+    
+    void setColor(size_t x, size_t y, Color c) {
+        pixels[x + y*width] = c;
+    }
 };
 
 #endif /* ImageBuffer_hpp */

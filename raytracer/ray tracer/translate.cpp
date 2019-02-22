@@ -8,7 +8,7 @@
 
 #include "translate.hpp"
 
-bool translate::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool translate::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
     Ray moved_r(r.origin() - offset, r.direction(), r.time());
     if (ptr->hit(moved_r, t_min, t_max, rec)) {
         rec.p += offset;
@@ -56,7 +56,7 @@ rotate_y::rotate_y(hitable *p, float angle) : ptr(p) {
     bbox = aabb(min, max);
 }
 
-bool rotate_y::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool rotate_y::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
     Vector3f origin = r.origin();
     Vector3f direction = r.direction();
     origin[0] = cos_theta*r.origin()[0] - sin_theta*r.origin()[2];
@@ -107,7 +107,7 @@ rotate_x::rotate_x(hitable *p, float angle) : ptr(p) {
     bbox = aabb(min, max);
 }
 
-bool rotate_x::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool rotate_x::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
     Vector3f origin = r.origin();
     Vector3f direction = r.direction();
     origin[1] = cos_theta*r.origin()[1] - sin_theta*r.origin()[2];
@@ -135,7 +135,7 @@ bool rotate_x::hit(const Ray& r, float t_min, float t_max, hit_record& rec) cons
 
 
 
-bool scale::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool scale::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
     const Vector3f origin = r.origin() * (1.0/s);
     const Vector3f direction = r.direction() * (1.0/s);
     Ray moved_r(origin, direction, r.time());

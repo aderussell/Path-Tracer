@@ -12,7 +12,7 @@
 #include "Vector3.hpp"
 
 
-bool triangle::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool triangle::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
     Vector3f edge1 = b - a;
     Vector3f edge2 = c - a;
     
@@ -75,7 +75,7 @@ bool triangle::bounding_box(float t0, float t1, aabb &box) const {
 }
 
 float triangle::pdf_value(const Vector3f& o, const Vector3f& v) const {
-    hit_record rec;
+    SurfaceInteraction rec;
     if (this->hit(Ray(o, v), 0.001, FLT_MAX, rec)) {
         Vector3f edge1 = b - a;
         Vector3f edge2 = c - a;
@@ -99,7 +99,7 @@ Vector3f triangle::random(const Vector3f& o) const {
 }
 
 
-bool triangle_with_normals::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool triangle_with_normals::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
     Vector3f edge1 = b - a;
     Vector3f edge2 = c - a;
     

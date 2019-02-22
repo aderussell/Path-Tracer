@@ -12,12 +12,14 @@
 #include "ray.hpp"
 #include <stdlib.h>
 
-class camera {
+class Camera {
 public:
+    //virtual ~Camera();
+    
     virtual Ray get_ray(float u, float v) = 0;
 };
 
-class cameraA: public camera {
+class cameraA: public Camera {
 public:
     cameraA(float vfov, float aspect) {
         float theta = vfov * M_PI/180.0;
@@ -36,7 +38,7 @@ public:
     Ray get_ray(float u, float v) { return Ray(origin, lowerLeftCorner + (u * horizontal) + (v * vertical)); }
 };
 
-class cameraB: public camera {
+class cameraB: public Camera {
 public:
     cameraB(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect) {
         Vector3f u, v, w;
@@ -61,7 +63,7 @@ public:
 };
 
 
-class cameraC: public camera {
+class cameraC: public Camera {
 public:
     cameraC(Vector3f lookfrom, Vector3f lookat, Vector3f vup, float vfov, float aspect, float aperture, float focus_dist, float t0, float t1) {
         time0 = t0;

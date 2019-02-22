@@ -21,7 +21,7 @@ Vector3f metal::random_in_unit_sphere() const {
     return p;
 }
 
-bool metal::scatter(const Ray& ray_in, const hit_record& hrec, scatter_record& srec) const {
+bool metal::scatter(const Ray& ray_in, const SurfaceInteraction& hrec, scatter_record& srec) const {
     Vector3f reflected = reflect(ray_in.direction().normalized(), hrec.normal);
     srec.specular_ray = Ray(hrec.p, reflected + fuzz * this->random_in_unit_sphere(), ray_in.time());
     srec.attenuation = albedo;

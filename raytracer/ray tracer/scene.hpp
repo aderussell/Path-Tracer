@@ -21,16 +21,28 @@ class Light {};
 class Scene {
 public:
     
-    Scene(std::shared_ptr<hitable> world, std::shared_ptr<SkyBox> skybox, const std::vector<std::shared_ptr<Light>> &lights) : world(world), sky_box(skybox), lights(lights) {}
+    Scene(std::shared_ptr<hitable> world, const std::vector<std::shared_ptr<Light>> &lights) : world(world), lights(lights) {}
     
-    
-    Scene(hitable *_world, hitable *_light_shape, camera *_camera, SkyBox *_sky_box, int _ratio = 1) : world(_world), light_shape(_light_shape), camera(_camera), sky_box(_sky_box) {}
-
     std::shared_ptr<hitable> world;
     std::vector<std::shared_ptr<Light>> lights;
     
+    bool intersect(const Ray &ray, SurfaceInteraction& rec) const {
+        return world->hit(ray, 0.0, 0.0, rec);
+    }
+    
+    bool intersectP(const Ray &ray) const {
+        SurfaceInteraction rec;
+        return world->hit(ray, 0.0, 0.0, rec);
+    }
+    
+    // TODO: remove later
+    
+    Scene(hitable *_world, hitable *_light_shape, Camera *_camera, SkyBox *_sky_box, int _ratio = 1) : world(_world), light_shape(_light_shape), camera(_camera), sky_box(_sky_box) {}
+
+    
+    
     hitable *light_shape;
-    camera *camera;
+    Camera *camera;
     
     std::shared_ptr<SkyBox> sky_box;
 };
