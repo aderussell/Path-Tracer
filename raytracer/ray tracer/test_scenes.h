@@ -647,8 +647,20 @@ Scene *teapot() {
     SkyBox *sky_box = new constant_skybox();
     
     return new Scene(world, light_list, cam, sky_box, aspectRatio);
+}
+
+Scene *eggScene() {
+    Mesh *eggMesh = meshFromFilename(CFSTR("egg.obj"));
     
+    
+    Vector3f lookfrom(4, -12, 19);
+    Vector3f lookat(-0.3, -0.4, -1);
+    float vfov = 30.0;
+    float aspectRatio = 1.0;
+    Camera *cam = new cameraB(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio);
     
 }
+
+
 
 #endif /* test_scenes_h */

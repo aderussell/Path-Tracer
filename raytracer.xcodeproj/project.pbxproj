@@ -10,6 +10,7 @@
 		AB1493BC21D4133A000FA0D3 /* obj_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */; };
 		AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB1493C021D56658000FA0D3 /* suzanne.obj */; };
 		AB26EA342220B3E60009E5AF /* interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26EA322220B3E60009E5AF /* interaction.cpp */; };
+		AB26EABA222DB1E20009E5AF /* egg.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB26EAB9222DB1E20009E5AF /* egg.obj */; };
 		AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB46D28A21FA63B6006A0DDA /* teapot.obj */; };
 		AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */; };
 		AB46D29321FDD6C3006A0DDA /* integrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D29121FDD6C3006A0DDA /* integrator.cpp */; };
@@ -61,6 +62,7 @@
 		AB26EA30222085F10009E5AF /* testscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = testscene.hpp; sourceTree = "<group>"; };
 		AB26EA322220B3E60009E5AF /* interaction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interaction.cpp; sourceTree = "<group>"; };
 		AB26EA332220B3E60009E5AF /* interaction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interaction.hpp; sourceTree = "<group>"; };
+		AB26EAB9222DB1E20009E5AF /* egg.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = egg.obj; sourceTree = "<group>"; };
 		AB46D28A21FA63B6006A0DDA /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = anisotropic_phong.cpp; sourceTree = "<group>"; };
 		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 		AB4F132D2217373900761816 /* meshes */ = {
 			isa = PBXGroup;
 			children = (
+				AB26EAB9222DB1E20009E5AF /* egg.obj */,
 				AB4F132E2217375F00761816 /* glass.obj */,
 				AB46D28A21FA63B6006A0DDA /* teapot.obj */,
 				AB1493C021D56658000FA0D3 /* suzanne.obj */,
@@ -417,6 +420,7 @@
 				AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */,
 				ABFE0EA7220B6F0C00F77645 /* lego_man.obj in Resources */,
 				BFCB8C0C21F9F726006C7773 /* yokohama3-right.jpg in Resources */,
+				AB26EABA222DB1E20009E5AF /* egg.obj in Resources */,
 				AB4F132C22162C8100761816 /* suzanne2.obj in Resources */,
 				BFCB8C0B21F9F726006C7773 /* yokohama3-bottom.jpg in Resources */,
 				AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */,
