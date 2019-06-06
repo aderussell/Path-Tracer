@@ -31,6 +31,22 @@ private:
     Color color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth);
 };
 
+class TestIntegrator2 : public Integrator {
+public:
+    TestIntegrator2(ImageBuffer *buffer, int ns = 100) : imageBuffer(buffer), ns(ns) {
+        totalsImageBuffer = new ImageBuffer(buffer->width, buffer->height);
+        ns_pix.assign(buffer->width * buffer->height, 0);
+    }
+    void render(const Scene &scene);
+    
+private:
+    ImageBuffer* imageBuffer;
+    ImageBuffer* totalsImageBuffer;
+    std::vector<size_t> ns_pix;
+    int ns;
+    Color color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth);
+};
+
 
 class BasicIntegrator : public Integrator {
 public:

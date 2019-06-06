@@ -95,6 +95,91 @@ Color TestIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, 
 
 
 
+
+
+void TestIntegrator2::render(const Scene &scene) {
+    
+    int width  = imageBuffer->width;
+    int height = imageBuffer->height;
+    
+    std::size_t max = width * height;
+    std::size_t cores = std::thread::hardware_concurrency();
+    volatile std::atomic<std::size_t> count(0);
+    std::vector<std::future<void>> future_vector;
+    while (cores--) {
+        std::future<void> future = std::async(std::launch::async, [=, &scene, &width, &height, &count]
+                                              {
+                                                  while (true)
+                                                  {
+                                                      std::size_t index = count++;
+                                                      if (index >= max) {
+                                                          count = 0;
+                                                          index = 0;
+                                                      }
+                                                      std::size_t i = index % width;
+                                                      std::size_t j = index / width;
+                                                      if (i == 0 && j%10==0) {
+                                                          std::cout << j << std::endl;
+                                                      }
+                                                      Color col = totalsImageBuffer->getColor(i, j);
+                                                      int ns_here = 100;
+                                                      for(int s = 0; s < ns_here; s++) {
+                                                          double u = float(i + drand48()) / float(width);
+                                                          double v = float(j + drand48()) / float(height);
+                                                          Ray ray = scene.camera->get_ray(u, v);
+                                                          Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
+                                                          col += de_nan(col2);
+                                                      }
+                                                      totalsImageBuffer->setColor(i, j, col);
+                                                      ns_pix[i + j*width] += ns_here;
+                                                      size_t ns2 = ns_pix[i + j*width];
+                                                      col /= float(ns2);
+                                                      col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
+                                                      imageBuffer->setColor(i, j, col);
+                                                  }
+                                              });
+        future_vector.emplace_back(std::move(future));
+    }
+}
+
+
+Color TestIntegrator2::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
+    SurfaceInteraction hrec;
+    if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
+        scatter_record srec;
+        Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
+        if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec)) {
+            if (srec.is_specular) {
+                delete srec.pdf_ptr;
+                return srec.attenuation * color(srec.specular_ray, world, light_shape, sky_box, depth+1);
+            } else {
+                hitable_pdf plight(light_shape, hrec.p);
+                pdf *plightP = (light_shape != nullptr) ? &plight : srec.pdf_ptr;
+                mixture_pdf p(plightP, srec.pdf_ptr);
+                Ray scattered;
+                float pdf_val;
+                do {
+                    scattered = Ray(hrec.p, p.generate(), r.time());
+                    pdf_val = p.value(scattered.direction());
+                } while (pdf_val < 1E-13);
+                delete srec.pdf_ptr;
+                return emitted + srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered) * color(scattered, world, light_shape, sky_box, depth+1) / pdf_val;
+            }
+        } else {
+            delete srec.pdf_ptr;
+            return emitted;
+        }
+    } else {
+        return sky_box->get_color(r);
+    }
+}
+
+
+
+
+
+
+
 void BasicIntegrator::render(const Scene &scene) {
     
     int width  = imageBuffer->width;

@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     
-    int width = 500;
+    int width = 1000;
     int height = 500;
     int ns = 100;
     
@@ -28,10 +28,10 @@
     //scene *s = legoMan();
     //scene *s = glass();
     //scene *s = phongSpheresScene();
-    Scene *s = random_scene();
+    Scene *s = rbgLightSpheres();
     ImageBuffer *buffer = new ImageBuffer(width, height);
     _outputBuffer = buffer;
-    Integrator *integrator = new TestIntegrator(buffer, ns);
+    Integrator *integrator = new TestIntegrator2(buffer, ns);
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         integrator->preprocess(*s);

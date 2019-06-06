@@ -25,6 +25,10 @@ public:
     void setColor(size_t x, size_t y, Color c) {
         pixels[x + y*width] = c;
     }
+    
+    Color getColor(size_t x, size_t y) {
+        return pixels[x + y*width];
+    }
 };
 
 #endif /* ImageBuffer_hpp */
