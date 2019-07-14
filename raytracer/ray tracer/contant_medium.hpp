@@ -19,6 +19,10 @@ public:
     virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const;
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         return boundary->bounding_box(t0, t1, box); }
+    
+    virtual float pdf_value(const Vector3f& o, const Vector3f& v) const { return boundary->pdf_value(o, v); }
+    virtual Vector3f random(const Vector3f& o) const { return boundary->random(o); }
+    
     hitable *boundary;
     float density;
     material *phase_function;

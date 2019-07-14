@@ -122,7 +122,7 @@ void TestIntegrator2::render(const Scene &scene) {
                                                           std::cout << j << std::endl;
                                                       }
                                                       Color col = totalsImageBuffer->getColor(i, j);
-                                                      int ns_here = 100;
+                                                      int ns_here = 10;
                                                       for(int s = 0; s < ns_here; s++) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);

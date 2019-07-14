@@ -20,15 +20,16 @@
     [super viewDidLoad];
     
     
-    int width = 1000;
+    int width = 500;
     int height = 500;
     int ns = 100;
     
-    //scene *s = cornellBoxWithSphere();
-    //scene *s = legoMan();
-    //scene *s = glass();
+    Scene *s = cornellBoxWithSphere();
+    //Scene *s = legoMan();
+    //Scene *s = glass();
     //scene *s = phongSpheresScene();
-    Scene *s = rbgLightSpheres();
+    //Scene *s = rbgLightSpheres();
+    //Scene *s = cornellBoxWithSuzanne();
     ImageBuffer *buffer = new ImageBuffer(width, height);
     _outputBuffer = buffer;
     Integrator *integrator = new TestIntegrator2(buffer, ns);

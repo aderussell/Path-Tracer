@@ -18,7 +18,9 @@ Vector3f isotropic::random_in_unit_sphere() const {
 }
 
 bool isotropic::scatter(const Ray& r_in, const SurfaceInteraction& rec, scatter_record& srec) const  {
-    srec.specular_ray = Ray(rec.p, this->random_in_unit_sphere(), r_in.time());
+    //srec.specular_ray = Ray(rec.p, this->random_in_unit_sphere(), r_in.time());
+    srec.is_specular = false;
     srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
+    srec.pdf_ptr = new cosine_pdf(rec.normal);
     return true;
 }

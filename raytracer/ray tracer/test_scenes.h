@@ -34,7 +34,7 @@
 #include "triangle.hpp"
 #include "obj_loader.hpp"
 #include "anisotropic_phong.hpp"
-
+#include "contant_medium.hpp"
 
 image_texture *textureFromFilename(CFStringRef filename) {
     CFBundleRef mainBundle = CFBundleGetMainBundle();
@@ -305,7 +305,7 @@ Scene* cornellBoxWithSphere() {
     dielectric *glass = new dielectric(1.5);
     glass->density = 0.03;
     glass->volumeColor = Color(0.0,0.0,0.0);
-    hitable **list = new hitable*[8];
+    hitable **list = new hitable*[10];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
     list[i++] = new yz_rect(0,555,0,555,0, red);
@@ -315,6 +315,7 @@ Scene* cornellBoxWithSphere() {
     list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
     list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(165,330,165), aluminium), 15), Vector3f(265,0,295));
     list[i++] = new sphere(Vector3f(190, 90, 190), 90, glass);
+    //list[i++] = new constant_medium(new box(Vector3f(100,100,100), Vector3f(300,300,300), white), 0.01, new constant_texture(Color(0.9, 0.9, 0.9)));
     hitable *world = new hitable_list(list,i);
     
     
