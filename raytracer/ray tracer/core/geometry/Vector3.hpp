@@ -47,40 +47,40 @@ public:
     }
     
     
-    Vector3(const Vector3<T> &v) {
-        _x = v.x();
-        _y = v.y();
-        _z = v.z();
+Vector3(const Vector3<T> &v) {
+        x() = v.x();
+        y() = v.y();
+        z() = v.z();
     }
     
     Vector3<T> &operator+= (const Vector3<T> &v) {
-        _x += v.x();
-        _y += v.y();
-        _z += v.z();
+        x() += v.x();
+        y() += v.y();
+        z() += v.z();
         return *this;
     }
     
     Vector3<T> &operator-= (const Vector3<T> &v) {
-        _x -= v.x();
-        _y -= v.y();
-        _z -= v.z();
+        x() -= v.x();
+        y() -= v.y();
+        z() -= v.z();
         return *this;
     }
     
     template <typename U>
     Vector3<T> &operator*= (U s) {
-        _x *= s;
-        _y *= s;
-        _z *= s;
+        x() *= s;
+        y() *= s;
+        z() *= s;
         return *this;
     }
     
     template <typename U>
     Vector3<T> &operator/= (U s) {
-        T inv = (T)1.0 / s;
-        _x *= inv;
-        _y *= inv;
-        _z *= inv;
+        double inv = (double)1.0 / s;
+        x() *= inv;
+        y() *= inv;
+        z() *= inv;
         return *this;
     }
     
@@ -107,47 +107,47 @@ public:
     
     
     Vector3<T> operator+ (const Vector3<T> &v) const {
-        return Vector3(_x + v.x(), _y + v.y(), _z + v.z());
+        return Vector3(x() + v.x(), y() + v.y(), z() + v.z());
     }
     Vector3<T> operator- (const Vector3<T> &v) const {
-        return Vector3(_x - v.x(), _y - v.y(), _z - v.z());
+        return Vector3(x() - v.x(), y() - v.y(), z() - v.z());
     }
     
     template <typename U>
     Vector3<T> operator*(U s) const {
-        return Vector3<T>(_x * s, _y * s, _z * s);
+        return Vector3<T>(x() * s, y() * s, z() * s);
     }
     
     template <typename U>
     Vector3<T> operator/ (U s) const {
         double inv = (double)1.0 / s;
-        return Vector3<T>(_x*inv, _y*inv, _z*inv);
+        return Vector3<T>(x()*inv, y()*inv, z()*inv);
     }
     
     Vector3<T> operator-() const {
-        return Vector3<T>(-_x, -_y, -_z);
+        return Vector3<T>(-x(), -y(), -z());
     }
     
     bool operator== (const Vector3<T> &v) const {
-        return ((_x == v.x) && (_y == v.y) && (_z == v.z));
+        return ((x() == v.x) && (y() == v.y) && (z() == v.z));
     }
     
     bool operator!= (const Vector3<T> &v) const {
-        return ((_x != v.x) || (_y != v.y) || (_z != v.z));
+        return ((x() != v.x) || (y() != v.y) || (z() != v.z));
     }
     
     
     
     Vector3<T> inverse() const {
-        return Vector3<T>(-_x, -_y, -_z);
+        return Vector3<T>(-x(), -y(), -z());
     }
     
     Vector3<T> normalized() const {
-        return (_x == 0.0f && _y == 0.0f && _z == 0.0f) ? Vector3(*this) : (*this * (1.0 / this->length()));
+        return (x() == 0.0f && y() == 0.0f && z() == 0.0f) ? Vector3(*this) : (*this * (1.0 / this->length()));
     }
     
     double squareMagnitude() const {
-        return (_x * _x) + (_y * _y) + (_z * _z);
+        return (x() * x()) + (y() * y()) + (z() * z());
     }
     
     double magnitude() const {
@@ -159,7 +159,7 @@ public:
     }
     
     Vector3<T> normal() const {
-         return Vector3<T>(-_y, _x, _z);
+         return Vector3<T>(-y(), x(), z());
     }
     
     static double dotProduct(Vector3 v1, Vector3 v2) {
@@ -202,6 +202,6 @@ inline Vector3<T> abs(const Vector3<T> &v) {
     return Vector3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
 }
 
-typedef Vector3<float> Vector3f;
+typedef Vector3<double> Vector3f;
 
 #endif /* Vector3_hpp */
