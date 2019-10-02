@@ -17,6 +17,9 @@ public:
     translate(hitable *p, const Vector3f& displacement) : ptr(p), offset(displacement) {}
     virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const;
     virtual bool bounding_box(float t0, float t1, aabb& box) const;
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
     hitable *ptr;
     Vector3f offset;
 };
@@ -27,6 +30,9 @@ public:
     virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const;
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         box = bbox; return hasbox;}
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
     hitable *ptr;
     float sin_theta;
     float cos_theta;
@@ -40,6 +46,9 @@ public:
     virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const;
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         box = bbox; return hasbox;}
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
     hitable *ptr;
     float sin_theta;
     float cos_theta;
@@ -53,6 +62,9 @@ public:
     virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const;
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         box = bbox; return hasbox;}
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
     hitable *ptr;
     float sin_theta;
     float cos_theta;
@@ -65,6 +77,9 @@ public:
     scale(hitable *p, float _s) : ptr(p), s(_s) {}
     virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const;
     virtual bool bounding_box(float t0, float t1, aabb& box) const;
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
     hitable *ptr;
     float s;
 };

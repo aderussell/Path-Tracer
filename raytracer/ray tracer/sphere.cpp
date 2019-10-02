@@ -12,8 +12,8 @@
 #include "onb.hpp"
 
 void get_sphere_uv(const Vector3f& p, double& u, double& v) {
-    float phi = atan2(p.z, p.x);
-    float theta = asin(p.y);
+    float phi = atan2(p.z(), p.x());
+    float theta = asin(p.y());
     u = 1-(phi+M_PI) / (2*M_PI);
     v = (theta+M_PI/2) / M_PI;
 }

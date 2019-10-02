@@ -78,7 +78,7 @@ inline Color operator + (const Color& a, const Color& b) {
 }
 
 inline Color operator * (const Color& a, const Vector3f& b) {
-    return Color(a.r * b.x, a.g * b.y, a.b * b.z);
+    return Color(a.r * b.x(), a.g * b.y(), a.b * b.z());
 }
 
 

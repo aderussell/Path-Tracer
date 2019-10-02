@@ -21,6 +21,7 @@ public:
         box =  aabb(pmin, pmax);
         return true; }
     
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
     
     Vector3f pmin, pmax;
     hitable *list_ptr;

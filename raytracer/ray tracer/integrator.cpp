@@ -42,7 +42,7 @@ void TestIntegrator::render(const Scene &scene) {
                                                           std::cout << j << std::endl;
                                                       }
                                                       Color col(0,0,0);
-                                                      for(int s = 0; s < ns; s++) {
+                                                      for(int s = 0; s < ns; ++s) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
                                                           Ray ray = scene.camera->get_ray(u, v);
@@ -123,7 +123,7 @@ void TestIntegrator2::render(const Scene &scene) {
                                                       }
                                                       Color col = totalsImageBuffer->getColor(i, j);
                                                       int ns_here = 10;
-                                                      for(int s = 0; s < ns_here; s++) {
+                                                      for(int s = 0; s < ns_here; ++s) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
                                                           Ray ray = scene.camera->get_ray(u, v);
@@ -203,7 +203,7 @@ void BasicIntegrator::render(const Scene &scene) {
                                                           std::cout << j << std::endl;
                                                       }
                                                       Color col(0,0,0);
-                                                      for(int s = 0; s < ns; s++) {
+                                                      for(int s = 0; s < ns; ++s) {
                                                           double u = float(i + drand48()) / float(width);
                                                           double v = float(j + drand48()) / float(height);
                                                           Ray ray = scene.camera->get_ray(u, v);
@@ -271,8 +271,8 @@ void JitterIntegrator::render(const Scene &scene) {
                                                           std::cout << j << std::endl;
                                                       }
                                                       Color col(0,0,0);
-                                                      for(int s = 0; s < ns; s++) {
-                                                          for (int t = 0; t < ns; t++) {
+                                                      for(int s = 0; s < ns; ++s) {
+                                                          for (int t = 0; t < ns; ++t) {
                                                               
                                                               double originX = i;
                                                               double originY = j;

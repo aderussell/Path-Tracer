@@ -23,6 +23,8 @@ public:
         return true;
     }
     
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
 private:
     material *mp;
     float x0, x1, y0, y1, k;
@@ -54,6 +56,8 @@ public:
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         box =  aabb(Vector3f(k-0.0001, y0, z0), Vector3f(k+0.0001, y1, z1));
         return true; }
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
     
 private:
     material  *mp;

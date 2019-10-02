@@ -23,7 +23,7 @@ public:
     Vector3f v() const { return axis[1]; }
     Vector3f w() const { return axis[2]; }
     Vector3f local(float a, float b, float c) const { return a*u() + b*v() + c*w(); }
-    Vector3f local(const Vector3f& a) const { return local(a.x, a.y, a.z); }
+    Vector3f local(const Vector3f& a) const { return local(a.x(), a.y(), a.z()); }
     void build_from_w(const Vector3f& n);
     void build(const Vector3f& n, const Vector3f& i);
 private:

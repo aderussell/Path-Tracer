@@ -36,7 +36,7 @@ public:
     
     // TODO: move these in future
     virtual float pdf_value(const Vector3f& o, const Vector3f& v) const { return 0.0; }
-    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    virtual Vector3f random(const Vector3f& o) const = 0;
 };
 
 class flip_normals : public hitable {
@@ -53,6 +53,9 @@ public:
     virtual bool bounding_box(float t0, float t1, aabb& box) const {
         return ptr->bounding_box(t0, t1, box);
     }
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
     hitable *ptr;
 };
 

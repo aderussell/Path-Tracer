@@ -10,7 +10,7 @@
 #include "Matrix44.hpp"
 //#include <cstring>
 
-#define USE_FAST_CALCULATIONS 0
+#define USE_FAST_CALCULATIONS 1
 
 Matrix44::Matrix44(double m11, double m12, double m13, double m14,
          double m21, double m22, double m23, double m24,
@@ -25,8 +25,8 @@ Matrix44::Matrix44(double m11, double m12, double m13, double m14,
 
 Matrix44::Matrix44(double v[4][4])
 {
-    for (unsigned int i = 0; i < 4; i++) {
-        for (unsigned int j = 0; j < 4; j++) {
+    for (unsigned int i = 0; i < 4; ++i) {
+        for (unsigned int j = 0; j < 4; ++j) {
             this->u.v[i][j] = v[i][j];
         }
     }
@@ -34,7 +34,7 @@ Matrix44::Matrix44(double v[4][4])
 
 Matrix44::Matrix44(double a[16])
 {
-    for (unsigned int i = 0; i < 16; i++) {
+    for (unsigned int i = 0; i < 16; ++i) {
         this->u.a[i] = a[i];
     }
     //memcpy(this->u.a, a, sizeof(double) * 16);
@@ -217,9 +217,9 @@ Matrix44 Matrix44::lookAtLH(Vector3f position, Vector3f target, Vector3f upVecto
     Vector3f xAxis = Vector3f::crossProduct(upVector, zAxis).normalized();
     Vector3f yAxis = Vector3f::crossProduct(zAxis, xAxis);
     
-    return Matrix44(xAxis.x, yAxis.x, zAxis.x, 0,
-                    xAxis.y, yAxis.y, zAxis.y, 0,
-                    xAxis.z, yAxis.z, zAxis.z, 0,
+    return Matrix44(xAxis.x(), yAxis.x(), zAxis.x(), 0,
+                    xAxis.y(), yAxis.y(), zAxis.y(), 0,
+                    xAxis.z(), yAxis.z(), zAxis.z(), 0,
                     -Vector3f::dotProduct(xAxis, position), -Vector3f::dotProduct(yAxis, position), -Vector3f::dotProduct(yAxis, position), 1);
 }
 
@@ -245,7 +245,7 @@ bool Matrix44::operator== (Matrix44 &m)
     if (this->u.m44 != m.u.m44) return false;
     return true;
 #else
-    for (unsigned int i = 0; i < 16; i++) {
+    for (unsigned int i = 0; i < 16; ++i) {
             if (this->u.a[i] != m.u.a[i]) {
                 return false;
             }
@@ -275,8 +275,8 @@ Matrix44 Matrix44::operator+ (Matrix44 m)
                     this->u.m41 + m.u.m41, this->u.m42 + m.u.m42, this->u.m43 + m.u.m43, this->u.m44 + m.u.m44);
 #else
     Matrix44 result;
-    for (unsigned int i = 0; i < 4; i++) {
-        for (unsigned int j = 0; j < 4; j++) {
+    for (unsigned int i = 0; i < 4; ++i) {
+        for (unsigned int j = 0; j < 4; ++j) {
             result.u.v[i][j] = this->u.v[i][j] + m.u.v[i][j];
         }
     }
@@ -293,8 +293,8 @@ Matrix44 Matrix44::operator- (Matrix44 m)
                     this->u.m41 - m.u.m41, this->u.m42 - m.u.m42, this->u.m43 - m.u.m43, this->u.m44 - m.u.m44);
 #else
     Matrix44 result;
-    for (unsigned int i = 0; i < 4; i++) {
-        for (unsigned int j = 0; j < 4; j++) {
+    for (unsigned int i = 0; i < 4; ++i) {
+        for (unsigned int j = 0; j < 4; ++j) {
             result.u.v[i][j] = this->u.v[i][j] - m.u.v[i][j];
         }
     }
@@ -329,9 +329,9 @@ Matrix44 Matrix44::operator* (Matrix44 m)
                     nm41, nm42, nm43, nm44);
 #else
     Matrix44 result;
-    for (unsigned int i = 0; i < 4; i++) {
-        for (unsigned int j = 0; j < 4; j++) {
-            for (unsigned int k = 0; k < 4; k++) {
+    for (unsigned int i = 0; i < 4; ++i) {
+        for (unsigned int j = 0; j < 4; ++j) {
+            for (unsigned int k = 0; k < 4; ++k) {
                 result.u.v[i][j] += this->u.v[i][k] * m.u.v[k][j];
             }
         }
@@ -349,8 +349,8 @@ Matrix44 Matrix44::operator* (double s)
                     this->u.m41 * s, this->u.m42 * s, this->u.m43 * s, this->u.m44 * s);
 #else
     Matrix44 result;
-    for (unsigned int i = 0; i < 4; i++) {
-        for (unsigned int j = 0; j < 4; j++) {
+    for (unsigned int i = 0; i < 4; ++i) {
+        for (unsigned int j = 0; j < 4; ++j) {
             result.u.v[i][j] = this->u.v[i][j] * s;
         }
     }

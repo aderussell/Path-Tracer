@@ -16,6 +16,8 @@ template <typename T>
 inline T ffmin(T a, T b) { return a < b ? a : b; }
 template <typename T>
 inline T ffmax(T a, T b) { return a > b ? a : b; }
+template <typename T>
+inline T ffclamp(T a, T min, T max) { return ffmax(min, ffmin(max, a)); }
 
 class aabb {
 public:
@@ -28,10 +30,10 @@ public:
     // TODO: replace with version on next week page 11
     bool hit(const Ray& r, float tmin, float tmax) const {
         {
-            float t0 = ffmin((_min.x - r.origin().x) / r.direction().x,
-                             (_max.x - r.origin().x) / r.direction().x);
-            float t1 = ffmax((_min.x - r.origin().x) / r.direction().x,
-                             (_max.x - r.origin().x) / r.direction().x);
+            float t0 = ffmin((_min.x() - r.origin().x()) / r.direction().x(),
+                             (_max.x() - r.origin().x()) / r.direction().x());
+            float t1 = ffmax((_min.x() - r.origin().x()) / r.direction().x(),
+                             (_max.x() - r.origin().x()) / r.direction().x());
             tmin = ffmax(t0, tmin);
             tmax = ffmin(t1, tmax);
             if (tmax <= tmin) {
@@ -39,10 +41,10 @@ public:
             }
         }
         {
-            float t0 = ffmin((_min.y - r.origin().y) / r.direction().y,
-                             (_max.y - r.origin().y) / r.direction().y);
-            float t1 = ffmax((_min.y - r.origin().y) / r.direction().y,
-                             (_max.y - r.origin().y) / r.direction().y);
+            float t0 = ffmin((_min.y() - r.origin().y()) / r.direction().y(),
+                             (_max.y() - r.origin().y()) / r.direction().y());
+            float t1 = ffmax((_min.y() - r.origin().y()) / r.direction().y(),
+                             (_max.y() - r.origin().y()) / r.direction().y());
             tmin = ffmax(t0, tmin);
             tmax = ffmin(t1, tmax);
             if (tmax <= tmin) {
@@ -50,10 +52,10 @@ public:
             }
         }
         {
-            float t0 = ffmin((_min.z - r.origin().z) / r.direction().z,
-                             (_max.z - r.origin().z) / r.direction().z);
-            float t1 = ffmax((_min.z - r.origin().z) / r.direction().z,
-                             (_max.z - r.origin().z) / r.direction().z);
+            float t0 = ffmin((_min.z() - r.origin().z()) / r.direction().z(),
+                             (_max.z() - r.origin().z()) / r.direction().z());
+            float t1 = ffmax((_min.z() - r.origin().z()) / r.direction().z(),
+                             (_max.z() - r.origin().z()) / r.direction().z());
             tmin = ffmax(t0, tmin);
             tmax = ffmin(t1, tmax);
             if (tmax <= tmin) {
@@ -65,10 +67,10 @@ public:
     
     int longest_axis() {
         Vector3f length = _max - _min;
-        double max = ffmax(length.x, ffmax(length.y, length.z));
-        if (max == length.x) {
+        double max = ffmax(length.x(), ffmax(length.y(), length.z()));
+        if (max == length.x()) {
             return 0;
-        } else if (max == length.y) {
+        } else if (max == length.y()) {
             return 1;
         } else {
             return 2;
@@ -77,7 +79,7 @@ public:
     
     double area() {
         Vector3f length = _max - _min;
-        return length.x * length.y * length.z;
+        return length.x() * length.y() * length.z();
     }
     
 private:

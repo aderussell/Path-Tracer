@@ -13,7 +13,7 @@ bool hitable_list::hit(const Ray &r, float t_min, float t_max, SurfaceInteractio
     SurfaceInteraction temp_rec;
     bool hit_anything = false;
     double closest_so_far = t_max;
-    for (int i = 0; i < list_size; i++) {
+    for (int i = 0; i < list_size; ++i) {
         aabb box;
         if (list[i]->bounding_box(t_min, t_max, box)) {
             if (box.hit(r, t_min, t_max)) {
@@ -37,7 +37,7 @@ bool hitable_list::bounding_box(float t0, float t1, aabb &box) const {
         return false;
     } else {
         box = temp_box;
-        for (int i = 1; i < list_size; i++) {
+        for (int i = 1; i < list_size; ++i) {
             if (list[i]->bounding_box(t0, t1, temp_box)) {
                 box = surrounding_box(box, temp_box);
             } else {
@@ -51,7 +51,7 @@ bool hitable_list::bounding_box(float t0, float t1, aabb &box) const {
 float hitable_list::pdf_value(const Vector3f &o, const Vector3f &v) const {
     float weight = 1.0/list_size;
     float sum = 0;
-    for (int i = 0; i < list_size; i++) {
+    for (int i = 0; i < list_size; ++i) {
         sum += weight*list[i]->pdf_value(o, v);
     }
     return sum;

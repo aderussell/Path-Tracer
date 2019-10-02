@@ -35,7 +35,7 @@ public:
     checker_texture() {}
     checker_texture(texture *t0, texture *t1): even(t0), odd(t1) {}
     Color value(float u, float v, const Vector3f& p) const {
-        float sines = sin(p.x / factor)*sin(p.y / factor)*sin(p.z / factor);
+        float sines = sin(p.x() / factor)*sin(p.y() / factor)*sin(p.z() / factor);
         if (sines < 0) {
             return odd->value(u,v,p);
         } else {

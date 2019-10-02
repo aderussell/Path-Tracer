@@ -60,14 +60,14 @@ bool triangle::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& r
 }
 
 bool triangle::bounding_box(float t0, float t1, aabb &box) const {
-    float minX = ffmin(a.x, ffmin(b.x, c.x));
-    float minY = ffmin(a.y, ffmin(b.y, c.y));
-    float minZ = ffmin(a.z, ffmin(b.z, c.z));
+    float minX = ffmin(a.x(), ffmin(b.x(), c.x()));
+    float minY = ffmin(a.y(), ffmin(b.y(), c.y()));
+    float minZ = ffmin(a.z(), ffmin(b.z(), c.z()));
     Vector3f min(minX, minY, minZ);
     
-    float maxX = ffmax(a.x, ffmax(b.x, c.x));
-    float maxY = ffmax(a.y, ffmax(b.y, c.y));
-    float maxZ = ffmax(a.z, ffmax(b.z, c.z));
+    float maxX = ffmax(a.x(), ffmax(b.x(), c.x()));
+    float maxY = ffmax(a.y(), ffmax(b.y(), c.y()));
+    float maxZ = ffmax(a.z(), ffmax(b.z(), c.z()));
     Vector3f max(maxX, maxY, maxZ);
     
     box = aabb(min, max);

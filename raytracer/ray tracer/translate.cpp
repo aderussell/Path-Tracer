@@ -35,12 +35,12 @@ rotate_y::rotate_y(hitable *p, float angle) : ptr(p) {
     hasbox = ptr->bounding_box(0, 1, bbox);
     Vector3f min(FLT_MAX, FLT_MAX, FLT_MAX);
     Vector3f max(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 2; j++) {
-            for (int k = 0; k < 2; k++) {
-                float x = i*bbox.max().x + (1-i)*bbox.min().x;
-                float y = j*bbox.max().y + (1-j)*bbox.min().y;
-                float z = k*bbox.max().z + (1-k)*bbox.min().z;
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            for (int k = 0; k < 2; ++k) {
+                float x = i*bbox.max().x() + (1-i)*bbox.min().x();
+                float y = j*bbox.max().y() + (1-j)*bbox.min().y();
+                float z = k*bbox.max().z() + (1-k)*bbox.min().z();
                 float newx = cos_theta*x + sin_theta*z;
                 float newz = -sin_theta*x + cos_theta*z;
                 Vector3f tester(newx, y, newz);
@@ -89,9 +89,9 @@ rotate_x::rotate_x(hitable *p, float angle) : ptr(p) {
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 2; k++) {
-                float x = i*bbox.max().x + (1-i)*bbox.min().x;
-                float y = j*bbox.max().y + (1-j)*bbox.min().y;
-                float z = k*bbox.max().z + (1-k)*bbox.min().z;
+                float x = i*bbox.max().x() + (1-i)*bbox.min().x();
+                float y = j*bbox.max().y() + (1-j)*bbox.min().y();
+                float z = k*bbox.max().z() + (1-k)*bbox.min().z();
                 float newy = cos_theta*y - sin_theta*z;
                 float newz = sin_theta*y + cos_theta*z;
                 Vector3f tester(x, newy, newz);

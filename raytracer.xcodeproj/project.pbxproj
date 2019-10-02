@@ -11,6 +11,7 @@
 		AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB1493C021D56658000FA0D3 /* suzanne.obj */; };
 		AB26EA342220B3E60009E5AF /* interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26EA322220B3E60009E5AF /* interaction.cpp */; };
 		AB26EABA222DB1E20009E5AF /* egg.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB26EAB9222DB1E20009E5AF /* egg.obj */; };
+		AB2843AE22DBB3630046B436 /* cylinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2843AC22DBB3630046B436 /* cylinder.cpp */; };
 		AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB46D28A21FA63B6006A0DDA /* teapot.obj */; };
 		AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */; };
 		AB46D29321FDD6C3006A0DDA /* integrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D29121FDD6C3006A0DDA /* integrator.cpp */; };
@@ -25,7 +26,6 @@
 		ABB1805C20E6BF9400E654F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB1805B20E6BF9400E654F2 /* main.m */; };
 		ABCE72ED21D141A100E28BCF /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCE72EB21D141A100E28BCF /* triangle.cpp */; };
 		ABDE7E4721B9AD380048E4B1 /* sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4521B9AD380048E4B1 /* sphere.cpp */; };
-		ABDE7E4A21B9AD640048E4B1 /* hitable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4821B9AD640048E4B1 /* hitable.cpp */; };
 		ABDE7E4D21B9D09C0048E4B1 /* hitable_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E4B21B9D09C0048E4B1 /* hitable_list.cpp */; };
 		ABDE7E5421B9F0B60048E4B1 /* lambertian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E5221B9F0B60048E4B1 /* lambertian.cpp */; };
 		ABDE7E5721BAFD320048E4B1 /* metal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDE7E5521BAFD320048E4B1 /* metal.cpp */; };
@@ -63,6 +63,8 @@
 		AB26EA322220B3E60009E5AF /* interaction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interaction.cpp; sourceTree = "<group>"; };
 		AB26EA332220B3E60009E5AF /* interaction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interaction.hpp; sourceTree = "<group>"; };
 		AB26EAB9222DB1E20009E5AF /* egg.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = egg.obj; sourceTree = "<group>"; };
+		AB2843AC22DBB3630046B436 /* cylinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cylinder.cpp; sourceTree = "<group>"; };
+		AB2843AD22DBB3630046B436 /* cylinder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cylinder.hpp; sourceTree = "<group>"; };
 		AB46D28A21FA63B6006A0DDA /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = anisotropic_phong.cpp; sourceTree = "<group>"; };
 		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		AB57136720E6C5AA00FE57F5 /* Material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		AB57136820E6C5AA00FE57F5 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		AB57136E20E6D34B00FE57F5 /* ImageBuffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImageBuffer.hpp; sourceTree = "<group>"; };
+		AB71745922F5B024002FCE55 /* Quadratics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quadratics.hpp; sourceTree = "<group>"; };
 		ABB0561E21D0120200A8AC22 /* skybox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = skybox.hpp; sourceTree = "<group>"; };
 		ABB1804C20E6BF9100E654F2 /* raytracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = raytracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB1804F20E6BF9200E654F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -93,7 +96,6 @@
 		ABCE72EC21D141A100E28BCF /* triangle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = triangle.hpp; sourceTree = "<group>"; };
 		ABDE7E4521B9AD380048E4B1 /* sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sphere.cpp; sourceTree = "<group>"; };
 		ABDE7E4621B9AD380048E4B1 /* sphere.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sphere.hpp; sourceTree = "<group>"; };
-		ABDE7E4821B9AD640048E4B1 /* hitable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hitable.cpp; sourceTree = "<group>"; };
 		ABDE7E4921B9AD640048E4B1 /* hitable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hitable.hpp; sourceTree = "<group>"; };
 		ABDE7E4B21B9D09C0048E4B1 /* hitable_list.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hitable_list.cpp; sourceTree = "<group>"; };
 		ABDE7E4C21B9D09C0048E4B1 /* hitable_list.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hitable_list.hpp; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		AB26EA2A221F6D920009E5AF /* geometry */ = {
 			isa = PBXGroup;
 			children = (
+				AB71745922F5B024002FCE55 /* Quadratics.hpp */,
 				AB26EA28221F373E0009E5AF /* Vector2.hpp */,
 				AB57135D20E6C15000FE57F5 /* Vector3.hpp */,
 				AB57135C20E6C15000FE57F5 /* Vector4.hpp */,
@@ -295,7 +298,6 @@
 			isa = PBXGroup;
 			children = (
 				ABDE7E4921B9AD640048E4B1 /* hitable.hpp */,
-				ABDE7E4821B9AD640048E4B1 /* hitable.cpp */,
 				ABDE7E4C21B9D09C0048E4B1 /* hitable_list.hpp */,
 				ABDE7E4B21B9D09C0048E4B1 /* hitable_list.cpp */,
 				ABDE7E4621B9AD380048E4B1 /* sphere.hpp */,
@@ -312,6 +314,8 @@
 				ABDE7E7921C6C3E10048E4B1 /* contant_medium.cpp */,
 				ABCE72EC21D141A100E28BCF /* triangle.hpp */,
 				ABCE72EB21D141A100E28BCF /* triangle.cpp */,
+				AB2843AD22DBB3630046B436 /* cylinder.hpp */,
+				AB2843AC22DBB3630046B436 /* cylinder.cpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -446,7 +450,7 @@
 				ABDE7E7B21C6C3E10048E4B1 /* contant_medium.cpp in Sources */,
 				ABDE7E5D21BDA20A0048E4B1 /* aabb.cpp in Sources */,
 				ABDE7E6921BF0D590048E4B1 /* image_texture.cpp in Sources */,
-				ABDE7E4A21B9AD640048E4B1 /* hitable.cpp in Sources */,
+				AB2843AE22DBB3630046B436 /* cylinder.cpp in Sources */,
 				ABDE7E7221C30BD80048E4B1 /* xy_rect.cpp in Sources */,
 				ABDE7E7821C6B14B0048E4B1 /* translate.cpp in Sources */,
 				BF5EDA8721C8F14B00B5D877 /* onb.cpp in Sources */,

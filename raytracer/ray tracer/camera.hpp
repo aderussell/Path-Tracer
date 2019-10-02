@@ -114,7 +114,7 @@ public:
     
     Ray get_ray(float s, float t) {
         Vector3f rd = lens_radius * this->random_in_unit_disk();
-        Vector3f offset = u * rd.x + v * rd.y;
+        Vector3f offset = u * rd.x() + v * rd.y();
         float time = time0 + drand48()*(time1-time0);
         return Ray(origin + offset, lowerLeftCorner + (s * horizontal) + (t * vertical) - origin - offset, time);
         

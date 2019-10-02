@@ -341,8 +341,8 @@ Mesh *ObjLoader::LoadSingleMesh(std::string filename, bool loadMaterials)
         
         
         if (texUVIndicies[i] > 0 && TexUV.size() > texUVIndicies[i]-1) {
-            sv.TexUV.x = TexUV[texUVIndicies[i]-1].x;
-            sv.TexUV.y = TexUV[texUVIndicies[i]-1].y;
+            sv.TexUV.x() = TexUV[texUVIndicies[i]-1].x();
+            sv.TexUV.y() = TexUV[texUVIndicies[i]-1].y();
         }
         
         vertices.push_back(sv);

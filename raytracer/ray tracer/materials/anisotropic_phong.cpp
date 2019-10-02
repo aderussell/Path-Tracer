@@ -28,7 +28,7 @@ bool anisotropic_phong::scatter(const Ray& r_in, const SurfaceInteraction& rec, 
         while (Vector3f::dotProduct(rec.normal, dir) < 0) {
             dir = srec.pdf_ptr->generate();
         }
-        double f = Vector3f::dotProduct((rec.p + Vector3f(0.0001, 0.0001, 0.0001)), rec.normal);
+        float f = Vector3f::dotProduct((rec.p + Vector3f(0.0001, 0.0001, 0.0001)), rec.normal);
         srec.specular_ray = Ray(Vector3f(f,f,f), dir, r_in.time());
     }
     

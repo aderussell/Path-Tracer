@@ -11,7 +11,7 @@
 void onb::build_from_w(const Vector3f& n) {
     axis[2] = n.normalized();
     Vector3f a;
-    if (fabs(w().x) > 0.9) {
+    if (fabs(w().x()) > 0.9) {
         a = Vector3f(0,1,0);
     } else {
         a = Vector3f(1,0,0);
@@ -21,7 +21,7 @@ void onb::build_from_w(const Vector3f& n) {
 }
 
 void onb::build(const Vector3f& n, const Vector3f& i) {
-    double cosine = abs(Vector3f::dotProduct(n, i));
+    float cosine = abs(Vector3f::dotProduct(n, i));
     if (cosine >= 1) {
         build_from_w(n);
     } else {
