@@ -12,73 +12,99 @@
 #include "Vector3.hpp"
 #include "hitable.hpp"
 #include "pdf.hpp"
+#include <x86intrin.h>
 
 struct Color {
-    double r, g, b;
-    Color(double r = 0.0, double g = 0.0, double b = 0.0, double luminosity = 1.0) {
-        this->r = r * luminosity;
-        this->g = g * luminosity;
-        this->b = b * luminosity;
+    
+    union {
+        __m128 _a;
+        float _f[4];
+        uint32_t _i[4];
+    };
+    
+    float r() const {
+        return _f[0];
+    }
+
+    float g() const {
+        return _f[1];
+    }
+
+    float b() const {
+        return _f[2];
+    }
+
+    float &r() {
+        return _f[0];
+    }
+
+    float &g() {
+        return _f[1];
+    }
+
+    float &b() {
+        return _f[2];
     }
     
-//    Color(const Vector3f& input) {
-//        r = input.x;
-//        g = input.y;
-//        b = input.z;
-//    }
+    Color(const __m128 &a) : _a(a) {}
+    
+    
+    Color(float r = 0.0, float g = 0.0, float b = 0.0, float luminosity = 1.0) {
+        r = r * luminosity;
+        g = g * luminosity;
+        b = b * luminosity;
+        _a = _mm_set_ps(0, b, g, r);
+    }
     
     Color& operator += (const Color& other) {
-        r += other.r;
-        g += other.g;
-        b += other.b;
+        _a = _mm_add_ps(_a, other._a);
         return *this;
     }
     
     Color& operator *= (const Color& other) {
-        r *= other.r;
-        g *= other.g;
-        b *= other.b;
+        _a = _mm_mul_ps(_a, other._a);
         return *this;
     }
     
     Color& operator *= (double factor) {
-        r *= factor;
-        g *= factor;
-        b *= factor;
+        __m128 v = _mm_set1_ps(factor);
+        _a = _mm_mul_ps(_a, v);
         return *this;
     }
     
     Color& operator /= (double denom) {
-        r /= denom;
-        g /= denom;
-        b /= denom;
+        __m128 v = _mm_set1_ps(denom);
+        _a = _mm_div_ps(_a, v);
         return *this;
     }
     
 };
 
-inline Color operator * (const Color& aColor, const Color& bColor) {
-    return Color(aColor.r * bColor.r, aColor.g * bColor.g, aColor.b * bColor.b);
+inline Color operator * (const Color& a, const Color& b) {
+    return _mm_mul_ps(a._a, b._a);
 }
 
 inline Color operator * (const Color& aColor, const float b) {
-    return Color(aColor.r * b, aColor.g * b, aColor.b * b);
+    __m128 v = _mm_set1_ps(b);
+    return _mm_mul_ps(aColor._a, v);
 }
 
 inline Color operator / (const Color& aColor, const float b) {
-    return Color(aColor.r / b, aColor.g / b, aColor.b / b);
+    __m128 v = _mm_set1_ps(b);
+    return _mm_div_ps(aColor._a, v);
 }
 
 inline Color operator * (double scalar, const Color &color) {
-    return Color(scalar * color.r, scalar * color.g, scalar * color.b);
+    __m128 v = _mm_set1_ps(scalar);
+    return _mm_mul_ps(color._a, v);
 }
 
 inline Color operator + (const Color& a, const Color& b) {
-    return Color(a.r + b.r, a.g + b.g, a.b + b.b);
+    return _mm_add_ps(a._a, b._a);
 }
 
 inline Color operator * (const Color& a, const Vector3f& b) {
-    return Color(a.r * b.x(), a.g * b.y(), a.b * b.z());
+    return _mm_mul_ps(a._a, b._a);
 }
 
 

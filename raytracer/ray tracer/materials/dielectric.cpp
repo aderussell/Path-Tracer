@@ -50,7 +50,7 @@ bool dielectric::scatter(const Ray &ray_in, const SurfaceInteraction &hrec, scat
         // Beer-Lambert law
         //Color directionColor(ray_in.direction().x, ray_in.direction().y, ray_in.direction().z);
         Color absorb = hrec.t * density * volumeColor;
-        Color transparency = Color(exp(-absorb.r), exp(-absorb.g), exp(-absorb.b));
+        Color transparency = Color(exp(-absorb.r()), exp(-absorb.g()), exp(-absorb.b()));
         srec.attenuation *= transparency;
     } else {
         outward_normal = hrec.normal;

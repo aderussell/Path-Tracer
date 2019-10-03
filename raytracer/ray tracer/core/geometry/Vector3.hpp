@@ -9,78 +9,77 @@
 #define Vector3_hpp
 
 #include <cmath>
+#include <x86intrin.h>
 //#include <stdlib>
 
 template <typename T>
 class Vector3 {
-private:
-    T _x, _y, _z;
-    
 public:
+    //T _x, _y, _z;
     
-    Vector3() { _x = _y = _z = 0; }
+    union {
+        __m128 _a;
+        float _f[4];
+        uint32_t _i[4];
+    };
     
-    Vector3(T x, T y, T z)  : _x(x), _y(y), _z(z) {};
+    
+    Vector3(): _a(_mm_set1_ps(0)) { }
+    
+    Vector3(const __m128 &a) : _a(a) {}
+    
+    Vector3(T x, T y, T z) : _a(_mm_set_ps(0, z, y, x)) {}
     
     T x() const {
-        return _x;
+        return _f[0];
     }
 
     T y() const {
-        return _y;
+        return _f[1];
     }
 
     T z() const {
-        return _z;
+        return _f[2];
     }
 
     T &x() {
-        return _x;
+        return _f[0];
     }
 
     T &y() {
-        return _y;
+        return _f[1];
     }
 
     T &z() {
-        return _z;
+        return _f[2];
     }
     
     
-Vector3(const Vector3<T> &v) {
-        x() = v.x();
-        y() = v.y();
-        z() = v.z();
+    Vector3(const Vector3<T> &v) {
+        _a = v._a;
     }
     
     Vector3<T> &operator+= (const Vector3<T> &v) {
-        x() += v.x();
-        y() += v.y();
-        z() += v.z();
+        _a = _mm_add_ps(_a, v._a);
         return *this;
     }
     
     Vector3<T> &operator-= (const Vector3<T> &v) {
-        x() -= v.x();
-        y() -= v.y();
-        z() -= v.z();
+        _a = _mm_sub_ps(_a, v._a);
         return *this;
     }
     
     template <typename U>
     Vector3<T> &operator*= (U s) {
-        x() *= s;
-        y() *= s;
-        z() *= s;
+        __m128 v = _mm_set1_ps(s);
+        _a = _mm_mul_ps(_a, v);
         return *this;
     }
     
     template <typename U>
     Vector3<T> &operator/= (U s) {
-        double inv = (double)1.0 / s;
-        x() *= inv;
-        y() *= inv;
-        z() *= inv;
+        __m128 v = _mm_set1_ps(s);
+        _a = _mm_div_ps(_a, v);
         return *this;
     }
     
@@ -107,25 +106,28 @@ Vector3(const Vector3<T> &v) {
     
     
     Vector3<T> operator+ (const Vector3<T> &v) const {
-        return Vector3(x() + v.x(), y() + v.y(), z() + v.z());
+        return _mm_add_ps(_a, v._a);
     }
     Vector3<T> operator- (const Vector3<T> &v) const {
-        return Vector3(x() - v.x(), y() - v.y(), z() - v.z());
+        return _mm_sub_ps(_a, v._a);
     }
     
     template <typename U>
     Vector3<T> operator*(U s) const {
-        return Vector3<T>(x() * s, y() * s, z() * s);
+        __m128 v = _mm_set1_ps(s);
+        return _mm_mul_ps(_a, v);
     }
     
     template <typename U>
     Vector3<T> operator/ (U s) const {
-        double inv = (double)1.0 / s;
-        return Vector3<T>(x()*inv, y()*inv, z()*inv);
+        __m128 v = _mm_set1_ps(s);
+        return _mm_div_ps(_a, v);
     }
     
     Vector3<T> operator-() const {
-        return Vector3<T>(-x(), -y(), -z());
+        static const __m128 SIGNMASK = _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
+        return _mm_xor_ps(_a, SIGNMASK);
+        //return Vector3<T>(-x(), -y(), -z());
     }
     
     bool operator== (const Vector3<T> &v) const {
@@ -133,13 +135,15 @@ Vector3(const Vector3<T> &v) {
     }
     
     bool operator!= (const Vector3<T> &v) const {
-        return ((x() != v.x) || (y() != v.y) || (z() != v.z));
+        return ((x() != v.x()) || (y() != v.y()) || (z() != v.z()));
     }
     
     
     
     Vector3<T> inverse() const {
-        return Vector3<T>(-x(), -y(), -z());
+        static const __m128 SIGNMASK = _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
+        return _mm_xor_ps(_a, SIGNMASK);
+        //return Vector3<T>(-x(), -y(), -z());
     }
     
     Vector3<T> normalized() const {
@@ -147,7 +151,9 @@ Vector3(const Vector3<T> &v) {
     }
     
     double squareMagnitude() const {
-        return (x() * x()) + (y() * y()) + (z() * z());
+        __m128 tmp = _mm_mul_ps(_a, _a);
+        __m128 tmp2 = _mm_hadd_ps(tmp, tmp);
+        return _mm_cvtss_f32(_mm_hadd_ps(tmp2, tmp2));
     }
     
     double magnitude() const {
@@ -163,15 +169,25 @@ Vector3(const Vector3<T> &v) {
     }
     
     static double dotProduct(Vector3 v1, Vector3 v2) {
-        return (v1.x() * v2.x()) + (v1.y() * v2.y()) + (v1.z() * v2.z());
+        __m128 tmp = _mm_mul_ps(v1._a, v2._a);
+        __m128 tmp2 = _mm_hadd_ps(tmp, tmp);
+        return _mm_cvtss_f32(_mm_hadd_ps(tmp2, tmp2));
+        //return (v1.x() * v2.x()) + (v1.y() * v2.y()) + (v1.z() * v2.z());
     }
     
     static Vector3 crossProduct(Vector3 v1, Vector3 v2) {
-        return Vector3(v1.y()*v2.z() - v1.z()*v2.y(), v1.z()*v2.x() - v1.x()*v2.z(), v1.x()*v2.y() - v1.y()*v2.x());
+        __m128 x = v1._a;
+        __m128 y = v2._a;
+        __m128 tmp0 = _mm_shuffle_ps(y,y,_MM_SHUFFLE(3,0,2,1));
+        __m128 tmp1 = _mm_shuffle_ps(x,x,_MM_SHUFFLE(3,0,2,1));
+        tmp1 = _mm_mul_ps(tmp1,y);
+        __m128 tmp2 = _mm_fmsub_ps( tmp0,x, tmp1 );
+        return _mm_shuffle_ps(tmp2,tmp2,_MM_SHUFFLE(3,0,2,1));
+        //return Vector3(v1.y()*v2.z() - v1.z()*v2.y(), v1.z()*v2.x() - v1.x()*v2.z(), v1.x()*v2.y() - v1.y()*v2.x());
     }
     
     static Vector3 normalisedCrossProduct(Vector3 v1, Vector3 v2) {
-        return Vector3(v1.y()*v2.z() - v1.z()*v2.y(), v1.z()*v2.x() - v1.x()*v2.z(), v1.x()*v2.y() - v1.y()*v2.x()).normalized();
+        return crossProduct(v1, v2).normalized();
     }
     
     static double distance(Vector3 v1, Vector3 v2) {
@@ -184,24 +200,31 @@ Vector3(const Vector3<T> &v) {
 
 template <typename T>
 inline const Vector3<T> operator* (const double s, const Vector3<T> &v) {
-    return Vector3<T>(v.x()*s, v.y()*s, v.z()*s);
+    __m128 t = _mm_set1_ps(s);
+    return _mm_mul_ps(v._a, t);
+    //return Vector3<T>(v.x()*s, v.y()*s, v.z()*s);
 }
 
 template <typename T>
 inline const Vector3<T> operator+ (const double s, const Vector3<T> &v) {
-    return Vector3<T>(v.x+s, v.y+s, v.z+s);
+    __m128 t = _mm_set1_ps(s);
+    return _mm_add_ps(v._a, t);
+    //return Vector3<T>(v.x+s, v.y+s, v.z+s);
 }
 
 template <typename T>
 inline const Vector3<T> operator+ (const Vector3<T> &v, const double s) {
-    return Vector3<T>(v.x+s, v.y+s, v.z+s);
+    __m128 t = _mm_set1_ps(s);
+    return _mm_add_ps(v._a, t);
+    //return Vector3<T>(v.x+s, v.y+s, v.z+s);
 }
 
 template <typename T>
 inline Vector3<T> abs(const Vector3<T> &v) {
-    return Vector3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
+    static const __m128 SIGNMASK = _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
+    return _mm_andnot_ps(SIGNMASK, v._a);
 }
 
-typedef Vector3<double> Vector3f;
+typedef Vector3<float> Vector3f;
 
 #endif /* Vector3_hpp */

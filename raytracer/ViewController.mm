@@ -27,7 +27,7 @@
     Scene *s = cornellBoxWithSphere();
     //Scene *s = legoMan();
     //Scene *s = glass();
-    //scene *s = phongSpheresScene();
+    //Scene *s = phongSpheresScene();
     //Scene *s = rbgLightSpheres();
     //Scene *s = cornellBoxWithSuzanne();
     ImageBuffer *buffer = new ImageBuffer(width, height);
@@ -67,7 +67,7 @@
     
     for (int i = 0; i < (width * height); i++) {
         Color c = buffer->pixels[i];
-        NSColor *color = [NSColor colorWithCalibratedRed:c.r green:c.g blue:c.b alpha:1.0];
+        NSColor *color = [NSColor colorWithCalibratedRed:c.r() green:c.g() blue:c.b() alpha:1.0];
         int y = i / width;
         int x = i - (y * width);
         [bitmapImage setColor:color atX:x y:height-y];

@@ -12,9 +12,9 @@
 
 inline Color de_nan(const Color& c) {
     Color temp = c;
-    if (isnan(temp.r)) temp.r = 0;
-    if (isnan(temp.g)) temp.g = 0;
-    if (isnan(temp.b)) temp.b = 0;
+    if (isnan(temp.r())) temp.r() = 0;
+    if (isnan(temp.g())) temp.g() = 0;
+    if (isnan(temp.b())) temp.b() = 0;
     return temp;
 }
 
@@ -52,7 +52,7 @@ void TestIntegrator::render(const Scene &scene) {
                                                       
                                                       
                                                       col /= float(ns);
-                                                      col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
+                                                      col = Color(sqrt(col.r()), sqrt(col.g()), sqrt(col.b()));
                                                       imageBuffer->setColor(i, j, col);
                                                   }
                                               });
@@ -134,7 +134,7 @@ void TestIntegrator2::render(const Scene &scene) {
                                                       ns_pix[i + j*width] += ns_here;
                                                       size_t ns2 = ns_pix[i + j*width];
                                                       col /= float(ns2);
-                                                      col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
+                                                      col = Color(_mm_sqrt_ps(col._a));
                                                       imageBuffer->setColor(i, j, col);
                                                   }
                                               });
@@ -214,7 +214,7 @@ void BasicIntegrator::render(const Scene &scene) {
                                                       
                                                       
                                                       col /= float(ns);
-                                                      col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
+                                                      col = Color(_mm_sqrt_ps(col._a));
                                                       
                                                       imageBuffer->setColor(i, j, col);
                                                   }
@@ -291,7 +291,8 @@ void JitterIntegrator::render(const Scene &scene) {
                                                       
                                                       
                                                       col /= float(ns*ns);
-                                                      col = Color(sqrt(col.r), sqrt(col.g), sqrt(col.b));
+                                    
+                                                      col = Color(_mm_sqrt_ps(col._a));
                                                       
                                                       imageBuffer->setColor(i, j, col);
                                                   }
