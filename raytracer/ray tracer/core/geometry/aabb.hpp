@@ -153,6 +153,7 @@ private:
 
 aabb surrounding_box(aabb box0, aabb box1);
 
+aabb overlapping_box(aabb box0, aabb box1);
 
 
 #endif /* aabb_hpp */

@@ -9,6 +9,7 @@
 #include "integrator.hpp"
 #include <future>
 #include <iostream>
+#include "aabb.hpp"
 
 inline Color de_nan(const Color& c) {
     Color temp = c;
@@ -92,10 +93,68 @@ Color TestIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, 
     }
 }
 
+Vector3f LessThan(Vector3f f, float value)
+{
+    return Vector3f((f.x() < value) ? 1.0f : 0.0f,
+                    (f.y() < value) ? 1.0f : 0.0f,
+                    (f.z() < value) ? 1.0f : 0.0f);
+}
 
+Vector3f clamp(Vector3f f, float min, float max)
+{
+    return Vector3f(ffclamp(f.x(), min, max),
+                    ffclamp(f.y(), min, max),
+                    ffclamp(f.z(), min, max));
+}
 
+Vector3f mix(Vector3f a, Vector3f b, Vector3f t) {
+    float x = (1.0f - t.x()) * a.x() + t.x() * b.x();
+    float y = (1.0f - t.y()) * a.y() + t.y() * b.y();
+    float z = (1.0f - t.z()) * a.z() + t.z() * b.z();
+    return Vector3f(x,y,z);
+}
 
+Vector3f pow(Vector3f a, Vector3f exp) {
+    float x = std::powf(a.x(), exp.x());
+    float y = std::powf(a.y(), exp.y());
+    float z = std::powf(a.z(), exp.z());
+    return Vector3f(x,y,z);
+}
 
+Vector3f LinearToSRGB(Vector3f rgb)
+{
+    rgb = clamp(rgb, 0.0f, 1.0f);
+     
+    return mix(
+        pow(rgb, Vector3f(1.0f / 2.4f)) * 1.055f - 0.055f,
+        rgb * 12.92f,
+        LessThan(rgb, 0.0031308f)
+    );
+}
+ 
+Vector3f SRGBToLinear(Vector3f rgb)
+{
+    return rgb;
+     
+    rgb = clamp(rgb, 0.0f, 1.0f);
+     
+    return mix(
+        pow(((rgb + 0.055f) / 1.055f), Vector3f(2.4f)),
+        rgb / 12.92f,
+        LessThan(rgb, 0.04045f)
+    );
+}
+
+Vector3f ACESFilm(Vector3f x)
+{
+    float a = 2.51f;
+    float b = 0.03f;
+    float c = 2.43f;
+    float d = 0.59f;
+    float e = 0.14f;
+    
+    return clamp((x*(a*x + b)) / (x*(c*x + d) + e), 0.0f, 1.0f);
+}
 
 void TestIntegrator2::render(const Scene &scene) {
     
@@ -135,6 +194,17 @@ void TestIntegrator2::render(const Scene &scene) {
                                                       size_t ns2 = ns_pix[i + j*width];
                                                       col /= float(ns2);
                                                       col = Color(_mm_sqrt_ps(col._a));
+                                                      
+                                                      // apply exposure (how long the shutter is open)
+                                                      //float c_exposure = 0.5;
+                                                      //col *= c_exposure;
+                                                      
+                                                      // convert unbounded HDR color range to SDR color range
+                                                      //Vector3f aces = ACESFilm(col);
+                                                      // convert from linear to sRGB for display
+                                                      //Vector3f lin = LinearToSRGB(aces);
+                                                      //col = Color(lin._a);
+                                                      
                                                       imageBuffer->setColor(i, j, col);
                                                   }
                                               });
@@ -330,5 +400,58 @@ Color JitterIntegrator::color(const Ray &r, hitable *world, hitable *light_shape
         }
     } else {
         return sky_box->get_color(r);
+    }
+}
+
+
+#define DEPTH_NO_HIT -1.0
+
+void DepthIntegrator::render(const Scene &scene) {
+    int width  = imageBuffer->width;
+    int height = imageBuffer->height;
+    
+    std::size_t max = width * height;
+    std::size_t count = 0;
+    
+    float minD = MAXFLOAT;
+    float maxD = 0.0;
+    
+    for (int a = 0; a < width * height; a++)
+      {
+          std::size_t index = count++;
+//          if (index >= max)
+//              break;
+          std::size_t i = index % width;
+          std::size_t j = index / width;
+          if (i == 0 && j%10==0) {
+              std::cout << j << std::endl;
+          }
+          Color col(1,1,1);
+          double u = float(i + drand48()) / float(width);
+          double v = float(j + drand48()) / float(height);
+          Ray ray = scene.camera->get_ray(u, v);
+          float d = dist(ray, scene.world.get(), min, max);
+          if (d != DEPTH_NO_HIT) {
+              minD = std::min(minD, d);
+              maxD = std::max(maxD, d);
+              
+              printf("min: %f, max: %f\n", minD, maxD);
+              
+              float f = (d - min) / depth;
+              col = Color(f,f,f);
+          }
+          
+          
+          imageBuffer->setColor(i, j, col);
+      }
+}
+
+float DepthIntegrator::dist(const Ray &r, hitable *world, float min, float max) {
+    SurfaceInteraction hrec;
+    if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
+        printf("t = %f", hrec.t);
+        return hrec.t;
+    } else {
+        return DEPTH_NO_HIT;
     }
 }

@@ -9,6 +9,8 @@
 #ifndef Vector2_hpp
 #define Vector2_hpp
 
+#include "Vector3.hpp"
+
 template <typename T>
 class Vector2 {
 public:
@@ -17,7 +19,7 @@ public:
     
     Vector2(T x, T y) : x(x), y(y) {};
     
-    Vector2(const Vector3f &v) : x(v.x), y(v.y) {};
+    Vector2(const Vector3<T> &v) : x(v.x), y(v.y) {};
     
     
     Vector2<T> &operator+= (const Vector2<T> &v) {

@@ -13,3 +13,9 @@ aabb surrounding_box(aabb box0, aabb box1) {
     __m128 b = _mm_max_ps(box0.max()._a, box1.max()._a);
     return aabb(s, b);
 }
+
+aabb overlapping_box(aabb box0, aabb box1) {
+    __m128 s = _mm_max_ps(box0.min()._a, box1.min()._a);
+    __m128 b = _mm_min_ps(box0.max()._a, box1.max()._a);
+    return aabb(b, s);
+}

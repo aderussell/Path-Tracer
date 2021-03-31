@@ -24,15 +24,20 @@
     int height = 500;
     int ns = 100;
     
-    Scene *s = cornellBoxWithSphere();
+    //Scene *s = cornellBoxWithSphere();
+    //Scene *s = cornellBoxWithSpheres();
+    //Scene *s = rbgLightBunny();
+    //Scene *s = rbgLightEgg();
     //Scene *s = legoMan();
     //Scene *s = glass();
     //Scene *s = phongSpheresScene();
     //Scene *s = rbgLightSpheres();
     //Scene *s = cornellBoxWithSuzanne();
+    Scene *s = curvedBackground();
     ImageBuffer *buffer = new ImageBuffer(width, height);
     _outputBuffer = buffer;
     Integrator *integrator = new TestIntegrator2(buffer, ns);
+    //Integrator *integrator = new DepthIntegrator(buffer, 0.001, 150);
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         integrator->preprocess(*s);
@@ -69,7 +74,7 @@
         Color c = buffer->pixels[i];
         NSColor *color = [NSColor colorWithCalibratedRed:c.r() green:c.g() blue:c.b() alpha:1.0];
         int y = i / width;
-        int x = i - (y * width);
+        int x = width - (i - (y * width)) - 1;
         [bitmapImage setColor:color atX:x y:height-y];
     }
     

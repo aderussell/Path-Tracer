@@ -28,6 +28,8 @@ public:
     
     Vector3(const __m128 &a) : _a(a) {}
     
+    Vector3(T x) : _a(_mm_set_ps(0, x, x, x)) {}
+    
     Vector3(T x, T y, T z) : _a(_mm_set_ps(0, z, y, x)) {}
     
     T x() const {
@@ -69,6 +71,11 @@ public:
         return *this;
     }
     
+    Vector3<T> &operator*= (const Vector3<T> &v) {
+        _a = _mm_mul_ps(_a, v._a);
+        return *this;
+    }
+    
     template <typename U>
     Vector3<T> &operator*= (U s) {
         __m128 v = _mm_set1_ps(s);
@@ -80,6 +87,7 @@ public:
     Vector3<T> &operator/= (U s) {
         __m128 v = _mm_set1_ps(s);
         _a = _mm_div_ps(_a, v);
+        _f[3] = 0;
         return *this;
     }
     
@@ -112,14 +120,32 @@ public:
         return _mm_sub_ps(_a, v._a);
     }
     
-    template <typename U>
-    Vector3<T> operator*(U s) const {
+//    template <typename U>
+//    Vector3<T> operator*(U s) const {
+//        __m128 v = _mm_set1_ps(s);
+//        return _mm_mul_ps(_a, v);
+//    }
+    
+    Vector3<T> operator*(float s) const {
         __m128 v = _mm_set1_ps(s);
         return _mm_mul_ps(_a, v);
     }
     
-    template <typename U>
-    Vector3<T> operator/ (U s) const {
+    Vector3<T> operator*(Vector3<T> s) const {
+        return _mm_mul_ps(_a, s._a);
+    }
+    
+    Vector3<T> operator/(Vector3<T> s) const {
+        return _mm_div_ps(_a, s._a);
+    }
+    
+//    template <typename U>
+//    Vector3<T> operator/ (U s) const {
+//        __m128 v = _mm_set1_ps(s);
+//        return _mm_div_ps(_a, v);
+//    }
+    
+    Vector3<T> operator/ (float s) const {
         __m128 v = _mm_set1_ps(s);
         return _mm_div_ps(_a, v);
     }
@@ -157,7 +183,7 @@ public:
     }
     
     double magnitude() const {
-        return sqrt(this->squareMagnitude());
+        return std::sqrt(this->squareMagnitude());
     }
     
     double length() const {
@@ -166,6 +192,10 @@ public:
     
     Vector3<T> normal() const {
          return Vector3<T>(-y(), x(), z());
+    }
+    
+    Vector3<T> sqrt() const {
+        return Vector3<T>(std::sqrt(x()), std::sqrt(y()), std::sqrt(z()));
     }
     
     static double dotProduct(Vector3 v1, Vector3 v2) {
@@ -186,6 +216,10 @@ public:
         //return Vector3(v1.y()*v2.z() - v1.z()*v2.y(), v1.z()*v2.x() - v1.x()*v2.z(), v1.x()*v2.y() - v1.y()*v2.x());
     }
     
+    static Vector3 reflect(Vector3 n, Vector3 l) {
+        return 2.0f * dotProduct(n, l) * n - l;
+    }
+    
     static Vector3 normalisedCrossProduct(Vector3 v1, Vector3 v2) {
         return crossProduct(v1, v2).normalized();
     }
@@ -194,7 +228,7 @@ public:
         double distx = (v2.x - v1.x);
         double disty = (v2.y - v1.y);
         double distz = (v2.z - v1.z);
-        return sqrt( (distx * distx) + (disty * disty) + (distz * distz) );
+        return std::sqrt( (distx * distx) + (disty * disty) + (distz * distz) );
     }
 };
 

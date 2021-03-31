@@ -155,3 +155,25 @@ bool scale::bounding_box(float t0, float t1, aabb& box) const {
     else
         return false;
 }
+
+bool scale2::hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const {
+    const Vector3f s2 = Vector3f(1.0/s.x(), 1.0/s.y(), 1.0/s.z());
+    const Vector3f origin = r.origin() * s2;
+    const Vector3f direction = r.direction() * s2;
+    Ray moved_r(origin, direction, r.time());
+    if (ptr->hit(moved_r, t_min, t_max, rec)) {
+        rec.p *= s;
+        return true;
+    }
+    else
+        return false;
+}
+
+bool scale2::bounding_box(float t0, float t1, aabb& box) const {
+    if (ptr->bounding_box(t0, t1, box)) {
+        box = aabb(box.min() * s, box.max() * s);
+        return true;
+    }
+    else
+        return false;
+}

@@ -18,6 +18,7 @@
 #include "sphere.hpp"
 #include "camera.hpp"
 #include "lambertian.hpp"
+#include "pbr_material.hpp"
 #include "metal.hpp"
 #include "dielectric.hpp"
 #include "texture.hpp"
@@ -35,6 +36,7 @@
 #include "obj_loader.hpp"
 #include "anisotropic_phong.hpp"
 #include "contant_medium.hpp"
+#include "hittable_sets.hpp"
 
 image_texture *textureFromFilename(CFStringRef filename) {
     CFBundleRef mainBundle = CFBundleGetMainBundle();
@@ -131,6 +133,10 @@ Scene *cornellBoxWithSuzanne() {
     glass->density = 0.03;
     glass->volumeColor = Color(1.0,1.0,0.0);
     
+    dielectric *glass2 = new dielectric(1.5);
+    glass2->density = 0.09;
+    glass2->volumeColor = Color(0.0,0.0,1.0);
+    
     CFBundleRef mainBundle = CFBundleGetMainBundle();
     CFURLRef resourcesURL = CFBundleCopyResourceURL(mainBundle, CFSTR("suzanne2.obj"), NULL, NULL);
     char path[PATH_MAX];
@@ -142,6 +148,11 @@ Scene *cornellBoxWithSuzanne() {
     auto suzanneMesh = ObjLoader::LoadSingleMesh(path);
     hitable *suzanne = suzanneMesh->create_hitable(glass);
     hitable *suzanneFinal = new translate(new rotate_y(new scale(suzanne, 160), 180), Vector3f(267.5, 277.5, 400));
+    
+    hitable *suzanneYellow = suzanneMesh->create_hitable(glass2);
+    hitable *suzanne2 = new translate(new rotate_x(new rotate_y(new scale(suzanneYellow, 60), 180), 0.1), Vector3f(400.0, 300.0, 0));
+    
+    
 //    aabb hit;
 //    suzanneFinal->bounding_box(0, 1, hit);
     hitable **list = new hitable*[10];
@@ -156,6 +167,7 @@ Scene *cornellBoxWithSuzanne() {
     //list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(165,330,165), aluminium), 15), Vector3f(265,0,295));
     //list[i++] = new sphere(Vector3f(190, 90, 190), 90, glass);
     list[i++] = suzanneFinal;
+    list[i++] = suzanne2;
     hitable *world = new hitable_list(list,i);
     
     
@@ -342,6 +354,157 @@ Scene* cornellBoxWithSphere() {
     return new Scene(world, hlist, cam, sky_box, aspectRatio);
 }
 
+Scene* cornellBoxWithSpheres() {
+    Color green_color = Color(0.12, 0.45, 0.15);
+    Color full_white = Color(1,1,1);
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(green_color) );
+    material *light = new diffuse_light( new constant_texture(Color(10, 10, 10)) );
+    //material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
+    dielectric *glass = new dielectric(1.5);
+    glass->density = 0.03;
+    glass->volumeColor = Color(0.0,0.0,0.0);
+    
+    hitable *light_shape = new xz_rect(30,70,30,70,99.9, light);
+    
+    hitable **list = new hitable*[20];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,100,0,100,100, green));
+    list[i++] = new yz_rect(0,100,0,100,0, red);
+    list[i++] = new flip_normals(light_shape);
+    list[i++] = new flip_normals(new xz_rect(0,100,0,100,100, white));
+    list[i++] = new xz_rect(0,100,0,100,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,100,0,100,100, white));
+    //list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(30,70,30), aluminium), 15), Vector3f(52,0,60));
+    //list[i++] = new sphere(Vector3f(40, 30, 40), 30, glass);
+    
+    list[i++] = new sphere(Vector3f(16, 15, 40), 15, new pbr_material(Color(0.9, 0.9, 0.5), Color(0.9, 0.9, 0.9), 0.1, 0.2));
+    list[i++] = new sphere(Vector3f(50, 15, 40), 15, new pbr_material(Color(0.9, 0.5, 0.9), Color(0.9, 0.9, 0.9), 0.3, 0.2));
+    list[i++] = new sphere(Vector3f(84, 15, 40), 15, new pbr_material(Color(0.0, 0.0, 1.0), Color(1.0, 1.0, 1.0), 0.5, 0.4));
+    
+    list[i++] = new sphere(Vector3f(10, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.0));
+    list[i++] = new sphere(Vector3f(30, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.25));
+    list[i++] = new sphere(Vector3f(50, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.5));
+    list[i++] = new sphere(Vector3f(70, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.75));
+    list[i++] = new sphere(Vector3f(90, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 1.0));
+    
+    hitable *world = new hitable_list(list,i);
+    
+    
+    
+    //hitable *glass_sphere = new sphere(Vector3f(40, 30, 40), 30, nullptr);
+    hitable **a = new hitable*[2];
+    a[0] = light_shape;
+    //a[1] = glass_sphere;
+    hitable_list *hlist = new hitable_list(a,1);
+    
+    
+    Vector3f lookfrom(50,50,-150);
+    Vector3f lookat(50,50,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    SkyBox *sky_box = new constant_skybox();
+    
+    return new Scene(world, hlist, cam, sky_box, aspectRatio);
+}
+
+Scene* curvedBackground() {
+    Mesh *curveMesh = meshFromFilename(CFSTR("curve.obj"));
+    
+    
+    
+    
+    Color green_color = Color(0.12, 0.45, 0.15);
+    Color red_color = Color(0.65, 0.05, 0.05);
+    Color blue_color = Color(0.05, 0.05, 0.75);
+    Color yellow_color = Color(0.75, 0.75, 0.05);
+    Color full_white = Color(1,1,1);
+    material *red   = new lambertian( new constant_texture(red_color) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(green_color) );
+    
+    material *light = new diffuse_light( new constant_texture(Color(10, 10, 10)) );
+    //material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
+    dielectric *glass = new dielectric(1.5);
+    glass->density = 0.03;
+    glass->volumeColor = Color(0.0,0.0,0.0);
+    
+    hitable *light_shape = new xz_rect(-150,150,-150,150, 300, light);
+    
+    hitable **list = new hitable*[20];
+    int i = 0;
+    
+    hitable *curve = curveMesh->create_hitable(new pbr_material(full_white, green_color, 1.0, 0.5));
+    list[i++] = new flip_normals(new translate(new rotate_y(new scale2(curve, Vector3f(100, 200, 10)), 90), Vector3f(0, -80, 100)));
+    
+    hitable *curve2 = curveMesh->create_hitable(new pbr_material(full_white, red_color, 1.0, 0.5));
+    list[i++] = new flip_normals(new translate(new rotate_y(new scale2(curve2, Vector3f(100, 200, 10)), 90), Vector3f(25, -80, 100)));
+    
+    hitable *curve3 = curveMesh->create_hitable(new pbr_material(full_white, blue_color, 1.0, 0.5));
+    list[i++] = new flip_normals(new translate(new rotate_y(new scale2(curve3, Vector3f(100, 200, 10)), 90), Vector3f(-25, -80, 100)));
+    
+    hitable *curve4 = curveMesh->create_hitable(new pbr_material(full_white, yellow_color, 1.0, 0.5));
+    list[i++] = new flip_normals(new translate(new rotate_y(new scale2(curve4, Vector3f(100, 200, 10)), 90), Vector3f(-50, -80, 100)));
+    
+    hitable *curve5 = curveMesh->create_hitable(new pbr_material(Color(0.9, 0.5, 0.9), Color(0.9, 0.9, 0.9), 0.3, 0.2));
+    list[i++] = new flip_normals(new translate(new rotate_y(new scale2(curve5, Vector3f(100, 200, 10)), 90), Vector3f(-75, -80, 100)));
+    
+   // list[i++] = new flip_normals(new yz_rect(0,100,0,100,100, green));
+   // list[i++] = new yz_rect(0,100,0,100,0, red);
+    list[i++] = new flip_normals(light_shape);
+  //  list[i++] = new flip_normals(new xz_rect(0,100,0,100,100, white));
+  //  list[i++] = new xz_rect(0,100,0,100,0, white);
+  //  list[i++] = new flip_normals(new xy_rect(0,100,0,100,100, white));
+    //list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(30,70,30), aluminium), 15), Vector3f(52,0,60));
+    //list[i++] = new sphere(Vector3f(0, 0, 300), 100, red);
+//
+    list[i++] = new sphere(Vector3f(10, -20, 170), 8, new pbr_material(Color(0.9, 0.9, 0.5), Color(0.9, 0.9, 0.9), 0.1, 0.2));
+    
+    list[i++] = new sphere(Vector3f(-40, -40, 170), 8, new pbr_material(Color(0.0, 0.0, 1.0), Color(1.0, 1.0, 1.0), 0.5, 0.4));
+    list[i++] = new sphere(Vector3f(-5, -40, 170), 8, glass);
+    
+//    list[i++] = new sphere(Vector3f(16, 15, 40), 15, new pbr_material(Color(0.9, 0.9, 0.5), Color(0.9, 0.9, 0.9), 0.1, 0.2));
+//    list[i++] = new sphere(Vector3f(50, 15, 40), 15, new pbr_material(Color(0.9, 0.5, 0.9), Color(0.9, 0.9, 0.9), 0.3, 0.2));
+//    list[i++] = new sphere(Vector3f(84, 15, 40), 15, new pbr_material(Color(0.0, 0.0, 1.0), Color(1.0, 1.0, 1.0), 0.5, 0.4));
+//
+//    list[i++] = new sphere(Vector3f(10, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.0));
+//    list[i++] = new sphere(Vector3f(30, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.25));
+//    list[i++] = new sphere(Vector3f(50, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.5));
+//    list[i++] = new sphere(Vector3f(70, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 0.75));
+//    list[i++] = new sphere(Vector3f(90, 40, 90), 8, new pbr_material(full_white, green_color, 1.0, 1.0));
+    
+    hitable *world = new hitable_list(list,i);
+    
+    
+    
+    //hitable *glass_sphere = new sphere(Vector3f(40, 30, 40), 30, nullptr);
+    hitable **a = new hitable*[2];
+    a[0] = light_shape;
+    //a[1] = glass_sphere;
+    hitable_list *hlist = new hitable_list(a,1);
+    
+    
+    Vector3f lookfrom(0,000,-100);
+    Vector3f lookat(0,00,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    SkyBox *sky_box = new constant_skybox(Color(0.01, 0.01, 0.01));
+    
+    return new Scene(world, hlist, cam, sky_box, aspectRatio);
+}
+
+
+
+
 Scene* cornellBoxWithExtraSpheres() {
     material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
     material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
@@ -376,6 +539,116 @@ Scene* cornellBoxWithExtraSpheres() {
     
     
     Vector3f lookfrom(278,278,-800);
+    Vector3f lookat(278,278,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    SkyBox *sky_box = new constant_skybox();
+    
+    return new Scene(world, hlist, cam, sky_box, aspectRatio);
+}
+
+Scene* cornellBoxWithIntersectionSpheres() {
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
+    dielectric *glass = new dielectric(1.5);
+    glass->density = 0.03;
+    glass->volumeColor = Color(1.0,1.0,0.0);
+    hitable **list = new hitable*[14];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    //list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(165,330,165), aluminium), 15), Vector3f(265,0,295));
+    hitable *ballA = new sphere(Vector3f(190, 90, 190), 50, glass);
+    hitable *ballB = new sphere(Vector3f(220, 90, 190), 50, glass);
+    hitable *inter = new hitable_intersection(ballA, ballB);
+    
+    ballA = new sphere(Vector3f(190, 220, 190), 50, glass);
+    ballB = new sphere(Vector3f(220, 220, 190), 50, glass);
+    hitable *uni = new hitable_union(ballA, ballB);
+    
+    ballA = new sphere(Vector3f(190, 400, 190), 50, glass);
+    ballB = new sphere(Vector3f(220, 400, 190), 50, glass);
+    hitable *diff = new hitable_difference(ballA, ballB);
+    
+    list[i++] = inter;
+    list[i++] = uni;
+    list[i++] = diff;
+    //list[i++] = new sphere(Vector3f(390, 120, 120), 90, glass);
+    //list[i++] = new constant_medium(new box(Vector3f(50,50,50), Vector3f(500,500,500), glass), 0.005, new constant_texture(Color(0.95, 0.95, 0.95)));
+    hitable *world = new hitable_list(list,i);
+    
+    
+    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    //hitable *glass_sphere = new sphere(Vector3f(190, 90, 190), 90, nullptr);
+    hitable **a = new hitable*[2];
+    a[0] = light_shape;
+    a[1] = inter;
+    hitable_list *hlist = new hitable_list(a,1);
+    
+    
+    Vector3f lookfrom(278,278,-800);
+    Vector3f lookat(278,278,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
+    float vfov = 40.0;
+    float aspectRatio = 1.0;
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    SkyBox *sky_box = new constant_skybox();
+    
+    return new Scene(world, hlist, cam, sky_box, aspectRatio);
+}
+
+Scene* cornellBoxWithIntersectionCube() {
+    material *blue  = new lambertian( new constant_texture(Color(0.05, 0.05, 0.75)) );
+    material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
+    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
+    material *aluminium = new metal(Color(0.8,0.85,0.88), 0.0);
+    dielectric *glass = new dielectric(1.5);
+    glass->density = 0.03;
+    glass->volumeColor = Color(1.0,1.0,0.0);
+    hitable **list = new hitable*[14];
+    int i = 0;
+    list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
+    list[i++] = new yz_rect(0,555,0,555,0, red);
+    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
+    list[i++] = new xz_rect(0,555,0,555,0, white);
+    list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
+    //list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(165,330,165), aluminium), 15), Vector3f(265,0,295));
+    
+    hitable *ballA = new box(Vector3f(100,50,300), Vector3f(400,400,400), blue);
+    hitable *ballB = new box(Vector3f(130,80,300), Vector3f(370,370,400), blue);
+    hitable *diff = new rotate_y(new hitable_difference(ballA, ballB), -10);
+    
+    list[i++] = ballA;
+    //list[i++] = new sphere(Vector3f(390, 120, 120), 90, glass);
+    //list[i++] = new constant_medium(new box(Vector3f(50,50,50), Vector3f(500,500,500), glass), 0.005, new constant_texture(Color(0.95, 0.95, 0.95)));
+    hitable *world = new hitable_list(list,i);
+    
+    
+    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    //hitable *glass_sphere = new sphere(Vector3f(190, 90, 190), 90, nullptr);
+    hitable **a = new hitable*[2];
+    a[0] = light_shape;
+    //a[1] = inter;
+    hitable_list *hlist = new hitable_list(a,1);
+    
+    
+    Vector3f lookfrom(278,578,-800);
     Vector3f lookat(278,278,0);
     float dist_to_focus = 10.0;
     float aperture = 0.0;
@@ -431,6 +704,103 @@ Scene* rbgLightSpheres() {
     return new Scene(world, hlist, cam, sky_box, aspectRatio);
 }
 
+Scene* rbgLightBunny() {
+    Mesh *mesh = meshFromFilename(CFSTR("bunny.obj"));
+    
+    //material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *lightR = new diffuse_light( new constant_texture(Color(20, 0, 0)) );
+    material *lightG = new diffuse_light( new constant_texture(Color(0, 20, 0)) );
+    material *lightB = new diffuse_light( new constant_texture(Color(0, 0, 20)) );
+    material *glass = new dielectric(1.8);
+    hitable **list = new hitable*[8];
+    int i = 0;
+    aabb box;
+    list[i++] = new translate(new rotate_y(new scale(mesh->create_hitable(glass), 10), -140), Vector3f(30,10-6.59747,10));
+    //list[i++] = new translate(mesh->create_hitable(glass), Vector3f(30,0,10));
+    list[0]->bounding_box(0,0,box);
+    //list[i++] = new sphere(Vector3f(30,10,10), 10, glass);
+    //list[i++] = new sphere(Vector3f(50,10,10), 10, glass);
+    list[i++] = new flip_normals(new xz_rect(24, 30, 5, 25, 40, lightR));
+    list[i++] = new flip_normals(new xz_rect(32, 38, 5, 25, 40, lightG));
+    list[i++] = new flip_normals(new xz_rect(40, 46, 5, 25, 40, lightB));
+    list[i++] = new xz_rect(-1000, 1000, -1000, 1000, 0, white);
+    //list[i++] = new flip_normals(new xz_rect(-10, 70, -100, 100, 80, white));
+    hitable *world = new hitable_list(list,i);
+    
+    
+    
+    Vector3f lookfrom(30,50,-60);
+    Vector3f lookat(30,0,20);
+    float dist_to_focus = 50.0;
+    float aperture = 0.0;
+    float vfov = 35.0;
+    float aspectRatio = 2.0;
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    
+    hitable **a = new hitable*[6];
+    a[0] = new sphere(Vector3f(10,10,10), 10, nullptr);
+    a[1] = new sphere(Vector3f(30,10,10), 10, nullptr);
+    a[2] = new sphere(Vector3f(50,10,10), 10, nullptr);
+    a[3] = new xz_rect(24, 30, 5,  25, 40, nullptr); // 45, 43  - 2
+    a[4] = new xz_rect(32, 38, 5,  25, 40, nullptr); // 32, 38  - 6
+    a[5] = new xz_rect(40, 46, 5,  25, 40, nullptr); // 25, 28  - 7
+    hitable_list *hlist = new hitable_list(a,6);
+    
+    SkyBox *sky_box = new constant_skybox();
+    
+    return new Scene(world, hlist, cam, sky_box, aspectRatio);
+}
+
+Scene* rbgLightEgg() {
+    Mesh *mesh = meshFromFilename(CFSTR("egg.obj"));
+    
+    //material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
+    material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
+    material *lightR = new diffuse_light( new constant_texture(Color(20, 0, 0)) );
+    material *lightG = new diffuse_light( new constant_texture(Color(0, 20, 0)) );
+    material *lightB = new diffuse_light( new constant_texture(Color(0, 0, 20)) );
+    material *glass = new dielectric(1.8);
+    hitable **list = new hitable*[8];
+    int i = 0;
+    aabb box;
+    //list[i++] = new translate(new rotate_y(new scale(mesh->create_hitable(glass), 10), -140), Vector3f(30,10-6.59747,10));
+    list[i++] = new translate(mesh->create_hitable(glass), Vector3f(30,0,0));
+    list[0]->bounding_box(0,0,box);
+    //list[i++] = new sphere(Vector3f(30,10,10), 10, glass);
+    //list[i++] = new sphere(Vector3f(50,10,10), 10, glass);
+    list[i++] = new flip_normals(new xz_rect(24, 30, 35, 65, 40, lightR));
+    list[i++] = new flip_normals(new xz_rect(32, 38, 35, 65, 40, lightG));
+    list[i++] = new flip_normals(new xz_rect(40, 46, 35, 65, 40, lightB));
+    list[i++] = new xz_rect(-1000, 1000, -1000, 1000, 0, white);
+    //list[i++] = new flip_normals(new xz_rect(-10, 70, -100, 100, 80, white));
+    hitable *world = new hitable_list(list,i);
+    
+    
+    
+    Vector3f lookfrom(30,30,-50);
+    Vector3f lookat(30,0,10);
+    float dist_to_focus = 40.0;
+    float aperture = 0.0;
+    float vfov = 35.0;
+    float aspectRatio = 2.0;
+    Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
+    
+    
+    hitable **a = new hitable*[6];
+    a[0] = new sphere(Vector3f(10,10,10), 10, nullptr);
+    a[1] = new sphere(Vector3f(30,10,10), 10, nullptr);
+    a[2] = new sphere(Vector3f(50,10,10), 10, nullptr);
+    a[3] = new xz_rect(24, 30, 5,  25, 40, nullptr); // 45, 43  - 2
+    a[4] = new xz_rect(32, 38, 5,  25, 40, nullptr); // 32, 38  - 6
+    a[5] = new xz_rect(40, 46, 5,  25, 40, nullptr); // 25, 28  - 7
+    hitable_list *hlist = new hitable_list(a,6);
+    
+    SkyBox *sky_box = new constant_skybox();
+    
+    return new Scene(world, hlist, cam, sky_box, aspectRatio);
+}
 
 Scene* cubemapSkyboxScene() {
     image_texture *earthTexture  = textureFromFilename(CFSTR("1_earth.jpg"));

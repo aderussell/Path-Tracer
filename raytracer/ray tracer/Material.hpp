@@ -48,6 +48,8 @@ struct Color {
     
     Color(const __m128 &a) : _a(a) {}
     
+    operator Vector3f() {return Vector3f(_a);}
+    
     
     Color(float r = 0.0, float g = 0.0, float b = 0.0, float luminosity = 1.0) {
         r = r * luminosity;

@@ -84,5 +84,17 @@ public:
     float s;
 };
 
+class scale2 : public hitable {
+public:
+    scale2(hitable *p, Vector3f _s) : ptr(p), s(_s) {}
+    virtual bool hit(const Ray& r, float t_min, float t_max, SurfaceInteraction& rec) const;
+    virtual bool bounding_box(float t0, float t1, aabb& box) const;
+    
+    virtual Vector3f random(const Vector3f& o) const { return Vector3f(1,0,0); }
+    
+    hitable *ptr;
+    Vector3f s;
+};
+
 
 #endif /* translate_hpp */

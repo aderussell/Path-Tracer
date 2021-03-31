@@ -72,4 +72,14 @@ private:
 };
 
 
+class DepthIntegrator: public Integrator {
+public:
+    DepthIntegrator(ImageBuffer *buffer, float min, float max) : imageBuffer(buffer), min(min), max(max), depth(max - min) {}
+    void render(const Scene &scene);
+    float dist(const Ray &r, hitable *world, float min, float max);
+private:
+    ImageBuffer* imageBuffer;
+    float min, max, depth;
+};
+
 #endif /* integrator_hpp */

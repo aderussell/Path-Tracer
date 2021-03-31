@@ -9,9 +9,13 @@
 /* Begin PBXBuildFile section */
 		AB1493BC21D4133A000FA0D3 /* obj_loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */; };
 		AB1493C121D56658000FA0D3 /* suzanne.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB1493C021D56658000FA0D3 /* suzanne.obj */; };
+		AB25EFCE25D03CF600BB40D4 /* curve.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB25EFCD25D03CF600BB40D4 /* curve.obj */; };
 		AB26EA342220B3E60009E5AF /* interaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB26EA322220B3E60009E5AF /* interaction.cpp */; };
 		AB26EABA222DB1E20009E5AF /* egg.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB26EAB9222DB1E20009E5AF /* egg.obj */; };
 		AB2843AE22DBB3630046B436 /* cylinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2843AC22DBB3630046B436 /* cylinder.cpp */; };
+		AB2F34772438B9EB00981B8B /* DisneyBSDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2F34752438B9EB00981B8B /* DisneyBSDF.cpp */; };
+		AB2F347A2438C9EF00981B8B /* Fresnel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2F34782438C9EF00981B8B /* Fresnel.cpp */; };
+		AB2F347D243FC0F900981B8B /* Sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2F347B243FC0F900981B8B /* Sampler.cpp */; };
 		AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB46D28A21FA63B6006A0DDA /* teapot.obj */; };
 		AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */; };
 		AB46D29321FDD6C3006A0DDA /* integrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB46D29121FDD6C3006A0DDA /* integrator.cpp */; };
@@ -19,6 +23,10 @@
 		AB4F132F2217375F00761816 /* glass.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB4F132E2217375F00761816 /* glass.obj */; };
 		AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57135820E6C15000FE57F5 /* Matrix44.cpp */; };
 		AB57136920E6C5AA00FE57F5 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB57136720E6C5AA00FE57F5 /* Material.cpp */; };
+		AB6751D82497EDC00055435E /* bunny.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB6751D62497EDBF0055435E /* bunny.obj */; };
+		AB6751D92497EDC00055435E /* armadillo.obj in Resources */ = {isa = PBXBuildFile; fileRef = AB6751D72497EDC00055435E /* armadillo.obj */; };
+		AB960523247AACAB00D92947 /* hittable_sets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB960521247AACAB00D92947 /* hittable_sets.cpp */; };
+		AB960526248EC32A00D92947 /* pbr_material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB960524248EC32A00D92947 /* pbr_material.cpp */; };
 		ABB1805120E6BF9200E654F2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB1805020E6BF9200E654F2 /* AppDelegate.m */; };
 		ABB1805420E6BF9200E654F2 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABB1805320E6BF9200E654F2 /* ViewController.mm */; };
 		ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB1805520E6BF9300E654F2 /* Assets.xcassets */; };
@@ -58,6 +66,7 @@
 		AB1493BA21D4133A000FA0D3 /* obj_loader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = obj_loader.cpp; sourceTree = "<group>"; };
 		AB1493BB21D4133A000FA0D3 /* obj_loader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = obj_loader.hpp; sourceTree = "<group>"; };
 		AB1493C021D56658000FA0D3 /* suzanne.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = suzanne.obj; sourceTree = "<group>"; };
+		AB25EFCD25D03CF600BB40D4 /* curve.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = curve.obj; sourceTree = "<group>"; };
 		AB26EA28221F373E0009E5AF /* Vector2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector2.hpp; sourceTree = "<group>"; };
 		AB26EA30222085F10009E5AF /* testscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = testscene.hpp; sourceTree = "<group>"; };
 		AB26EA322220B3E60009E5AF /* interaction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interaction.cpp; sourceTree = "<group>"; };
@@ -65,6 +74,12 @@
 		AB26EAB9222DB1E20009E5AF /* egg.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = egg.obj; sourceTree = "<group>"; };
 		AB2843AC22DBB3630046B436 /* cylinder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cylinder.cpp; sourceTree = "<group>"; };
 		AB2843AD22DBB3630046B436 /* cylinder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cylinder.hpp; sourceTree = "<group>"; };
+		AB2F34752438B9EB00981B8B /* DisneyBSDF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DisneyBSDF.cpp; sourceTree = "<group>"; };
+		AB2F34762438B9EB00981B8B /* DisneyBSDF.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DisneyBSDF.hpp; sourceTree = "<group>"; };
+		AB2F34782438C9EF00981B8B /* Fresnel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Fresnel.cpp; sourceTree = "<group>"; };
+		AB2F34792438C9EF00981B8B /* Fresnel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Fresnel.hpp; sourceTree = "<group>"; };
+		AB2F347B243FC0F900981B8B /* Sampler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sampler.cpp; sourceTree = "<group>"; };
+		AB2F347C243FC0F900981B8B /* Sampler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sampler.hpp; sourceTree = "<group>"; };
 		AB46D28A21FA63B6006A0DDA /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = anisotropic_phong.cpp; sourceTree = "<group>"; };
 		AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = anisotropic_phong.hpp; sourceTree = "<group>"; };
@@ -79,7 +94,13 @@
 		AB57136720E6C5AA00FE57F5 /* Material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
 		AB57136820E6C5AA00FE57F5 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		AB57136E20E6D34B00FE57F5 /* ImageBuffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImageBuffer.hpp; sourceTree = "<group>"; };
+		AB6751D62497EDBF0055435E /* bunny.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bunny.obj; sourceTree = "<group>"; };
+		AB6751D72497EDC00055435E /* armadillo.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = armadillo.obj; sourceTree = "<group>"; };
 		AB71745922F5B024002FCE55 /* Quadratics.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quadratics.hpp; sourceTree = "<group>"; };
+		AB960521247AACAB00D92947 /* hittable_sets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hittable_sets.cpp; sourceTree = "<group>"; };
+		AB960522247AACAB00D92947 /* hittable_sets.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hittable_sets.hpp; sourceTree = "<group>"; };
+		AB960524248EC32A00D92947 /* pbr_material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pbr_material.cpp; sourceTree = "<group>"; };
+		AB960525248EC32A00D92947 /* pbr_material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pbr_material.hpp; sourceTree = "<group>"; };
 		ABB0561E21D0120200A8AC22 /* skybox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = skybox.hpp; sourceTree = "<group>"; };
 		ABB1804C20E6BF9100E654F2 /* raytracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = raytracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB1804F20E6BF9200E654F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -161,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				AB71745922F5B024002FCE55 /* Quadratics.hpp */,
+				AB2F34792438C9EF00981B8B /* Fresnel.hpp */,
+				AB2F34782438C9EF00981B8B /* Fresnel.cpp */,
 				AB26EA28221F373E0009E5AF /* Vector2.hpp */,
 				AB57135D20E6C15000FE57F5 /* Vector3.hpp */,
 				AB57135C20E6C15000FE57F5 /* Vector4.hpp */,
@@ -175,6 +198,8 @@
 		AB26EA2B221F6ED80009E5AF /* core */ = {
 			isa = PBXGroup;
 			children = (
+				AB2F347C243FC0F900981B8B /* Sampler.hpp */,
+				AB2F347B243FC0F900981B8B /* Sampler.cpp */,
 				AB26EA2A221F6D920009E5AF /* geometry */,
 			);
 			path = core;
@@ -187,12 +212,16 @@
 				ABDE7E5221B9F0B60048E4B1 /* lambertian.cpp */,
 				ABDE7E5621BAFD320048E4B1 /* metal.hpp */,
 				ABDE7E5521BAFD320048E4B1 /* metal.cpp */,
+				AB960525248EC32A00D92947 /* pbr_material.hpp */,
+				AB960524248EC32A00D92947 /* pbr_material.cpp */,
 				ABDE7E5921BB04CB0048E4B1 /* dielectric.hpp */,
 				ABDE7E5821BB04CB0048E4B1 /* dielectric.cpp */,
 				ABDE7E7D21C6C4D70048E4B1 /* isotropic.hpp */,
 				ABDE7E7C21C6C4D70048E4B1 /* isotropic.cpp */,
 				AB46D28D21FA663D006A0DDA /* anisotropic_phong.hpp */,
 				AB46D28C21FA663D006A0DDA /* anisotropic_phong.cpp */,
+				AB2F34762438B9EB00981B8B /* DisneyBSDF.hpp */,
+				AB2F34752438B9EB00981B8B /* DisneyBSDF.cpp */,
 			);
 			path = materials;
 			sourceTree = "<group>";
@@ -223,6 +252,9 @@
 		AB4F132D2217373900761816 /* meshes */ = {
 			isa = PBXGroup;
 			children = (
+				AB25EFCD25D03CF600BB40D4 /* curve.obj */,
+				AB6751D72497EDC00055435E /* armadillo.obj */,
+				AB6751D62497EDBF0055435E /* bunny.obj */,
 				AB26EAB9222DB1E20009E5AF /* egg.obj */,
 				AB4F132E2217375F00761816 /* glass.obj */,
 				AB46D28A21FA63B6006A0DDA /* teapot.obj */,
@@ -298,6 +330,8 @@
 			isa = PBXGroup;
 			children = (
 				ABDE7E4921B9AD640048E4B1 /* hitable.hpp */,
+				AB960522247AACAB00D92947 /* hittable_sets.hpp */,
+				AB960521247AACAB00D92947 /* hittable_sets.cpp */,
 				ABDE7E4C21B9D09C0048E4B1 /* hitable_list.hpp */,
 				ABDE7E4B21B9D09C0048E4B1 /* hitable_list.cpp */,
 				ABDE7E4621B9AD380048E4B1 /* sphere.hpp */,
@@ -430,7 +464,10 @@
 				AB46D28B21FA63B6006A0DDA /* teapot.obj in Resources */,
 				ABB1805620E6BF9300E654F2 /* Assets.xcassets in Resources */,
 				BFCB8C0A21F9F726006C7773 /* yokohama3-left.jpg in Resources */,
+				AB6751D92497EDC00055435E /* armadillo.obj in Resources */,
+				AB25EFCE25D03CF600BB40D4 /* curve.obj in Resources */,
 				AB4F132F2217375F00761816 /* glass.obj in Resources */,
+				AB6751D82497EDC00055435E /* bunny.obj in Resources */,
 				ABB1805920E6BF9300E654F2 /* Main.storyboard in Resources */,
 				BFCB8C0821F9F726006C7773 /* yokohama3-top.jpg in Resources */,
 				ABFE0EA5220A222E00F77645 /* lego_brick.obj in Resources */,
@@ -450,11 +487,13 @@
 				ABDE7E7B21C6C3E10048E4B1 /* contant_medium.cpp in Sources */,
 				ABDE7E5D21BDA20A0048E4B1 /* aabb.cpp in Sources */,
 				ABDE7E6921BF0D590048E4B1 /* image_texture.cpp in Sources */,
+				AB960526248EC32A00D92947 /* pbr_material.cpp in Sources */,
 				AB2843AE22DBB3630046B436 /* cylinder.cpp in Sources */,
 				ABDE7E7221C30BD80048E4B1 /* xy_rect.cpp in Sources */,
 				ABDE7E7821C6B14B0048E4B1 /* translate.cpp in Sources */,
 				BF5EDA8721C8F14B00B5D877 /* onb.cpp in Sources */,
 				ABDE7E4721B9AD380048E4B1 /* sphere.cpp in Sources */,
+				AB2F34772438B9EB00981B8B /* DisneyBSDF.cpp in Sources */,
 				AB57136920E6C5AA00FE57F5 /* Material.cpp in Sources */,
 				ABDE7E7E21C6C4D70048E4B1 /* isotropic.cpp in Sources */,
 				AB46D29321FDD6C3006A0DDA /* integrator.cpp in Sources */,
@@ -462,15 +501,18 @@
 				ABDE7E6021BDAFB30048E4B1 /* bvh.cpp in Sources */,
 				ABCE72ED21D141A100E28BCF /* triangle.cpp in Sources */,
 				ABDE7E7521C693090048E4B1 /* box.cpp in Sources */,
+				AB2F347D243FC0F900981B8B /* Sampler.cpp in Sources */,
 				BF5EDA8A21C8F71F00B5D877 /* pdf.cpp in Sources */,
 				ABDE7E4D21B9D09C0048E4B1 /* hitable_list.cpp in Sources */,
 				ABDE7E5721BAFD320048E4B1 /* metal.cpp in Sources */,
+				AB960523247AACAB00D92947 /* hittable_sets.cpp in Sources */,
 				ABDE7E6621BEF1610048E4B1 /* perlin.cpp in Sources */,
 				AB1493BC21D4133A000FA0D3 /* obj_loader.cpp in Sources */,
 				ABDE7E6F21C307740048E4B1 /* diffuse_light.cpp in Sources */,
 				AB46D28E21FA663D006A0DDA /* anisotropic_phong.cpp in Sources */,
 				ABDE7E6321BDBDC40048E4B1 /* texture.cpp in Sources */,
 				AB26EA342220B3E60009E5AF /* interaction.cpp in Sources */,
+				AB2F347A2438C9EF00981B8B /* Fresnel.cpp in Sources */,
 				ABDE7E5A21BB04CB0048E4B1 /* dielectric.cpp in Sources */,
 				AB57135E20E6C15000FE57F5 /* Matrix44.cpp in Sources */,
 				ABB1805420E6BF9200E654F2 /* ViewController.mm in Sources */,
