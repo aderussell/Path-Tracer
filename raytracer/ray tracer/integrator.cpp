@@ -455,3 +455,123 @@ float DepthIntegrator::dist(const Ray &r, hitable *world, float min, float max) 
         return DEPTH_NO_HIT;
     }
 }
+
+
+void NormalIntegrator::render(const Scene &scene) {
+    int width  = imageBuffer->width;
+    int height = imageBuffer->height;
+    
+    std::size_t max = width * height;
+    std::size_t cores = std::thread::hardware_concurrency();
+    volatile std::atomic<std::size_t> count(0);
+    std::vector<std::future<void>> future_vector;
+    while (cores--) {
+        std::future<void> future = std::async(std::launch::async, [=, &scene, &width, &height, &count]
+                                              {
+                                                  while (true)
+                                                  {
+                                                      std::size_t index = count++;
+                                                      if (index >= max)
+                                                          break;
+                                                      std::size_t i = index % width;
+                                                      std::size_t j = index / width;
+                                                      if (i == 0 && j%10==0) {
+                                                          std::cout << j << std::endl;
+                                                      }
+                                                      Color col(0,0,0);
+                                                      //for(int s = 0; s < ns; ++s) {
+                                                          double u = float(i) / float(width);
+                                                          double v = float(j) / float(height);
+                                                          Ray ray = scene.camera->get_ray(u, v);
+                                                          //Vector3f p = ray.pointAtParameter(2.0);
+                                                          Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
+                                                          col += de_nan(col2);
+                                                     // }
+                                                      
+                                                      
+                                                     // col /= float(ns);
+                                                      col = Color(_mm_sqrt_ps(col._a));
+                                                      
+                                                      imageBuffer->setColor(i, j, col);
+                                                  }
+                                              });
+        future_vector.emplace_back(std::move(future));
+    }
+}
+
+Color NormalIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
+    SurfaceInteraction hrec;
+    if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
+        float r = (hrec.normal.x() + 1) / 2.0;
+        float g = (hrec.normal.y() + 1) / 2.0;
+        float b = (-hrec.normal.z() + 1) / 2.0;
+        return Color(r,g,b);
+    } else {
+        return sky_box->get_color(r);
+    }
+}
+
+
+
+void AlbedoIntegrator::render(const Scene &scene) {
+    
+    int width  = imageBuffer->width;
+    int height = imageBuffer->height;
+    
+    std::size_t max = width * height;
+    std::size_t cores = std::thread::hardware_concurrency();
+    volatile std::atomic<std::size_t> count(0);
+    std::vector<std::future<void>> future_vector;
+    while (cores--) {
+        std::future<void> future = std::async(std::launch::async, [=, &scene, &width, &height, &count]
+                                              {
+                                                  while (true)
+                                                  {
+                                                      std::size_t index = count++;
+                                                      if (index >= max)
+                                                          break;
+                                                      std::size_t i = index % width;
+                                                      std::size_t j = index / width;
+                                                      if (i == 0 && j%10==0) {
+                                                          std::cout << j << std::endl;
+                                                      }
+                                                      Color col(0,0,0);
+                                                      //for(int s = 0; s < ns; ++s) {
+                                                          double u = float(i) / float(width);
+                                                          double v = float(j) / float(height);
+                                                          Ray ray = scene.camera->get_ray(u, v);
+                                                          //Vector3f p = ray.pointAtParameter(2.0);
+                                                          Color col2 = color(ray, scene.world.get(), scene.light_shape, scene.sky_box.get(), 0);
+                                                          col += de_nan(col2);
+                                                     // }
+                                                      
+                                                      
+                                                      //col /= float(ns);
+                                                      col = Color(_mm_sqrt_ps(col._a));
+                                                      
+                                                      imageBuffer->setColor(i, j, col);
+                                                  }
+                                              });
+        future_vector.emplace_back(std::move(future));
+    }
+}
+
+Color AlbedoIntegrator::color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth) {
+    SurfaceInteraction hrec;
+    if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
+        scatter_record srec;
+        Color emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
+        if (hrec.mat_ptr->scatter(r, hrec, srec)) {
+        //if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec)) {
+            Ray scattered = srec.specular_ray;
+            scattered = Ray(hrec.p, srec.pdf_ptr->generate(), r.time());
+            delete srec.pdf_ptr;
+            return srec.attenuation;
+        } else {
+            delete srec.pdf_ptr;
+            return emitted;
+        }
+    } else {
+        return sky_box->get_color(r);
+    }
+}

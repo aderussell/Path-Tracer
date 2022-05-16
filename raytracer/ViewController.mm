@@ -25,7 +25,7 @@
     int ns = 100;
     
     //Scene *s = cornellBoxWithSphere();
-    //Scene *s = cornellBoxWithSpheres();
+    Scene *s = cornellBoxWithSpheres();
     //Scene *s = rbgLightBunny();
     //Scene *s = rbgLightEgg();
     //Scene *s = legoMan();
@@ -33,10 +33,12 @@
     //Scene *s = phongSpheresScene();
     //Scene *s = rbgLightSpheres();
     //Scene *s = cornellBoxWithSuzanne();
-    Scene *s = curvedBackground();
+    //Scene *s = curvedBackground();
     ImageBuffer *buffer = new ImageBuffer(width, height);
     _outputBuffer = buffer;
-    Integrator *integrator = new TestIntegrator2(buffer, ns);
+    //Integrator *integrator = new TestIntegrator2(buffer, ns);
+   // Integrator *integrator = new NormalIntegrator(buffer);
+    Integrator *integrator = new AlbedoIntegrator(buffer);
     //Integrator *integrator = new DepthIntegrator(buffer, 0.001, 150);
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{

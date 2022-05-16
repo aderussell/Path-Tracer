@@ -82,4 +82,23 @@ private:
     float min, max, depth;
 };
 
+class NormalIntegrator: public Integrator {
+public:
+    NormalIntegrator(ImageBuffer *buffer) : imageBuffer(buffer) {}
+    void render(const Scene &scene);
+private:
+    ImageBuffer* imageBuffer;
+    Color color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth);
+};
+
+class AlbedoIntegrator : public Integrator {
+public:
+    AlbedoIntegrator(ImageBuffer *buffer) : imageBuffer(buffer) {}
+    void render(const Scene &scene);
+    
+private:
+    ImageBuffer* imageBuffer;
+    Color color(const Ray &r, hitable *world, hitable *light_shape, SkyBox *sky_box, int depth);
+};
+
 #endif /* integrator_hpp */

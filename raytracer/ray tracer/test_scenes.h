@@ -408,6 +408,8 @@ Scene* cornellBoxWithSpheres() {
     float aspectRatio = 1.0;
     Camera *cam = new cameraC(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio, aperture, dist_to_focus, 0.0, 1.0);
     
+    //Camera *cam = new cameraB(lookfrom, lookat, Vector3f(0,1,0), vfov, aspectRatio);
+    
     SkyBox *sky_box = new constant_skybox();
     
     return new Scene(world, hlist, cam, sky_box, aspectRatio);
