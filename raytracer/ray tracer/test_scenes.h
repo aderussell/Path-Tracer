@@ -185,22 +185,32 @@ Scene* cornellBox() {
     material *red   = new lambertian( new constant_texture(Color(0.65, 0.05, 0.05)) );
     material *white = new lambertian( new constant_texture(Color(0.73, 0.73, 0.73)) );
     material *green = new lambertian( new constant_texture(Color(0.12, 0.45, 0.15)) );
-    material *light = new diffuse_light( new constant_texture(Color(15, 15, 15)) );
-    hitable **list = new hitable*[8];
+    material *light = new diffuse_light( new constant_texture(Color(2, 2, 2)) );
+    
+    material *lightBright = new diffuse_light( new constant_texture(Color(4, 4, 4)) );
+    
+    hitable **list = new hitable*[10];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
     list[i++] = new yz_rect(0,555,0,555,0, red);
-    list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
+    //list[i++] = new flip_normals(new xz_rect(213,343,227,332,554, light));
     list[i++] = new flip_normals(new xz_rect(0,555,0,555,555, white));
     list[i++] = new xz_rect(0,555,0,555,0, white);
     list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
     list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(165,165,165), white), -18), Vector3f(130, 0, 65));
     list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(165,330,165), white), 15), Vector3f(265,0,295));
+    
+    list[i++] = new sphere(Vector3f(277, 400, 400), 20, lightBright);
+    
     hitable *world = new hitable_list(list,i);
     
     
-    hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
-    
+    //hitable **light_shape_list = new hitable*[2];
+    //int l = 0;
+    //light_shape_list[l++] = new xz_rect(213, 343, 227, 332, 554, nullptr);
+    //light_shape_list[l++] = new sphere(Vector3f(400, 400, 400), 20, nullptr);
+    hitable *light_shape = new sphere(Vector3f(277, 400, 400), 20, nullptr);
+    //hitable *light_shape = new hitable_list(light_shape_list,l);
     
     Vector3f lookfrom(278,278,-800);
     Vector3f lookat(278,278,0);
@@ -351,7 +361,24 @@ Scene* cornellBoxWithExtraSpheres() {
     dielectric *glass = new dielectric(1.5);
     glass->density = 0.03;
     glass->volumeColor = Color(0.0,0.0,0.0);
-    hitable **list = new hitable*[10];
+    
+    dielectric *coloredGlass = new dielectric(1.5);
+    coloredGlass->density = 0.03;
+    coloredGlass->volumeColor = Color(0.0,0.0,0.5);
+    
+    dielectric *coloredGlass2 = new dielectric(1.5);
+    coloredGlass2->density = 0.03;
+    coloredGlass2->volumeColor = Color(0.0,0.8,0.8);
+    
+    dielectric *coloredGlass3 = new dielectric(1.5);
+    coloredGlass3->density = 0.03;
+    coloredGlass3->volumeColor = Color(0.8,0.8,0.0);
+    
+    dielectric *coloredGlass4 = new dielectric(1.5);
+    coloredGlass4->density = 0.03;
+    coloredGlass4->volumeColor = Color(0.8,0.0,0.8);
+    
+    hitable **list = new hitable*[14];
     int i = 0;
     list[i++] = new flip_normals(new yz_rect(0,555,0,555,555, green));
     list[i++] = new yz_rect(0,555,0,555,0, red);
@@ -361,18 +388,26 @@ Scene* cornellBoxWithExtraSpheres() {
     list[i++] = new flip_normals(new xy_rect(0,555,0,555,555, white));
     list[i++] = new translate(new rotate_y(new box(Vector3f(0,0,0), Vector3f(165,330,165), aluminium), 15), Vector3f(265,0,295));
     list[i++] = new sphere(Vector3f(190, 90, 190), 90, glass);
-    list[i++] = new sphere(Vector3f(210, 420, 270), 90, glass);
+    list[i++] = new sphere(Vector3f(217.5, 490, 217.5), 60, coloredGlass);
+    list[i++] = new sphere(Vector3f(277.5, 490, 337.5), 60, coloredGlass2);
+    list[i++] = new sphere(Vector3f(337.5, 490, 217.5), 60, coloredGlass3);
+    list[i++] = new sphere(Vector3f(277.5, 400, 277.5), 60, coloredGlass4);
     list[i++] = new sphere(Vector3f(390, 120, 120), 90, glass);
     //list[i++] = new constant_medium(new box(Vector3f(50,50,50), Vector3f(500,500,500), glass), 0.005, new constant_texture(Color(0.95, 0.95, 0.95)));
     hitable *world = new hitable_list(list,i);
     
     
     hitable *light_shape = new xz_rect(213, 343, 227, 332, 554, nullptr);
-    hitable *glass_sphere = new sphere(Vector3f(190, 90, 190), 90, nullptr);
-    hitable **a = new hitable*[2];
-    a[0] = light_shape;
-    a[1] = glass_sphere;
-    hitable_list *hlist = new hitable_list(a,2);
+    //hitable *glass_sphere = new sphere(Vector3f(190, 90, 190), 90, nullptr);
+    //hitable *glass_spher2 = new sphere(Vector3f(277.5, 464, 277.5), 90, nullptr);
+    //hitable *glass_spher3 = new sphere(Vector3f(390, 120, 120), 90, nullptr);
+    hitable **a = new hitable*[4];
+    int lightCount = 0;
+    a[lightCount++] = light_shape;
+    //a[lightCount++] = glass_sphere;
+    //a[lightCount++] = glass_spher2;
+    //a[lightCount++] = glass_spher3;
+    hitable_list *hlist = new hitable_list(a,lightCount);
     
     
     Vector3f lookfrom(278,278,-800);

@@ -24,7 +24,8 @@
     int height = 500;
     int ns = 100;
     
-    Scene *s = cornellBoxWithSphere();
+    //Scene *s = cornellBoxWithExtraSpheres();
+    Scene *s = cornellBox();
     //Scene *s = legoMan();
     //Scene *s = glass();
     //Scene *s = phongSpheresScene();

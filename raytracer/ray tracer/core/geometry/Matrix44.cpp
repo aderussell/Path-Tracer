@@ -305,29 +305,29 @@ Matrix44 Matrix44::operator- (Matrix44 m)
 
 Matrix44 Matrix44::operator* (Matrix44 m)
 {
-#if USE_FAST_CALCULATIONS
-    double nm11 = (this->u.m11 * m.u.m11) + (this->u.m12 * m.u.m21) + (this->u.m13 * m.u.m31) + (this->u.m14 * m.u.m41);
-    double nm12 = (this->u.m11 * m.u.m12) + (this->u.m12 * m.u.m22) + (this->u.m13 * m.u.m32) + (this->u.m14 * m.u.m42);
-    double nm13 = (this->u.m11 * m.u.m13) + (this->u.m12 * m.u.m23) + (this->u.m13 * m.u.m33) + (this->u.m14 * m.u.m43);
-    double nm14 = (this->u.m11 * m.u.m14) + (this->u.m12 * m.u.m24) + (this->u.m13 * m.u.m34) + (this->u.m14 * m.u.m44);
-    double nm21 = 0;
-    double nm22 = 0;
-    double nm23 = 0;
-    double nm24 = 0;
-    double nm31 = 0;
-    double nm32 = 0;
-    double nm33 = 0;
-    double nm34 = 0;
-    double nm41 = 0;
-    double nm42 = 0;
-    double nm43 = 0;
-    double nm44 = 0;
-    
-    return Matrix44(nm11, nm12, nm13, nm14,
-                    nm21, nm22, nm23, nm24,
-                    nm31, nm32, nm33, nm34,
-                    nm41, nm42, nm43, nm44);
-#else
+//#if USE_FAST_CALCULATIONS
+//    double nm11 = (this->u.m11 * m.u.m11) + (this->u.m12 * m.u.m21) + (this->u.m13 * m.u.m31) + (this->u.m14 * m.u.m41);
+//    double nm12 = (this->u.m11 * m.u.m12) + (this->u.m12 * m.u.m22) + (this->u.m13 * m.u.m32) + (this->u.m14 * m.u.m42);
+//    double nm13 = (this->u.m11 * m.u.m13) + (this->u.m12 * m.u.m23) + (this->u.m13 * m.u.m33) + (this->u.m14 * m.u.m43);
+//    double nm14 = (this->u.m11 * m.u.m14) + (this->u.m12 * m.u.m24) + (this->u.m13 * m.u.m34) + (this->u.m14 * m.u.m44);
+//    double nm21 = 0;
+//    double nm22 = 0;
+//    double nm23 = 0;
+//    double nm24 = 0;
+//    double nm31 = 0;
+//    double nm32 = 0;
+//    double nm33 = 0;
+//    double nm34 = 0;
+//    double nm41 = 0;
+//    double nm42 = 0;
+//    double nm43 = 0;
+//    double nm44 = 0;
+//
+//    return Matrix44(nm11, nm12, nm13, nm14,
+//                    nm21, nm22, nm23, nm24,
+//                    nm31, nm32, nm33, nm34,
+//                    nm41, nm42, nm43, nm44);
+//#else
     Matrix44 result;
     for (unsigned int i = 0; i < 4; ++i) {
         for (unsigned int j = 0; j < 4; ++j) {
@@ -337,7 +337,7 @@ Matrix44 Matrix44::operator* (Matrix44 m)
         }
     }
     return result;
-#endif
+//#endif
 }
 
 Matrix44 Matrix44::operator* (double s)

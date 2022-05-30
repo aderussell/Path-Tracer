@@ -14,7 +14,7 @@
 class metal: public material {
     
 public:
-    metal(const Color& a, float f) : albedo(a) { if (f < 1) fuzz = f; else fuzz = 1; }
+    metal(const Color& a, float f) : albedo(a), fuzz(fmin(f, 1)) { }
     
     virtual bool scatter(const Ray& ray_in, const SurfaceInteraction& hrec, scatter_record& srec) const;
     
